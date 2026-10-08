@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Preço Certo – PHCommerce Consultoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F4F6FA; --card:#FFFFFF; --ink:#1E2430; --muted:#5B6475; --line:#DDE2EC;
+  --navy:#1F3864; --navy-ink:#FFFFFF;
+  --green:#2E7D32; --green-l:#E8F5E9;
+  --orange:#E65100; --orange-l:#FFF3E0;
+  --red:#C62828; --red-l:#FFEBEE;
+  --purple:#6A1B9A; --purple-l:#F3E5F5;
+  --blue:#1565C0; --blue-l:#E3F2FD;
+  --yellow:#F9A825; --yellow-l:#FFF8E1;
+  --field:#F8F9FC;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11151D; --card:#1A202B; --ink:#E9EDF4; --muted:#A3ACBD; --line:#2C3443;
+    --navy:#2A4A82; --field:#141922;
+    --green-l:#1B2E1D; --orange-l:#33230F; --red-l:#341A1C; --purple-l:#2A1B33; --blue-l:#15263A; --yellow-l:#2F2812;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11151D; --card:#1A202B; --ink:#E9EDF4; --muted:#A3ACBD; --line:#2C3443;
+  --navy:#2A4A82; --field:#141922;
+  --green-l:#1B2E1D; --orange-l:#33230F; --red-l:#341A1C; --purple-l:#2A1B33; --blue-l:#15263A; --yellow-l:#2F2812;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 40px}
+header.top{background:var(--navy);color:var(--navy-ink);border-radius:18px;padding:22px 22px 20px;margin-bottom:16px}
+header.top h1{margin:0;font-size:clamp(22px,4.5vw,30px);line-height:1.15;font-weight:800;letter-spacing:-.01em}
+header.top p{margin:8px 0 0;opacity:.88;font-size:15.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.card h2{margin:0 0 4px;font-size:19px;font-weight:800}
+.card .sub{margin:0 0 16px;color:var(--muted);font-size:14.5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+.field{margin:0}
+.field label{display:block;font-weight:700;font-size:15px;margin-bottom:2px}
+.field .hint{display:block;color:var(--muted);font-size:13px;margin-bottom:6px;line-height:1.35}
+.money,.pctwrap{position:relative}
+.money span,.pctwrap span{position:absolute;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:700;pointer-events:none}
+.money span{left:12px}
+.pctwrap span{right:14px}
+input[type=text],select{width:100%;font:inherit;font-size:17px;color:var(--ink);background:var(--field);border:2px solid var(--line);border-radius:10px;padding:10px 12px;outline:none;transition:border-color .15s}
+.money input{padding-left:40px;font-variant-numeric:tabular-nums;font-weight:600}
+.pctwrap input{padding-right:32px;font-variant-numeric:tabular-nums;font-weight:600}
+input:focus,select:focus{border-color:var(--blue)}
+.section-title{font-size:13.5px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;margin:0 0 10px;color:#fff;background:var(--c);padding:7px 12px;border-radius:8px;display:inline-block}
+.t-red{--c:var(--red)} .t-orange{--c:var(--orange)} .t-green{--c:var(--green)} .t-blue{--c:var(--blue)} .t-purple{--c:var(--purple)}
+.warn{margin-top:10px;padding:10px 14px;border-radius:10px;background:var(--red-l);color:var(--red);font-weight:700;font-size:14px;display:none}
+.warn.show{display:block}
+
+/* alternância produto/serviço */
+.switch{display:flex;gap:8px;background:var(--field);border-radius:12px;padding:5px;margin-bottom:16px}
+.switch button{flex:1;border:none;background:transparent;padding:11px;border-radius:9px;font:inherit;font-weight:700;font-size:15px;color:var(--muted);cursor:pointer}
+.switch button.active{background:var(--navy);color:#fff}
+
+.tabpane{display:none}
+.tabpane.active{display:block}
+
+/* resultado */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media (max-width:640px){.kpis{grid-template-columns:1fr}}
+.kpi{border-radius:14px;overflow:hidden;text-align:center;background:var(--cl)}
+.kpi b{display:block;background:var(--c);color:#fff;font-size:12.5px;font-weight:700;padding:7px 8px}
+.kpi span{display:block;font-size:clamp(22px,4.5vw,26px);font-weight:800;color:var(--c);padding:11px 8px}
+table.dre{width:100%;border-collapse:separate;border-spacing:0 5px}
+.dre td{padding:10px 12px;background:var(--cl);vertical-align:middle}
+.dre td:first-child{border-radius:10px 0 0 10px;width:30px;text-align:center;font-weight:800;color:var(--c);font-size:18px}
+.dre td:last-child{border-radius:0 10px 10px 0}
+.dre .v{text-align:right;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.dre .p{text-align:right;color:var(--muted);font-size:13.5px;white-space:nowrap;width:64px;font-variant-numeric:tabular-nums}
+.dre .l{font-weight:600;font-size:15px}
+.dre .l small{display:block;font-weight:400;color:var(--muted);font-size:12.5px;line-height:1.3}
+.dre tr.tot td{background:var(--c);color:#fff}
+.dre tr.tot td:first-child,.dre tr.tot .p{color:#fff}
+.dre tr.tot .l{font-weight:800}
+.dre tr.final td{font-size:18px;padding:14px 12px}
+.dre tr.gap td{background:none;padding:1px}
+.tablewrap{overflow-x:auto}
+.diag{margin-top:4px;border-radius:12px;padding:12px 14px;font-weight:700;background:var(--field);color:var(--muted)}
+.diag.bad{background:var(--red-l);color:var(--red)}
+.diag.good{background:var(--green-l);color:var(--green)}
+.legend{margin-top:14px;font-size:13.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px}
+.legend span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--c);margin-right:6px;vertical-align:-1px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+button.btn{font:inherit;font-weight:700;font-size:15.5px;border-radius:12px;padding:12px 18px;cursor:pointer;border:2px solid transparent}
+.btn-main{background:var(--green);color:#fff}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.foot{margin-top:8px;text-align:center;color:var(--muted);font-size:13.5px}
+.foot strong{color:var(--ink)}
+@media print{
+  body{background:#fff;font-size:13px}
+  .wrap{padding:0}
+  .actions{display:none!important}
+  .dre td,.kpi,.diag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>Preço Certo</h1>
+    <p>Descubra o preço de venda que cobre todos os custos e ainda deixa o lucro que você quer.</p>
+  </header>
+
+  <!-- 1. CONFIGURAÇÃO GERAL -->
+  <section class="card">
+    <h2>1. As contas do seu negócio</h2>
+    <p class="sub">Preencha uma vez. Esses dados valem para qualquer produto ou serviço que você calcular abaixo.</p>
+
+    <p class="section-title t-red">Contas fixas</p>
+    <div class="grid" style="margin-bottom:16px">
+      <div class="field">
+        <label for="g_fixas">Contas fixas por mês</label>
+        <span class="hint">Aluguel, energia, água, internet, salários, contador, propaganda. Não inclua compra de mercadoria.</span>
+        <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="g_fixas" data-money value="19.000,00"></div>
+      </div>
+      <div class="field">
+        <label for="g_pecas">Peças/produtos vendidos por mês</label>
+        <span class="hint">Quantidade média. Se só presta serviço, deixe 0.</span>
+        <input type="text" inputmode="decimal" id="g_pecas" data-money value="3.000">
+      </div>
+      <div class="field">
+        <label for="g_horas">Horas de serviço vendidas por mês</label>
+        <span class="hint">Só as horas cobradas do cliente. Se só vende produto, deixe 0.</span>
+        <input type="text" inputmode="decimal" id="g_horas" data-money value="0">
+      </div>
+    </div>
+
+    <p class="section-title t-orange">O que sai de cada venda</p>
+    <div class="grid">
+      <div class="field">
+        <label for="g_impostos">Impostos sobre a venda</label>
+        <span class="hint">Simples Nacional, MEI ou outro.</span>
+        <div class="pctwrap"><input type="text" inputmode="decimal" id="g_impostos" data-pct value="8"><span>%</span></div>
+      </div>
+      <div class="field">
+        <label for="g_cartao">Taxa média do cartão</label>
+        <span class="hint">Deixe 0 se recebe só dinheiro ou PIX.</span>
+        <div class="pctwrap"><input type="text" inputmode="decimal" id="g_cartao" data-pct value="3,5"><span>%</span></div>
+      </div>
+      <div class="field">
+        <label for="g_comissao">Comissão paga por venda</label>
+        <span class="hint">Vendedor, profissional ou marketplace.</span>
+        <div class="pctwrap"><input type="text" inputmode="decimal" id="g_comissao" data-pct value="0"><span>%</span></div>
+      </div>
+      <div class="field">
+        <label for="g_lucro">Lucro que você quer ganhar</label>
+        <span class="hint">Quanto deve sobrar do preço de venda.</span>
+        <div class="pctwrap"><input type="text" inputmode="decimal" id="g_lucro" data-pct value="35"><span>%</span></div>
+      </div>
+    </div>
+    <p class="warn" id="warnPct">⚠ A soma de impostos + cartão + comissão + lucro passou de 100%. Reduza algum desses valores para o preço fechar.</p>
+  </section>
+
+  <!-- 2. PRODUTO / SERVIÇO -->
+  <section class="card">
+    <div class="switch">
+      <button id="btnProduto" class="active" type="button">📦 Produto</button>
+      <button id="btnServico" type="button">🕐 Serviço</button>
+    </div>
+
+    <!-- PRODUTO -->
+    <div class="tabpane active" id="paneProduto">
+      <h2>2. Custos de uma unidade</h2>
+      <p class="sub">Preencha os custos para produzir ou comprar UM produto.</p>
+      <div class="grid">
+        <div class="field">
+          <label for="p_nome">Nome do produto</label>
+          <input type="text" id="p_nome" value="Camiseta estampada">
+        </div>
+        <div class="field">
+          <label for="p_materia">Matéria-prima / compra do produto</label>
+          <span class="hint">O que você paga ao fornecedor por unidade.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="p_materia" data-money value="40,00"></div>
+        </div>
+        <div class="field">
+          <label for="p_outros">Outros custos de produção</label>
+          <span class="hint">Estamparia, costura terceirizada, acabamento.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="p_outros" data-money value="11,00"></div>
+        </div>
+        <div class="field">
+          <label for="p_emb">Embalagem</label>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="p_emb" data-money value="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="p_frete">Frete até você</label>
+          <span class="hint">Frete da compra dividido pela quantidade recebida.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="p_frete" data-money value="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="p_mo">Mão de obra por unidade</label>
+          <span class="hint">Só se paga alguém por peça produzida.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="p_mo" data-money value="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="p_hoje">Preço que você cobra hoje</label>
+          <span class="hint">Deixe 0 se ainda não vende este produto.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="p_hoje" data-money value="0,00"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVIÇO -->
+    <div class="tabpane" id="paneServico">
+      <h2>2. Custos de um atendimento</h2>
+      <p class="sub">Preencha os custos para realizar UM serviço ou atendimento.</p>
+      <div class="grid">
+        <div class="field">
+          <label for="s_nome">Nome do serviço</label>
+          <input type="text" id="s_nome" value="Corte e escova">
+        </div>
+        <div class="field">
+          <label for="s_tempo">Tempo do atendimento (horas)</label>
+          <span class="hint">Use 0,5 para 30 minutos e 1,5 para 1h30.</span>
+          <input type="text" inputmode="decimal" id="s_tempo" data-money value="1,00">
+        </div>
+        <div class="field">
+          <label for="s_mat">Material usado no atendimento</label>
+          <span class="hint">Tinta, produtos, peças, descartáveis.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="s_mat" data-money value="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="s_desl">Deslocamento</label>
+          <span class="hint">Combustível, pedágio, aplicativo.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="s_desl" data-money value="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="s_mo">Mão de obra por hora</label>
+          <span class="hint">Só se paga um profissional por hora. Se é você quem faz, deixe 0.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="s_mo" data-money value="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="s_hoje">Preço que você cobra hoje</label>
+          <span class="hint">Deixe 0 se ainda não faz este serviço.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="s_hoje" data-money value="0,00"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. RESULTADO -->
+  <section class="card" id="resultCard">
+    <h2 id="resTitulo">3. Resultado</h2>
+    <p class="sub" id="resSub">Atualiza automaticamente conforme você preenche os campos acima.</p>
+
+    <div class="kpis">
+      <div class="kpi t-orange"><b>Custo total</b><span class="num" id="kpiCusto">R$ 0,00</span></div>
+      <div class="kpi t-green"><b>Preço sugerido</b><span class="num" id="kpiPreco">R$ 0,00</span></div>
+      <div class="kpi t-blue"><b>Lucro em cada venda</b><span class="num" id="kpiLucro">R$ 0,00</span></div>
+    </div>
+
+    <div class="tablewrap">
+      <table class="dre" id="tabelaResultado"></table>
+    </div>
+
+    <p class="diag" id="diagnostico">Informe o preço que você cobra hoje para comparar.</p>
+
+    <p class="legend">
+      <span class="t-orange">Custos</span>
+      <span class="t-blue">Contas fixas</span>
+      <span class="t-green">Preço e lucro</span>
+    </p>
+
+    <div class="actions">
+      <button class="btn btn-main" id="btnImprimir" type="button">Imprimir ou salvar em PDF</button>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Ferramenta criada por <strong>PHCommerce Consultoria</strong></p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(id){ return document.getElementById(id); }
+  function parseBR(s){
+    if(s==null) return 0;
+    s=String(s).trim().replace(/[R$\s]/g,"");
+    if(!s) return 0;
+    if(s.indexOf(",")>-1){ s=s.replace(/\./g,"").replace(",","."); }
+    else if((s.match(/\./g)||[]).length>1){ s=s.replace(/\./g,""); }
+    else if(/\.\d{3}$/.test(s)){ s=s.replace(".",""); }
+    var n=parseFloat(s);
+    return isFinite(n)?n:0;
+  }
+  var fmt=new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
+  function brl(n){ return fmt.format(Math.round((n||0)*100)/100); }
+  function num(n){ return (Math.round((n||0)*100)/100).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function pctStr(n){ return (Math.round((n||0)*10)/10).toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1})+"%"; }
+  function val(id){ return Math.abs(parseBR($(id).value)); }
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+  var KEY="preco-certo-v1";
+  var campos=Array.prototype.slice.call(document.querySelectorAll("input[type=text]"));
+  function salvar(){ try{ var d={}; campos.forEach(function(c){d[c.id]=c.value;}); localStorage.setItem(KEY,JSON.stringify(d)); }catch(e){} }
+  function carregar(){ try{ var d=JSON.parse(localStorage.getItem(KEY)||"null"); if(!d) return; campos.forEach(function(c){ if(d[c.id]!=null && d[c.id]!=="") c.value=d[c.id]; }); }catch(e){} }
+  carregar();
+
+  document.querySelectorAll("[data-money],[data-pct]").forEach(function(inp){
+    inp.addEventListener("blur",function(){
+      var n=parseBR(inp.value);
+      inp.value = inp.dataset.pct!==undefined ? (Math.round(n*10)/10).toString().replace(".",",") : num(n);
+      salvar(); calcular();
+    });
+    inp.addEventListener("input",function(){ salvar(); calcular(); });
+  });
+  $("p_nome").addEventListener("input",function(){ salvar(); calcular(); });
+  $("s_nome").addEventListener("input",function(){ salvar(); calcular(); });
+
+  // alternância produto/serviço
+  var modo="produto";
+  function setModo(m){
+    modo=m;
+    $("btnProduto").classList.toggle("active",m==="produto");
+    $("btnServico").classList.toggle("active",m==="servico");
+    $("paneProduto").classList.toggle("active",m==="produto");
+    $("paneServico").classList.toggle("active",m==="servico");
+    salvar(); calcular();
+  }
+  $("btnProduto").addEventListener("click",function(){ setModo("produto"); });
+  $("btnServico").addEventListener("click",function(){ setModo("servico"); });
+
+  $("btnImprimir").addEventListener("click",function(){ try{ window.print(); }catch(e){} });
+
+  function linha(tbl,cls,sinal,rotulo,expl,valor,vendas,tipo){
+    var p=vendas>0?pctStr(valor/vendas*100):"–";
+    var tr=document.createElement("tr"); tr.className=cls+(tipo?" "+tipo:"");
+    tr.innerHTML='<td>'+sinal+'</td><td class="l">'+esc(rotulo)+(expl?'<small>'+esc(expl)+'</small>':'')+'</td><td class="v">'+brl(valor)+'</td><td class="p">'+p+'</td>';
+    tbl.appendChild(tr);
+  }
+  function gap(tbl){ var tr=document.createElement("tr"); tr.className="gap"; tr.innerHTML='<td colspan="4"></td>'; tbl.appendChild(tr); }
+
+  function calcular(){
+    var fixas=val("g_fixas"), pecas=val("g_pecas"), horas=val("g_horas");
+    var imp=val("g_impostos"), cart=val("g_cartao"), com=val("g_comissao"), luc=val("g_lucro");
+    var somaPct=imp+cart+com+luc;
+    $("warnPct").classList.toggle("show", somaPct>=100);
+    var saiDoPreco=(100-somaPct)/100;
+
+    var tbl=$("tabelaResultado"); tbl.innerHTML="";
+    var custoDireto, custoFixoUnit, custoTotal, preco, precoHoje, nomeItem, unidade;
+
+    if(modo==="produto"){
+      nomeItem=$("p_nome").value.trim()||"este produto";
+      custoDireto=val("p_materia")+val("p_outros")+val("p_emb")+val("p_frete")+val("p_mo");
+      custoFixoUnit = pecas>0 ? fixas/pecas : 0;
+      custoTotal=custoDireto+custoFixoUnit;
+      preco = (somaPct<100 && saiDoPreco>0) ? custoTotal/saiDoPreco : 0;
+      precoHoje=val("p_hoje");
+      unidade="unidade";
+      $("resTitulo").textContent="3. Resultado – "+nomeItem;
+
+      linha(tbl,"t-orange","−","Matéria-prima / compra",null,val("p_materia"),preco);
+      linha(tbl,"t-orange","−","Outros custos de produção",null,val("p_outros"),preco);
+      linha(tbl,"t-orange","−","Embalagem",null,val("p_emb"),preco);
+      linha(tbl,"t-orange","−","Frete",null,val("p_frete"),preco);
+      linha(tbl,"t-orange","−","Mão de obra",null,val("p_mo"),preco);
+      linha(tbl,"t-orange","=","Custo direto da unidade",null,custoDireto,preco,"tot");
+      gap(tbl);
+      linha(tbl,"t-blue","+","Custo fixo por peça","Contas fixas ÷ peças vendidas no mês",custoFixoUnit,preco);
+      linha(tbl,"t-blue","=","Custo total da unidade",null,custoTotal,preco,"tot");
+    } else {
+      nomeItem=$("s_nome").value.trim()||"este serviço";
+      var tempo=val("s_tempo")||0;
+      custoDireto=val("s_mat")+val("s_desl")+tempo*val("s_mo");
+      var custoFixoHora = horas>0 ? fixas/horas : 0;
+      custoFixoUnit = tempo*custoFixoHora;
+      custoTotal=custoDireto+custoFixoUnit;
+      preco = (somaPct<100 && saiDoPreco>0) ? custoTotal/saiDoPreco : 0;
+      precoHoje=val("s_hoje");
+      unidade="atendimento";
+      $("resTitulo").textContent="3. Resultado – "+nomeItem;
+
+      linha(tbl,"t-orange","−","Material usado",null,val("s_mat"),preco);
+      linha(tbl,"t-orange","−","Deslocamento",null,val("s_desl"),preco);
+      linha(tbl,"t-orange","−","Mão de obra ("+tempo.toLocaleString("pt-BR")+"h)",null,tempo*val("s_mo"),preco);
+      linha(tbl,"t-orange","=","Custo direto do atendimento",null,custoDireto,preco,"tot");
+      gap(tbl);
+      linha(tbl,"t-blue","+","Custo fixo das horas usadas","Contas fixas ÷ horas vendidas no mês",custoFixoUnit,preco);
+      linha(tbl,"t-blue","=","Custo total do atendimento",null,custoTotal,preco,"tot");
+    }
+
+    gap(tbl);
+    linha(tbl,"t-orange","−","Impostos",null,preco*imp/100,preco);
+    linha(tbl,"t-orange","−","Taxa do cartão",null,preco*cart/100,preco);
+    linha(tbl,"t-orange","−","Comissão",null,preco*com/100,preco);
+    var lucro=preco-custoTotal-preco*(imp+cart+com)/100;
+    gap(tbl);
+    linha(tbl,"t-green","=","PREÇO DE VENDA SUGERIDO",null,preco,preco,"tot final");
+    linha(tbl,"t-green","","Lucro em cada "+unidade,null,lucro,preco);
+
+    $("kpiCusto").textContent=brl(custoTotal);
+    $("kpiPreco").textContent=brl(preco);
+    $("kpiLucro").textContent=brl(lucro);
+
+    var diag=$("diagnostico");
+    diag.className="diag";
+    if(precoHoje<=0){
+      diag.textContent="Informe o preço que você cobra hoje para comparar.";
+    }else{
+      var lucroHoje=precoHoje-custoTotal-precoHoje*(imp+cart+com)/100;
+      if(lucroHoje<0){
+        diag.className="diag bad";
+        diag.textContent="No preço de hoje ("+brl(precoHoje)+") você perde "+brl(-lucroHoje)+" em cada "+unidade+".";
+      }else if(precoHoje<preco){
+        diag.className="diag bad";
+        diag.textContent="No preço de hoje ("+brl(precoHoje)+") sobra "+brl(lucroHoje)+", menos do que os "+brl(lucro)+" que você quer. Faltam "+brl(preco-precoHoje)+" para chegar no preço sugerido.";
+      }else{
+        diag.className="diag good";
+        diag.textContent="Seu preço de hoje ("+brl(precoHoje)+") já cobre os custos e o lucro desejado. Sobram "+brl(lucroHoje)+" em cada "+unidade+".";
+      }
+    }
+  }
+
+  calcular();
+})();
+</script>
+</body>
+</html>

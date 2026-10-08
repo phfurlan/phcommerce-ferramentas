@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Descubra o resultado do seu mês – PHCommerce Consultoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F4F6FA; --card:#FFFFFF; --ink:#1E2430; --muted:#5B6475; --line:#DDE2EC;
+  --navy:#1F3864; --navy-ink:#FFFFFF;
+  --green:#2E7D32; --green-l:#E8F5E9;
+  --orange:#E65100; --orange-l:#FFF3E0;
+  --red:#C62828; --red-l:#FFEBEE;
+  --purple:#6A1B9A; --purple-l:#F3E5F5;
+  --blue:#1565C0; --blue-l:#E3F2FD;
+  --yellow:#F9A825; --yellow-l:#FFF8E1;
+  --field:#F8F9FC;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11151D; --card:#1A202B; --ink:#E9EDF4; --muted:#A3ACBD; --line:#2C3443;
+    --navy:#2A4A82; --field:#141922;
+    --green-l:#1B2E1D; --orange-l:#33230F; --red-l:#341A1C; --purple-l:#2A1B33; --blue-l:#15263A; --yellow-l:#2F2812;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11151D; --card:#1A202B; --ink:#E9EDF4; --muted:#A3ACBD; --line:#2C3443;
+  --navy:#2A4A82; --field:#141922;
+  --green-l:#1B2E1D; --orange-l:#33230F; --red-l:#341A1C; --purple-l:#2A1B33; --blue-l:#15263A; --yellow-l:#2F2812;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 120px}
+header.top{background:var(--navy);color:var(--navy-ink);border-radius:18px;padding:22px 22px 20px;margin-bottom:18px}
+header.top h1{margin:0;font-size:clamp(24px,5vw,32px);line-height:1.15;font-weight:800;letter-spacing:-.01em}
+header.top p{margin:8px 0 0;opacity:.88;font-size:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.steps{display:flex;gap:6px;margin:0 0 16px;padding:0;list-style:none}
+.steps li{flex:1;height:8px;border-radius:8px;background:var(--line);transition:background .3s}
+.steps li.done{background:var(--green)}
+.steps li.now{background:var(--blue)}
+.stepname{font-size:14px;color:var(--muted);margin:0 0 4px;font-weight:600}
+h2{margin:0 0 6px;font-size:24px;line-height:1.2;font-weight:800}
+.lead{margin:0 0 20px;color:var(--muted)}
+.field{margin:0 0 18px}
+.field label{display:block;font-weight:700;font-size:17px;margin-bottom:2px}
+.field .hint{display:block;color:var(--muted);font-size:14.5px;margin-bottom:8px}
+.money{position:relative}
+.money span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:700;pointer-events:none}
+input[type=text],select{width:100%;font:inherit;font-size:19px;color:var(--ink);background:var(--field);border:2px solid var(--line);border-radius:12px;padding:12px 14px;outline:none;transition:border-color .15s}
+.money input{padding-left:46px;font-variant-numeric:tabular-nums;font-weight:600}
+input:focus,select:focus{border-color:var(--blue)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+.helper{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14.5px;color:var(--muted)}
+.helper input{width:90px;font-size:16px;padding:6px 10px}
+.group{border-left:6px solid var(--c);background:var(--cl);border-radius:12px;padding:16px 16px 2px;margin-bottom:16px}
+.group h3{margin:0 0 12px;font-size:16px;color:var(--c);font-weight:800}
+.g-green{--c:var(--green);--cl:var(--green-l)} .g-orange{--c:var(--orange);--cl:var(--orange-l)}
+.g-red{--c:var(--red);--cl:var(--red-l)} .g-purple{--c:var(--purple);--cl:var(--purple-l)}
+.g-blue{--c:var(--blue);--cl:var(--blue-l)}
+.group input[type=text]{background:var(--card)}
+.nav{display:flex;gap:10px;justify-content:space-between;margin-top:8px}
+button{font:inherit;font-weight:700;font-size:17px;border-radius:12px;padding:13px 20px;cursor:pointer;border:2px solid transparent}
+button:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.btn-main{background:var(--green);color:#fff}
+.btn-main:hover{filter:brightness(1.08)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--muted)}
+.btn-blue{background:var(--blue);color:#fff}
+.err{color:var(--red);font-weight:600;font-size:15px;margin:4px 0 0;min-height:1em}
+.intro ul{padding-left:20px;margin:0 0 18px}
+.intro li{margin-bottom:6px}
+.note{font-size:14.5px;color:var(--muted);background:var(--field);border-radius:12px;padding:12px 14px;margin:0 0 20px}
+
+/* barra fixa com o resultado ao vivo */
+.live{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(20,30,50,.08);display:none;z-index:5}
+.live .in{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.live small{display:block;color:var(--muted);font-size:13.5px;line-height:1.2}
+.live strong{font-size:24px;font-weight:800;transition:color .25s}
+.live .bar{flex:1;max-width:260px;height:12px;border-radius:12px;background:var(--line);overflow:hidden}
+.live .bar i{display:block;height:100%;width:0;background:var(--green);transition:width .35s,background .25s}
+.pos{color:var(--green)} .neg{color:var(--red)}
+
+/* resultado */
+.res-head{background:var(--navy);color:#fff;border-radius:18px;padding:22px;text-align:center;margin-bottom:14px}
+.res-head h2{font-size:clamp(22px,5vw,30px);margin:0}
+.res-head p{margin:6px 0 0;opacity:.88}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+@media (max-width:620px){.cards{grid-template-columns:1fr}}
+.kpi{border-radius:14px;overflow:hidden;text-align:center;background:var(--cl)}
+.kpi b{display:block;background:var(--c);color:#fff;font-size:13.5px;font-weight:700;padding:7px 8px}
+.kpi span{display:block;font-size:clamp(24px,5vw,28px);font-weight:800;color:var(--c);padding:12px 8px}
+table.dre{width:100%;border-collapse:separate;border-spacing:0 5px}
+.dre td{padding:12px 12px;background:var(--cl);vertical-align:middle}
+.dre td:first-child{border-radius:10px 0 0 10px;width:34px;text-align:center;font-weight:800;color:var(--c);font-size:20px}
+.dre td:last-child{border-radius:0 10px 10px 0}
+.dre .v{text-align:right;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.dre .p{text-align:right;color:var(--muted);font-size:14.5px;white-space:nowrap;width:70px;font-variant-numeric:tabular-nums}
+.dre .l{font-weight:600}
+.dre .l small{display:block;font-weight:400;color:var(--muted);font-size:13.5px;line-height:1.3}
+.dre tr.tot td{background:var(--c);color:#fff}
+.dre tr.tot td:first-child,.dre tr.tot .p,.dre tr.tot small{color:#fff}
+.dre tr.tot .l{font-weight:800}
+.dre tr.final td{font-size:20px;padding:16px 12px}
+.dre tr.gap td{background:none;padding:2px}
+.t-green{--c:var(--green);--cl:var(--green-l)} .t-orange{--c:var(--orange);--cl:var(--orange-l)}
+.t-red{--c:var(--red);--cl:var(--red-l)} .t-purple{--c:var(--purple);--cl:var(--purple-l)}
+.t-blue{--c:var(--blue);--cl:var(--blue-l)} .t-neg{--c:var(--red);--cl:var(--red-l)}
+.tablewrap{overflow-x:auto}
+.meta{margin-top:14px;border-radius:14px;overflow:hidden;background:var(--yellow-l)}
+.meta h3{margin:0;background:var(--yellow);color:#3a2a00;padding:10px 16px;font-size:17px;font-weight:800}
+.meta dl{margin:0;padding:6px 16px 12px}
+.meta div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.meta div:last-child{border-bottom:0}
+.meta dd{margin:0;font-weight:800;white-space:nowrap}
+.insights{margin-top:14px}
+.insights h3{margin:0 0 10px;font-size:19px;font-weight:800}
+.ins{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.ins p{margin:0}
+.legend{margin-top:14px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px}
+.legend span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--c);margin-right:6px;vertical-align:-1px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.foot{margin-top:22px;text-align:center;color:var(--muted);font-size:14px}
+.foot strong{color:var(--ink)}
+.hidden{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  body{background:#fff;font-size:13px}
+  .wrap{padding:0}
+  header.top,.live,.actions,#wizard,.foot .noprint{display:none!important}
+  .dre td,.kpi,.meta,.ins,.res-head{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top" id="topHeader">
+    <h1>Descubra o resultado do seu mês</h1>
+    <p>Responda algumas perguntas simples e veja quanto sua empresa vendeu, gastou e quanto sobrou.</p>
+  </header>
+
+  <!-- ===================== ASSISTENTE ===================== -->
+  <main id="wizard">
+    <!-- Tela 0: boas-vindas -->
+    <section class="card intro" data-step="0">
+      <h2>Antes de começar</h2>
+      <p class="lead">Leva uns 5 minutos. Tenha em mãos o extrato do banco, o relatório da maquininha e as notas das contas pagas no mês.</p>
+      <ul>
+        <li>Use os valores de <strong>um mês só</strong> (por exemplo, tudo o que entrou e saiu em agosto).</li>
+        <li>Se não souber um valor exato, coloque uma estimativa. Se não teve aquele gasto, deixe em branco.</li>
+        <li>Suas respostas ficam só no seu aparelho. Ninguém recebe esses números.</li>
+      </ul>
+      <div class="nav"><span></span><button class="btn-main" data-go="1">Começar</button></div>
+    </section>
+
+    <!-- Tela 1: empresa -->
+    <section class="card hidden" data-step="1">
+      <ol class="steps" aria-hidden="true"></ol>
+      <p class="stepname">Etapa 1 de 5</p>
+      <h2>Sobre a sua empresa</h2>
+      <p class="lead">Só para identificar o relatório.</p>
+      <div class="field">
+        <label for="empresa">Nome da empresa</label>
+        <input type="text" id="empresa" autocomplete="organization" placeholder="Ex.: Salão Bela Vista">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="mes">Mês</label>
+          <select id="mes"></select>
+        </div>
+        <div class="field">
+          <label for="ano">Ano</label>
+          <select id="ano"></select>
+        </div>
+      </div>
+      <div class="nav"><button class="btn-ghost" data-go="0">Voltar</button><button class="btn-main" data-go="2">Continuar</button></div>
+    </section>
+
+    <!-- Tela 2: vendas -->
+    <section class="card hidden" data-step="2">
+      <ol class="steps" aria-hidden="true"></ol>
+      <p class="stepname">Etapa 2 de 5</p>
+      <h2>Quanto entrou das vendas?</h2>
+      <p class="lead">Some tudo o que os clientes pagaram no mês. Não conte empréstimos nem dinheiro que você colocou do próprio bolso.</p>
+      <div class="group g-green">
+        <h3>Vendas do mês</h3>
+        <div class="field">
+          <label for="v_dinheiro">Dinheiro e PIX</label>
+          <span class="hint">Tudo o que caiu em dinheiro vivo ou PIX.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="v_dinheiro" data-money placeholder="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="v_cartao">Cartão de débito e crédito</label>
+          <span class="hint">Valor total das vendas no cartão (antes da taxa da maquininha).</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="v_cartao" data-money placeholder="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="v_outros">Outros recebimentos de clientes</label>
+          <span class="hint">Boletos, fiado recebido, vendas por aplicativo etc.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="v_outros" data-money placeholder="0,00"></div>
+        </div>
+      </div>
+      <p class="err" id="err2"></p>
+      <div class="nav"><button class="btn-ghost" data-go="1">Voltar</button><button class="btn-main" data-go="3">Continuar</button></div>
+    </section>
+
+    <!-- Tela 3: custos de cada venda -->
+    <section class="card hidden" data-step="3">
+      <ol class="steps" aria-hidden="true"></ol>
+      <p class="stepname">Etapa 3 de 5</p>
+      <h2>Custos que vêm junto com as vendas</h2>
+      <p class="lead">São gastos que aumentam quando você vende mais.</p>
+      <div class="group g-orange">
+        <h3>Custos de cada venda</h3>
+        <div class="field">
+          <label for="c_produtos">Compra de mercadorias e produtos</label>
+          <span class="hint">O que você pagou aos fornecedores no mês pelos produtos que vende ou usa no serviço.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="c_produtos" data-money placeholder="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="c_comissoes">Comissões</label>
+          <span class="hint">Valores pagos a vendedores ou profissionais por venda ou serviço feito.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="c_comissoes" data-money placeholder="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="c_taxas">Taxas da maquininha</label>
+          <span class="hint">O que a maquininha descontou das vendas no cartão, incluindo antecipação.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="c_taxas" data-money placeholder="0,00"></div>
+          <div class="helper">Não sabe? Informe a taxa média:
+            <input type="text" inputmode="decimal" id="taxa_pct" placeholder="Ex.: 3,5" aria-label="Taxa média da maquininha em porcentagem"> %
+            <button type="button" class="btn-ghost" id="calcTaxa" style="padding:6px 12px;font-size:15px">Calcular</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="c_impostos">Impostos sobre as vendas</label>
+          <span class="hint">Guia do Simples Nacional (DAS), MEI ou outros impostos pagos no mês.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="c_impostos" data-money placeholder="0,00"></div>
+        </div>
+      </div>
+      <div class="nav"><button class="btn-ghost" data-go="2">Voltar</button><button class="btn-main" data-go="4">Continuar</button></div>
+    </section>
+
+    <!-- Tela 4: contas fixas -->
+    <section class="card hidden" data-step="4">
+      <ol class="steps" aria-hidden="true"></ol>
+      <p class="stepname">Etapa 4 de 5</p>
+      <h2>Contas fixas da empresa</h2>
+      <p class="lead">Gastos que existem todo mês, vendendo muito ou pouco.</p>
+      <div class="group g-red">
+        <h3>Equipe</h3>
+        <div class="field">
+          <label for="f_funcionarios">Funcionários</label>
+          <span class="hint">Salários, vale-transporte, vale-refeição, FGTS, INSS e outros encargos.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="f_funcionarios" data-money placeholder="0,00"></div>
+        </div>
+      </div>
+      <div class="group g-red">
+        <h3>Despesas da operação</h3>
+        <div class="field">
+          <label for="f_aluguel">Aluguel e condomínio</label>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="f_aluguel" data-money placeholder="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="f_consumo">Energia, água, internet e telefone</label>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="f_consumo" data-money placeholder="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="f_contador">Contador e sistemas</label>
+          <span class="hint">Escritório de contabilidade, sistema de gestão, aplicativos pagos.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="f_contador" data-money placeholder="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="f_marketing">Propaganda e divulgação</label>
+          <span class="hint">Anúncios no Instagram/Google, panfletos, brindes.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="f_marketing" data-money placeholder="0,00"></div>
+        </div>
+        <div class="field">
+          <label for="f_outras">Outras despesas</label>
+          <span class="hint">Manutenção, limpeza, material de escritório, combustível etc.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="f_outras" data-money placeholder="0,00"></div>
+        </div>
+      </div>
+      <div class="group g-red">
+        <h3>Banco e empréstimos</h3>
+        <div class="field">
+          <label for="f_banco">Tarifas, juros e parcelas de empréstimos</label>
+          <span class="hint">Tarifa da conta, juros, cheque especial e parcelas de empréstimos ou financiamentos pagas no mês.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="f_banco" data-money placeholder="0,00"></div>
+        </div>
+      </div>
+      <div class="nav"><button class="btn-ghost" data-go="3">Voltar</button><button class="btn-main" data-go="5">Continuar</button></div>
+    </section>
+
+    <!-- Tela 5: retiradas -->
+    <section class="card hidden" data-step="5">
+      <ol class="steps" aria-hidden="true"></ol>
+      <p class="stepname">Etapa 5 de 5</p>
+      <h2>Retiradas dos donos</h2>
+      <p class="lead">Quanto os donos ou sócios tiraram da empresa para uso pessoal no mês.</p>
+      <div class="group g-purple">
+        <h3>Retiradas dos sócios</h3>
+        <div class="field">
+          <label for="r_retiradas">Total retirado pelos donos</label>
+          <span class="hint">Pró-labore, retiradas em dinheiro e contas pessoais pagas pela empresa.</span>
+          <div class="money"><span>R$</span><input type="text" inputmode="decimal" id="r_retiradas" data-money placeholder="0,00"></div>
+        </div>
+      </div>
+      <div class="nav"><button class="btn-ghost" data-go="4">Voltar</button><button class="btn-main" data-go="6">Ver meu resultado</button></div>
+    </section>
+  </main>
+
+  <!-- ===================== RESULTADO ===================== -->
+  <section id="result" class="hidden" aria-live="polite"></section>
+
+  <footer class="foot">
+    <p>Ferramenta criada por <strong>PHCommerce Consultoria</strong></p>
+    <p class="noprint">Os valores são calculados a partir do que você informou e servem como uma visão geral do mês.</p>
+  </footer>
+</div>
+
+<!-- barra ao vivo -->
+<div class="live" id="live" role="status">
+  <div class="in">
+    <div><small>Sobra até agora</small><strong class="num pos" id="liveVal">R$ 0,00</strong></div>
+    <div class="bar" aria-hidden="true"><i id="liveBar"></i></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var MESES=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  var KEY="dre-rapida-v1";
+  var TOTAL_STEPS=5;
+  var current=0;
+
+  // ---------- utilidades de dinheiro ----------
+  function parseBR(s){
+    if(s==null) return 0;
+    s=String(s).trim().replace(/[R$\s]/g,"");
+    if(!s) return 0;
+    if(s.indexOf(",")>-1){ s=s.replace(/\./g,"").replace(",","."); }
+    else if((s.match(/\./g)||[]).length>1){ s=s.replace(/\./g,""); }
+    else if(/\.\d{3}$/.test(s)){ s=s.replace(".",""); }
+    var n=parseFloat(s);
+    return isFinite(n)?Math.abs(n):0;
+  }
+  var fmt=new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
+  function brl(n){ return fmt.format(Math.round(n*100)/100); }
+  function pct(n){ return (n*100).toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1})+"%"; }
+  function num(n){ return (Math.round(n*100)/100).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function $(id){ return document.getElementById(id); }
+  function val(id){ return parseBR($(id).value); }
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+  // ---------- selects de mês e ano ----------
+  var hoje=new Date();
+  var mesPadrao=hoje.getMonth()===0?11:hoje.getMonth()-1;
+  var anoPadrao=hoje.getMonth()===0?hoje.getFullYear()-1:hoje.getFullYear();
+  MESES.forEach(function(m,i){ var o=document.createElement("option"); o.value=i; o.textContent=m; $("mes").appendChild(o); });
+  for(var a=hoje.getFullYear();a>=hoje.getFullYear()-4;a--){ var o=document.createElement("option"); o.value=a; o.textContent=a; $("ano").appendChild(o); }
+  $("mes").value=mesPadrao; $("ano").value=anoPadrao;
+
+  // ---------- barras de progresso ----------
+  document.querySelectorAll(".steps").forEach(function(ol){
+    for(var i=1;i<=TOTAL_STEPS;i++){ ol.appendChild(document.createElement("li")); }
+  });
+
+  // ---------- rascunho salvo no aparelho ----------
+  var campos=Array.prototype.slice.call(document.querySelectorAll("#wizard input, #wizard select"));
+  function salvar(){
+    try{ var d={}; campos.forEach(function(c){ d[c.id]=c.value; }); localStorage.setItem(KEY,JSON.stringify(d)); }catch(e){}
+  }
+  function carregar(){
+    try{ var d=JSON.parse(localStorage.getItem(KEY)||"null"); if(!d) return; campos.forEach(function(c){ if(d[c.id]!=null && d[c.id]!=="") c.value=d[c.id]; }); }catch(e){}
+  }
+  carregar();
+
+  // ---------- formatação ao sair do campo ----------
+  document.querySelectorAll("[data-money]").forEach(function(inp){
+    inp.addEventListener("blur",function(){ var n=parseBR(inp.value); inp.value=n?num(n):""; salvar(); atualizarLive(); });
+    inp.addEventListener("input",function(){ salvar(); atualizarLive(); });
+  });
+  $("empresa").addEventListener("input",salvar);
+  $("mes").addEventListener("change",salvar);
+  $("ano").addEventListener("change",salvar);
+
+  $("calcTaxa").addEventListener("click",function(){
+    var p=parseBR($("taxa_pct").value);
+    var cartao=val("v_cartao");
+    if(!p||!cartao){ $("taxa_pct").focus(); return; }
+    $("c_taxas").value=num(cartao*p/100); salvar(); atualizarLive();
+  });
+
+  // ---------- cálculo da DRE ----------
+  function calcular(){
+    var d={};
+    d.vendas=val("v_dinheiro")+val("v_cartao")+val("v_outros");
+    d.impostos=val("c_impostos");
+    d.produtos=val("c_produtos");
+    d.comissoes=val("c_comissoes");
+    d.taxas=val("c_taxas");
+    d.sobraVendas=d.vendas-d.impostos-d.produtos-d.comissoes-d.taxas;
+    d.funcionarios=val("f_funcionarios");
+    d.aluguel=val("f_aluguel"); d.consumo=val("f_consumo"); d.contador=val("f_contador"); d.marketing=val("f_marketing"); d.outras=val("f_outras");
+    d.operacao=d.aluguel+d.consumo+d.contador+d.marketing+d.outras;
+    d.banco=val("f_banco");
+    d.fixas=d.funcionarios+d.operacao+d.banco;
+    d.lucro=d.sobraVendas-d.fixas;
+    d.retiradas=val("r_retiradas");
+    d.sobrou=d.lucro-d.retiradas;
+    d.margem=d.vendas>0?d.sobraVendas/d.vendas:0;
+    d.meta=d.margem>0?(d.fixas+d.retiradas)/d.margem:null;
+    return d;
+  }
+
+  // ---------- barra ao vivo ----------
+  function atualizarLive(){
+    var d=calcular();
+    var el=$("liveVal"); el.textContent=brl(d.sobrou);
+    el.className="num "+(d.sobrou<0?"neg":"pos");
+    var w=d.vendas>0?Math.max(0,Math.min(1,d.sobrou/d.vendas)):0;
+    var bar=$("liveBar"); bar.style.width=(d.sobrou<0?100:Math.max(4,w*100))+"%";
+    bar.style.background=d.sobrou<0?"var(--red)":"var(--green)";
+  }
+
+  // ---------- navegação ----------
+  function mostrar(n){
+    current=n;
+    document.querySelectorAll("#wizard > section").forEach(function(s){ s.classList.toggle("hidden",+s.dataset.step!==n); });
+    var sec=document.querySelector('#wizard > section[data-step="'+n+'"]');
+    if(sec){
+      sec.querySelectorAll(".steps li").forEach(function(li,i){ li.className=(i+1<n?"done":(i+1===n?"now":"")); });
+    }
+    $("live").style.display=(n>=2&&n<=5)?"block":"none";
+    atualizarLive();
+    window.scrollTo({top:0,behavior:"smooth"});
+    var foco=sec&&sec.querySelector("input,select");
+    if(foco&&n>0) setTimeout(function(){ try{ foco.focus({preventScroll:true}); }catch(e){} },250);
+  }
+  document.querySelectorAll("[data-go]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var alvo=+b.dataset.go;
+      if(alvo>current && current===2 && calcular().vendas<=0){
+        $("err2").textContent="Informe pelo menos um valor de vendas para continuar.";
+        $("v_dinheiro").focus(); return;
+      }
+      $("err2").textContent="";
+      if(alvo===6){ mostrarResultado(); return; }
+      mostrar(alvo);
+    });
+  });
+
+  // ---------- leituras em linguagem simples ----------
+  function leituras(d){
+    var out=[];
+    if(d.sobrou>=0){
+      out.push(["t-green","A empresa pagou todas as contas e as retiradas e ainda sobraram "+brl(d.sobrou)+". De cada R$ 100 vendidos, ficaram "+brl(d.sobrou/d.vendas*100)+" no caixa."]);
+    }else if(d.lucro>=0){
+      out.push(["t-neg","A empresa gerou "+brl(d.lucro)+" de lucro, mas os donos retiraram "+brl(d.retiradas)+". Ou seja, retiraram "+brl(-d.sobrou)+" a mais do que a empresa produziu no mês."]);
+    }else{
+      out.push(["t-neg","As vendas não foram suficientes para pagar as contas da empresa: faltaram "+brl(-d.lucro)+" antes mesmo das retiradas dos donos."]);
+    }
+    if(d.meta===null){
+      out.push(["t-orange","Os custos de cada venda (produtos, comissões, taxas e impostos) foram maiores que as próprias vendas. Vale revisar preços e compras antes de qualquer outra coisa."]);
+    }else if(d.vendas>=d.meta){
+      out.push(["t-blue","Para cobrir todas as contas e as retiradas, a empresa precisava vender "+brl(d.meta)+". Vendeu "+brl(d.vendas-d.meta)+" acima desse mínimo."]);
+    }else{
+      out.push(["t-blue","Para cobrir todas as contas e as retiradas, a empresa precisava vender "+brl(d.meta)+". Faltaram "+brl(d.meta-d.vendas)+" em vendas para empatar."]);
+    }
+    var itens=[["Funcionários",d.funcionarios],["Compra de produtos",d.produtos],["Aluguel e condomínio",d.aluguel],["Energia, água, internet e telefone",d.consumo],["Contador e sistemas",d.contador],["Propaganda",d.marketing],["Outras despesas",d.outras],["Banco e empréstimos",d.banco],["Retiradas dos donos",d.retiradas],["Comissões",d.comissoes],["Impostos",d.impostos],["Taxas da maquininha",d.taxas]];
+    itens.sort(function(a,b){return b[1]-a[1];});
+    if(itens[0][1]>0){
+      out.push(["t-purple","O maior gasto do mês foi \u201c"+itens[0][0]+"\u201d: "+brl(itens[0][1])+", o equivalente a "+pct(itens[0][1]/d.vendas)+" de tudo o que foi vendido."]);
+    }
+    return out;
+  }
+
+  // ---------- monta o HTML do resultado ----------
+  function htmlResultado(d, paraArquivo){
+    var empresa=$("empresa").value.trim();
+    var periodo=MESES[+$("mes").value]+"/"+$("ano").value;
+    function linha(cls,sinal,rotulo,expl,valor,tipo){
+      if(Math.abs(valor)<0.005) valor=0;
+      var p=(d.vendas>0&&valor!==0)?pct(valor/d.vendas):"–";
+      return '<tr class="'+cls+(tipo?" "+tipo:"")+'"><td>'+sinal+'</td><td class="l">'+rotulo+(expl?'<small>'+expl+'</small>':'')+'</td><td class="v">'+brl(valor)+'</td><td class="p">'+p+'</td></tr>';
+    }
+    var finalCls=d.sobrou<0?"t-neg":"t-green";
+    var h='';
+    h+='<div class="res-head"><h2>Resultado do mês – '+esc(periodo)+'</h2><p>'+(empresa?esc(empresa)+' · ':'')+'Quanto a empresa vendeu, quanto gastou e quanto sobrou</p></div>';
+    h+='<div class="cards">'+
+       '<div class="kpi t-green"><b>Vendeu no mês</b><span class="num">'+brl(d.vendas)+'</span></div>'+
+       '<div class="kpi '+(d.sobrou<0?"t-neg":"t-blue")+'"><b>Sobrou no mês</b><span class="num">'+brl(d.sobrou)+'</span></div>'+
+       '<div class="kpi t-purple"><b>De cada R$ 100 vendidos, sobraram</b><span class="num">'+brl(d.vendas>0?d.sobrou/d.vendas*100:0)+'</span></div>'+
+       '</div>';
+    h+='<div class="tablewrap"><table class="dre">';
+    h+=linha("t-green","+","Vendas do mês","Tudo que entrou das vendas (dinheiro, PIX, cartões e outros).",d.vendas,"tot");
+    h+=linha("t-orange","−","Impostos","Impostos pagos sobre as vendas.",-d.impostos);
+    h+=linha("t-orange","−","Produtos (fornecedores)","Compra de mercadorias e produtos.",-d.produtos);
+    h+=linha("t-orange","−","Comissões","Pagamentos por venda ou serviço feito.",-d.comissoes);
+    h+=linha("t-orange","−","Taxas da maquininha","Desconto cobrado nas vendas no cartão.",-d.taxas);
+    h+=linha("t-blue","=","Sobra das vendas","O que sobra das vendas depois dos custos de cada venda.",d.sobraVendas,"tot");
+    h+='<tr class="gap"><td colspan="4"></td></tr>';
+    h+=linha("t-red","−","Funcionários","Salários, vales e encargos.",-d.funcionarios);
+    h+=linha("t-red","−","Despesas da operação","Aluguel, contas de consumo, contador, propaganda e outras.",-d.operacao);
+    h+=linha("t-red","−","Banco e empréstimos","Tarifas, juros e parcelas de empréstimos.",-d.banco);
+    h+=linha(d.lucro<0?"t-neg":"t-blue","=","Lucro da empresa","O que a empresa gerou antes das retiradas dos donos.",d.lucro,"tot");
+    h+='<tr class="gap"><td colspan="4"></td></tr>';
+    h+=linha("t-purple","−","Retiradas dos donos","Valores retirados pelos sócios no mês.",-d.retiradas);
+    h+='<tr class="gap"><td colspan="4"></td></tr>';
+    h+=linha(finalCls,"=","Sobrou no mês","Resultado final: o que ficou na empresa depois de tudo pago.",d.sobrou,"tot final");
+    h+='</table></div>';
+    h+='<div class="meta"><h3>🎯 Meta mínima de vendas</h3><dl>';
+    if(d.meta===null){
+      h+='<div><dt>Não foi possível calcular: os custos de cada venda passaram das vendas.</dt><dd></dd></div>';
+    }else{
+      var dif=d.vendas-d.meta;
+      h+='<div><dt>Para pagar todas as contas e as retiradas, é preciso vender por mês</dt><dd class="num">'+brl(d.meta)+'</dd></div>';
+      h+='<div><dt>Neste mês a empresa vendeu</dt><dd class="num">'+brl(d.vendas)+'</dd></div>';
+      h+='<div><dt>Diferença</dt><dd class="num '+(dif<0?"neg":"pos")+'">'+brl(dif)+'</dd></div>';
+    }
+    h+='</dl></div>';
+    h+='<div class="insights"><h3>O que esses números dizem</h3>';
+    leituras(d).forEach(function(x){ h+='<div class="ins '+x[0]+'"><p>'+x[1]+'</p></div>'; });
+    h+='</div>';
+    h+='<div class="legend"><span class="t-green">Entradas</span><span class="t-orange">Custos de cada venda</span><span class="t-red">Contas fixas</span><span class="t-purple">Retiradas dos donos</span><span class="t-blue">Resultados</span></div>';
+    if(!paraArquivo){
+      h+='<div class="actions">'+
+         '<button class="btn-blue hidden" id="btnBaixar">Baixar relatório</button>'+
+         '<button class="btn-main" id="btnImprimir">Imprimir ou salvar em PDF</button>'+
+         '<button class="btn-ghost" id="btnEditar">Corrigir respostas</button>'+
+         '<button class="btn-ghost" id="btnNovo">Fazer outro mês</button>'+
+         '</div><p class="err" id="errBaixar"></p>';
+    }
+    return h;
+  }
+
+  function mostrarResultado(){
+    var d=calcular();
+    $("wizard").classList.add("hidden");
+    $("live").style.display="none";
+    $("topHeader").classList.add("hidden");
+    var r=$("result"); r.innerHTML=htmlResultado(d,false); r.classList.remove("hidden");
+    window.scrollTo({top:0,behavior:"smooth"});
+    $("btnImprimir").addEventListener("click",function(){ try{ window.print(); }catch(e){} });
+    $("btnEditar").addEventListener("click",function(){ r.classList.add("hidden"); $("wizard").classList.remove("hidden"); $("topHeader").classList.remove("hidden"); mostrar(2); });
+    $("btnNovo").addEventListener("click",function(){
+      document.querySelectorAll("[data-money]").forEach(function(i){ i.value=""; }); $("taxa_pct").value="";
+      salvar(); r.classList.add("hidden"); $("wizard").classList.remove("hidden"); $("topHeader").classList.remove("hidden"); mostrar(1);
+    });
+    ligarDownload(d);
+  }
+
+  // ---------- download (quando o visualizador permite) ----------
+  var downloadsPromise=null;
+  try{ if(window.claude && typeof window.claude.use==="function"){ downloadsPromise=window.claude.use("downloads"); } }catch(e){ downloadsPromise=null; }
+
+  function ligarDownload(d){
+    if(!downloadsPromise) return;
+    downloadsPromise.then(function(dl){
+      var btn=$("btnBaixar"); if(!dl||!btn) return;
+      btn.classList.remove("hidden");
+      btn.addEventListener("click",function(){
+        var css=document.querySelector("style").textContent;
+        var empresa=$("empresa").value.trim()||"empresa";
+        var periodo=MESES[+$("mes").value]+"-"+$("ano").value;
+        var doc='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>DRE '+esc(empresa)+' '+periodo+'</title>'+
+          '<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet"><style>'+css+'</style></head><body data-theme="light"><div class="wrap">'+
+          htmlResultado(d,true)+'<footer class="foot"><p>Ferramenta criada por <strong>PHCommerce Consultoria</strong></p></footer></div></body></html>';
+        doc=doc.replace('<html lang="pt-BR">','<html lang="pt-BR" data-theme="light">');
+        var nome=("DRE "+empresa+" "+periodo).replace(/[\\\/:*?"<>|]/g,"").replace(/\s+/g,"-")+".html";
+        $("errBaixar").textContent="";
+        dl.save({filename:nome,data:doc}).catch(function(err){
+          var c=err&&err.code;
+          if(c==="declined") return;
+          if(c==="rate_limited"){ $("errBaixar").textContent="Já existe um download aguardando confirmação."; return; }
+          btn.classList.add("hidden");
+          $("errBaixar").textContent="O download não está disponível aqui. Use o botão de imprimir ou salvar em PDF.";
+        });
+      });
+    }).catch(function(){});
+  }
+
+  atualizarLive();
+  mostrar(0);
+})();
+</script>
+</body>
+</html>
