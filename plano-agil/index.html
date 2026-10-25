@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plano de Marketing Ágil – PHCommerce Consultoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  --bg:#F4F6FA; --card:#FFFFFF; --ink:#1E2430; --muted:#5B6475; --line:#DDE2EC;
+  --navy:#1F3864; --navy-ink:#FFFFFF;
+  --green:#2E7D32; --green-l:#E8F5E9;
+  --orange:#E65100; --orange-l:#FFF3E0;
+  --red:#C62828; --red-l:#FFEBEE;
+  --blue:#1565C0; --blue-l:#E3F2FD;
+  --field:#F8F9FC;
+  --c-head:#0B2263; --c-swot:#1F3C8E; --c-gray:#6F6A66; --c-cyan:#0777A8; --c-purple:#5E0F6B; --c-lav:#D9C6F7; --c-lav-ink:#2B1055; --c-pink:#C42E69;
+  --note:#FFF9C4; --note-ink:#33300A;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11151D; --card:#1A202B; --ink:#E9EDF4; --muted:#A3ACBD; --line:#2C3443;
+    --navy:#2A4A82; --field:#141922;
+    --green-l:#1B2E1D; --orange-l:#33230F; --red-l:#341A1C; --blue-l:#15263A;
+    --c-lav:#4A3475; --c-lav-ink:#F0E6FF;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 16px 60px}
+header.top{background:var(--navy);color:var(--navy-ink);border-radius:18px;padding:18px 22px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+header.top h1{margin:0;font-size:clamp(20px,4vw,28px);line-height:1.15;font-weight:800}
+header.top p{margin:4px 0 0;opacity:.88;font-size:14.5px}
+.prog{min-width:230px;flex:0 1 300px}
+.prog .row{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-top:6px}
+.bar{height:9px;border-radius:99px;background:rgba(255,255,255,.25);overflow:hidden}
+.bar i{display:block;height:100%;background:#7CE08A;border-radius:99px;transition:width .3s}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:1fr}}
+nav.side{position:sticky;top:10px;max-height:calc(100vh - 20px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px}
+@media (max-width:860px){nav.side{position:static;max-height:none;display:flex;gap:6px;overflow-x:auto;padding:8px;border-radius:14px}nav.side .grp{display:none}}
+nav.side .grp{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:12px 8px 4px}
+nav.side .grp:first-child{margin-top:4px}
+nav.side button{display:flex;width:100%;align-items:center;justify-content:space-between;gap:8px;text-align:left;font:inherit;font-size:14.5px;font-weight:600;color:var(--ink);background:transparent;border:0;border-radius:10px;padding:8px 10px;cursor:pointer}
+@media (max-width:860px){nav.side button{width:auto;white-space:nowrap;border:1px solid var(--line)}}
+nav.side button:hover{background:var(--field)}
+nav.side button.on{background:var(--navy);color:#fff}
+nav.side .st{font-size:12px;font-weight:800;opacity:.85}
+nav.side .st.ok{color:var(--green)}
+nav.side button.on .st{color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px}
+.card h2{margin:0 0 4px;font-size:21px;font-weight:800}
+.card h3{margin:0;font-size:17px;font-weight:800}
+.sub{margin:0 0 14px;color:var(--muted);font-size:14.5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+.field{margin:0}.field.full{grid-column:1/-1}
+.field label{display:block;font-weight:700;font-size:14.5px;margin-bottom:3px}
+.field .hint{display:block;color:var(--muted);font-size:13px;margin-bottom:5px;line-height:1.35}
+input[type=text],select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--field);border:2px solid var(--line);border-radius:10px;padding:9px 11px;outline:none;transition:border-color .15s}
+textarea{resize:vertical;min-height:44px}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+.money{position:relative}.money span{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:700;font-size:14px;pointer-events:none}.money input{padding-left:36px}
+button.btn{font:inherit;font-weight:700;font-size:15px;border-radius:11px;padding:10px 16px;cursor:pointer;border:2px solid transparent}
+.btn-main{background:var(--green);color:#fff}.btn-navy{background:var(--navy);color:#fff}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-sm{padding:6px 11px!important;font-size:13.5px!important}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:6px}
+/* blocos */
+.blk{border:1px solid var(--line);border-left:8px solid var(--bc,var(--navy));border-radius:14px;padding:14px 16px;margin-bottom:14px;background:var(--card)}
+.g-head{--bc:var(--c-head)}.g-swot{--bc:var(--c-swot)}.g-gray{--bc:var(--c-gray)}.g-cyan{--bc:var(--c-cyan)}.g-white{--bc:var(--muted)}
+.g-purple{--bc:var(--c-purple)}.g-lav{--bc:#9B6FE0}.g-pink{--bc:var(--c-pink)}
+.bh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bh .num{display:inline-grid;place-items:center;min-width:28px;height:28px;border-radius:99px;background:var(--bc);color:#fff;font-weight:800;font-size:14px}
+.bh h3{flex:1;min-width:140px}
+.cnt{font-size:13px;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--orange-l);color:var(--orange)}
+.cnt.ok{background:var(--green-l);color:var(--green)}
+.tm{font:inherit;font-size:13px;font-weight:700;border:1px solid var(--line);background:var(--field);color:var(--ink);border-radius:99px;padding:3px 10px;cursor:pointer}
+.dica{margin:6px 0 10px;color:var(--muted);font-size:14.5px}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-bottom:10px}
+.it{position:relative;background:var(--note);border-radius:6px;padding:6px;box-shadow:0 2px 4px rgba(0,0,0,.12)}
+.it textarea{background:transparent;border:1px dashed rgba(0,0,0,.18);color:var(--note-ink);font-size:14.5px;min-height:62px;padding:6px 8px}
+.it .money{margin-top:5px}.it .money input{background:rgba(255,255,255,.6);color:var(--note-ink);padding-top:5px;padding-bottom:5px;font-size:14px}
+.it .x{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;border:0;background:var(--red);color:#fff;font-weight:800;cursor:pointer;line-height:1}
+.add{display:flex;gap:8px}.add input{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:inherit;font-size:13px;font-weight:600;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:99px;padding:3px 10px;cursor:pointer}
+.chip:hover{border-color:var(--blue);color:var(--blue)}
+.sum{font-weight:800;margin-top:8px}
+.radios{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:640px){.radios{grid-template-columns:1fr}}
+.radio{display:block;border:2px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;background:var(--field)}
+.radio:has(input:checked){border-color:var(--navy);background:var(--blue-l)}
+.radio b{display:block}.radio small{color:var(--muted);font-size:13px}
+.radio input{accent-color:var(--navy);margin-right:6px}
+.matrix{display:grid;grid-template-columns:auto 1fr 1fr;gap:4px;font-size:12.5px;margin:8px 0 12px;max-width:520px}
+.matrix div{padding:6px 8px;border-radius:6px;background:var(--field);text-align:center}
+.matrix .h{background:var(--navy);color:#fff;font-weight:700}
+.smart{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.smart label{display:inline-flex;gap:6px;align-items:center;font-weight:600;font-size:14px;background:var(--field);border:1px solid var(--line);border-radius:99px;padding:4px 11px;cursor:pointer}
+.smart input{accent-color:var(--green)}
+.hintbox{background:var(--blue-l);color:var(--ink);border-radius:10px;padding:8px 12px;font-size:14px;margin:6px 0}
+details.dt{margin:8px 0}details.dt summary{cursor:pointer;font-weight:700;font-size:14.5px}
+details.dt ul{margin:6px 0;padding-left:20px;font-size:14.5px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:900px){.two{grid-template-columns:1fr}}
+.act{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:12px;background:var(--field);position:relative}
+.act .rm{position:absolute;top:8px;right:8px}
+.act h4{margin:0 0 8px;font-size:14px;color:var(--muted)}
+.act[data-st]{border-left:6px solid var(--orange)}.act[data-st="Concluído"]{border-left-color:var(--green)}.act[data-st="Iniciado"]{border-left-color:var(--blue)}.act[data-st="Atrasado"]{border-left-color:var(--red)}.act[data-st="Cancelado"]{border-left-color:var(--muted)}
+.statbar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.statbar span{font-size:13px;font-weight:700;padding:4px 11px;border-radius:99px;background:var(--field);border:1px solid var(--line)}
+.fish{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:900px){.fish{grid-template-columns:1fr}}
+.fishc{border:2px solid var(--orange);border-radius:12px;padding:10px;background:var(--orange-l)}
+.fishc h4{margin:0 0 6px;color:var(--orange)}
+.effect{border:3px solid var(--orange);background:var(--orange-l);border-radius:14px;padding:12px;margin-bottom:12px}
+/* canvas overview */
+.cv{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;font-size:12.5px;background:var(--navy);padding:4px;border-radius:14px}
+@media (max-width:900px){.cv{grid-template-columns:1fr 1fr}.cv>div{grid-column:span 1!important}}
+@media (max-width:560px){.cv{grid-template-columns:1fr}}
+.cv>div{padding:8px 9px;border-radius:8px;min-height:90px;color:#fff;display:flex;flex-direction:column;gap:5px}
+.cv h5{margin:0;font-size:13px;display:flex;gap:6px;align-items:center}.cv h5 em{font-style:normal;margin-left:auto;opacity:.75;font-size:12px}
+.cv .pn{background:var(--note);color:var(--note-ink);border-radius:4px;padding:4px 7px;font-size:12.5px;line-height:1.3;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.cv .emp{opacity:.6;font-style:italic}
+.cv .c-head{background:var(--c-head)}.cv .c-swot{background:var(--c-swot)}.cv .c-gray{background:var(--c-gray)}.cv .c-cyan{background:var(--c-cyan)}.cv .c-white{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.cv .c-purple{background:var(--c-purple)}.cv .c-lav{background:var(--c-lav);color:var(--c-lav-ink)}.cv .c-pink{background:var(--c-pink)}
+.cv .c-white h5{color:var(--navy)}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th,table.t td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+table.t th{background:var(--field);font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+.banner{background:var(--yellow-l,#FFF8E1);border:1px solid #F9A825;border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:14px;color:var(--ink)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .banner{background:#2F2812}}
+#timer{position:fixed;right:14px;bottom:14px;z-index:20;background:var(--navy);color:#fff;border-radius:14px;padding:10px 14px;font-weight:800;display:none;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+#timer.on{display:flex}#timer.end{background:var(--red)}
+#timer button{font:inherit;font-weight:700;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:8px;padding:2px 9px;cursor:pointer}
+.foot{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
+.q4{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.q4{grid-template-columns:1fr}}
+.q4>div{border-radius:12px;padding:12px;border:2px solid var(--line)}
+.q4 h4{margin:0 0 2px}.q4 small{display:block;color:var(--muted);margin-bottom:8px}
+@page{size:A4 landscape;margin:10mm}
+@media print{
+  body{background:#fff;font-size:12px}
+  .wrap{padding:0;max-width:none}
+  nav.side,header.top .prog,.actions,.pager,.add,.chips,.tm,.x,#timer,.noprint,.banner,.act .rm{display:none!important}
+  .layout{display:block}
+  header.top{background:#fff;color:#000;border:1px solid #999;padding:6px 10px}
+  .card,.blk{break-inside:avoid;border-color:#bbb}
+  .cv,.cv>div,.it,.cnt{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .printonly{display:block!important}
+}
+.printonly{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div><h1>Plano de Marketing Ágil</h1><p id="hsub">Oficina prática com o Canvas de Marketing e ferramentas de planejamento</p></div>
+  <div class="prog">
+    <div class="row"><span>Canvas de Marketing</span><span id="p_mk">0%</span></div><div class="bar"><i id="b_mk" style="width:0"></i></div>
+    <div class="row"><span>Todas as atividades</span><span id="p_all">0%</span></div><div class="bar"><i id="b_all" style="width:0"></i></div>
+  </div>
+</header>
+<div class="layout">
+  <nav class="side" id="nav"></nav>
+  <main id="view"></main>
+</div>
+<p class="foot"><strong>PHCommerce Consultoria</strong> · Baseado na metodologia do Canvas de Marketing e no kit de ferramentas de planejamento do Sebrae. Seus dados ficam só neste navegador: baixe o arquivo para guardar.</p>
+</div>
+<div id="timer"><span id="tmlabel"></span><b id="tmtime">00:00</b><button id="tmstop">Parar</button></div>
+<input type="file" id="fileIn" accept=".json,application/json" style="display:none">
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=s=>{s=String(s||'').trim().replace(/\./g,'').replace(',','.');const n=parseFloat(s);return isFinite(n)?n:0};
+const brl=n=>'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:2});
+const KEY='plano-mkt-agil-v1';
+const blank=()=>({p:{nome:'',empresa:'',segmento:'',produto:'',turma:''},l:{},t:{},o:{},ck:{},tb:{},av:{}});
+let S=blank();
+function load(){try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d)S=Object.assign(blank(),d)}catch(e){}}
+let saveT=null;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const L=(k,src=S)=>(src.l[k]=src.l[k]||[]);
+const TB=k=>(S.tb[k]=S.tb[k]||[]);
+
+/* ================= CONTEÚDO: CANVAS DE MARKETING ================= */
+const OBJS=[
+ ['pen','Penetração de mercado','Vender mais do que você já vende para o mercado em que já atua.'],
+ ['dm','Desenvolvimento de mercado','Levar produtos que você já tem para novos mercados ou novos usos.'],
+ ['dp','Desenvolvimento de produto','Criar novos produtos para o mercado em que você já atua.'],
+ ['div','Diversificação','Atender um mercado novo com um produto novo. É o mais desafiador, pois os dois são desconhecidos. Produto pronto que ainda não vendeu nada entra aqui.']
+];
+const MK=[
+ {k:'obj',n:1,t:'Objetivo',g:'head',kind:'obj',tempo:10,dica:'Escolha para onde o plano vai levar o produto ou serviço que você selecionou. Marque o tipo de objetivo e escreva, com as suas palavras, o que quer alcançar.'},
+ {k:'meta',n:2,t:'Meta',g:'head',kind:'meta',tempo:10,dica:'Transforme o objetivo em um alvo que dá para medir. Uma meta boa é Específica, Mensurável, Atingível, Relevante e com Tempo definido (SMART). Exemplo: aumentar em 10% o número de clientes atendidos entre 01/01 e 31/12.'},
+ {k:'fcs',n:3,t:'Fatores chave de sucesso (FCS)',g:'gray',min:5,tempo:5,dica:'São os pontos que o seu cliente avalia e compara quando escolhe entre você e a concorrência, e que decidem o sucesso do negócio. Liste pelo menos 5 ligados ao produto ou serviço escolhido.',chips:['Atendimento','Qualidade','Variedade de produtos e serviços','Prazo e forma de pagamento','Preço ou valor agregado','Posicionamento de mercado','Marca']},
+ {k:'for',n:4,t:'Forças',g:'swot',min:3,tempo:15,dica:'Pontos fortes do negócio que dependem de você e da sua equipe. Pense em produtos, marca, localização, preço e pagamento, recursos físicos, pessoas e tecnologia.',chips:['Produtos e serviços','Marca','Localização','Preço, prazo ou forma de pagamento','Recursos físicos, humanos ou tecnológicos']},
+ {k:'fra',n:5,t:'Fraquezas',g:'swot',min:3,dica:'Pontos que você pode melhorar e que também estão sob o seu controle.',chips:['Personas não definidas','Layout da loja','Ausência de cadastro de clientes','Cadastro da empresa no Google desatualizado','Sem marketing de conteúdo nas redes sociais','Ausência de metas e indicadores']},
+ {k:'opo',n:6,t:'Oportunidades',g:'swot',min:3,dica:'Fatores externos que você não controla, mas pode aproveitar para crescer.',chips:['Novos mercados','Novos canais','Falhas da concorrência','Cursos e treinamentos','Parcerias estratégicas']},
+ {k:'ame',n:7,t:'Ameaças',g:'swot',min:3,dica:'Fatores externos que você não controla e que podem frear o crescimento ou até quebrar o negócio. O seu papel é diminuir o impacto.',chips:['Impostos e taxas de juros ou dólar','Concorrência','Clientes mais exigentes','Crise política ou econômica','Prazo de pagamento dos fornecedores']},
+ {k:'cli',n:8,t:'Clientes (persona)',g:'gray',min:6,tempo:10,kind:'persona',dica:'Antes de pensar em funil ou estratégia, conheça quem você quer atender. A persona é o seu cliente ideal: o que ele pensa, faz e deseja, com base em pesquisa. Escreva pelo menos 6 características.',chips:['Profissão e formação: ','Idade, onde mora, renda: ','Hábitos e comportamentos: ','Dores e desafios: ','Necessidades: ','Motivações para comprar: ','O que ele vê e ouve: ','O que ele fala e faz: ']},
+ {k:'prop',n:9,t:'Proposta de valor',g:'gray',min:1,tempo:10,dica:'Com base nos FCS e na persona, diga qual benefício o cliente recebe com você. Lembre: o que você vende não é necessariamente o seu negócio. Uma chocolateria vende chocolate, mas o negócio dela pode ser presente.',chips:['Inovação ou novidade','Performance','Customização','Design','Marca ou status','Preço','Experiência','Conveniência']},
+ {k:'pro',n:10,t:'Produto',g:'cyan',min:3,tempo:20,dica:'Defina o que torna o produto ou serviço competitivo. Se tiver vários itens, a Matriz BCG ajuda a ver o desempenho de cada um.',chips:['Características técnicas','Variedade','Qualidade','Design e embalagem','Marca','Serviços agregados','Garantias','Parceria com fornecedor que agregue valor','Cliente pode personalizar']},
+ {k:'pra',n:11,t:'Praça',g:'cyan',min:3,dica:'Onde e como o cliente encontra e recebe você: espaço físico, presença digital, área de atuação e logística.',chips:['Cobertura geográfica','Canais de venda online','Canais de venda offline','Logística e transporte (própria ou terceirizada)','Google Meu Negócio','Instagram','WhatsApp','Site ou loja virtual']},
+ {k:'pre',n:12,t:'Preço',g:'cyan',min:3,dica:'Preço é o que o cliente paga. Valor é o que ele sente que recebe. Considere pelo menos gastos (fixos, variáveis e lucro), concorrência e valor percebido. Dica: a ferramenta Preço Certo da PHCommerce ajuda a calcular.',chips:['Preço de venda (gastos fixos, variáveis e lucro)','Política de desconto','Prazos e formas de pagamento','Desconto progressivo por volume','Pacotes e combos','Preço diferente por forma de pagamento']},
+ {k:'prm',n:13,t:'Promoção',g:'cyan',min:3,dica:'Como o cliente vai saber que você existe e sentir vontade de comprar: canais e mensagem, online e offline.',chips:['Marketing digital','Marketing de conteúdo','Degustação','Brindes, presentes e vale-compras','Visual merchandising','Programa de fidelidade','Folheteria','Eventos','Parcerias','Campanha indique um amigo']},
+ {k:'rec',n:14,t:'Receitas',g:'white',min:2,tempo:5,dica:'Como o dinheiro vai entrar. A forma de cobrar deve combinar com o jeito que o cliente gosta de pagar. Estime o valor mensal, se souber.',valor:true,chips:['Venda direta de produtos ou serviços','Pagamento pelo uso','Assinaturas','Aluguel','Licenciamento','Comissões','Anúncios']},
+ {k:'inv',n:15,t:'Investimentos',g:'white',min:2,tempo:5,dica:'O que precisa ser pago para o plano acontecer. Use valores estimados agora; quando aplicar na empresa, use os reais.',valor:true,chips:['Publicidade online e offline','Pessoas (recrutamento, seleção e treinamento)','Equipamentos e tecnologia','Desenvolvimento de produtos e serviços','Tráfego pago','Folheteria']},
+ {k:'ind',n:16,t:'Indicadores',g:'white',min:2,tempo:5,dica:'Sem medir, você administra no escuro. Escolha pelo menos 2 indicadores ligados aos seus FCS e à meta.',chips:['Taxa de conversão','Visualizações, curtidas, comentários e compartilhamentos','Ticket médio','Custo de aquisição de clientes (CAC)','Taxa de clientes novos e fidelizados','Faturamento e gastos fixos e variáveis por produto','Satisfação do cliente (NPS)']}
+];
+const RECTIPOS=[['Vendas diretas','Relação direta com o cliente','Comércio varejista, e-commerce'],['Pagamento pelo uso','Paga-se para usar um produto ou serviço por tempo pré-determinado','Hotéis, locação de automóveis, recursos de jogos online'],['Assinaturas','Paga-se periodicamente pelo uso contínuo','TV a cabo, revistas, sites de música'],['Aluguel','Paga-se para usar um bem por tempo determinado','Roupas de festa, hospedagem de sites'],['Licenciamento','Uso do produto sem alteração','Programas de computador'],['Comissões','Ganho pela venda de produtos de terceiros','Corretores de imóveis'],['Anúncios','Terceiro usa seu espaço para divulgar produtos','Jornais, revistas, sites de pesquisa']];
+const SENT=['Aborrecido','Agitado','Alegre','Alerta','Aliviado','Amoroso','Animado','Ansioso','Bem-Humorado','Calmo','Cansado','Centrado','Chateado','Com medo','Com raiva','Concentrado','Conectado','Confuso','Contente','Curioso','Deprimido','Desanimado','Descansado','Desconcentrado','Desconfortável','Desencorajado','Desesperançoso','Disposto','Empoderado','Energizado','Envergonhado','Esperançoso','Estafado','Exausto','Feliz','Fragilizado','Frustrado','Furioso','Grato','Inspirado','Interessado','Irritado','Motivado','Otimista','Pessimista','Pleno','Preocupado','Receoso','Relaxado','Renovado','Satisfeito','Seguro','Sozinho','Surpreso','Tenso','Triste'];
+const NECE=['Abertura','Abrigo','Aceitação','Afeto','Água','Alimento','Alívio','Amizade','Amor','Apoio','Apreciação','Aprendizado','Ar','Autenticidade','Autonomia','Aventura','Beleza','Bem-estar','Celebração','Clareza','Coerência','Colaboração','Compaixão','Competência','Compreensão','Comprometimento','Comunicação','Comunidade','Conexão','Confiança','Conforto','Consciência','Consideração','Contribuição','Cooperação','Crescimento','Criatividade','Desafio','Descanso','Descoberta','Direção','Diversão','Eficiência','Empatia','Empoderamento','Energia','Equidade','Equilíbrio','Escolha','Espaço','Esperança','Espontaneidade','Estabilidade','Estrutura','Facilidade','Família','Fluxo','Força','Harmonia','Honestidade','Humor','Inclusão','Independência','Inspiração','Integridade','Intimidade','Justiça','Lar','Lazer','Liberdade','Motivação','Movimento','Mutualidade','Natureza','Ordem','Orientação','Paz','Pertencimento','Presença','Privacidade','Produtividade','Propósito','Reconhecimento','Respeito','Responsabilidade','Risco','Sabedoria','Saúde','Segurança','Sentido','Ser visto, ouvido e conhecido','Serenidade','Solitude','Sono','Sustentabilidade','Toque','Trabalho em equipe','Variedade','Visão','Vitalidade','Vulnerabilidade'];
+
+/* ================= CANVAS DE VENDAS ================= */
+const VD=[
+ {k:'prod',n:1,t:'Produto ou serviço',g:'purple',kind:'text',dica:'Para qual produto ou serviço você vai montar este canvas de vendas?'},
+ {k:'meta',n:2,t:'Meta',g:'purple',kind:'meta',dica:'Meta de vendas no formato SMART para o produto ou serviço escolhido.'},
+ {k:'tdg',n:3,t:'Tarefas, dores e ganhos do cliente',g:'gray',min:3,dica:'Quais tarefas o cliente tenta cumprir, que problemas quer resolver e que necessidades quer satisfazer.',chips:['Tempo','Dinheiro','Performance','Frustração','Incômodo','Preocupação']},
+ {k:'jtbd',n:4,t:'Job to be done',g:'gray',min:2,dica:'Reflita sobre a solução: como o seu produto ou serviço resolve as dores do cliente.',chips:['Ganho de tempo','Economia ou ganho de dinheiro','Melhoria de performance e resultado','Melhoria da qualidade','Redução de riscos']},
+ {k:'atr',n:5,t:'Atrair',g:'lav',min:3,dica:'Estratégias para chamar a atenção de potenciais clientes.',chips:['Visual merchandising','Inbound marketing','Pitch','Storytelling','Grupos de WhatsApp ou Telegram','Feiras e eventos','Marketing direto','Parcerias','Folheteria']},
+ {k:'con',n:6,t:'Convencer',g:'lav',min:3,dica:'Estratégias para mostrar ao potencial cliente o valor da solução.',chips:['Cases de sucesso','Avaliações e depoimentos','Degustação do produto ou serviço','Gráficos comparativos','Marketing de experiência','Marketing de conteúdo']},
+ {k:'obj',n:8,t:'Objeções dos clientes',g:'gray',min:3,dica:'As principais razões para o cliente não comprar de você, para você preparar as respostas.',chips:['Falta de dinheiro','Falta de tempo','Prazos','Formas de pagamento','Não é tomador de decisão','Satisfeito com o produto ou serviço da concorrência']},
+ {k:'ven',n:7,t:'Vender',g:'lav',min:3,dica:'Estratégias para fechar a venda.',chips:['Venda consultiva','Reuniões','Gatilhos mentais','Descontos progressivos','Combo de produtos e serviços','Personalização do produto ou serviço','Marketing de experiência']},
+ {k:'tick',n:9,t:'Aumento do ticket médio',g:'white',min:2,dica:'Estratégias para o cliente gastar mais a cada compra.',chips:['Cross-sell (produtos complementares)','Up-sell (versão melhor)','Personalização de produto ou serviço','Descontos progressivos','Embalagem diferenciada']},
+ {k:'ret',n:10,t:'Reter',g:'lav',min:3,dica:'Estratégias para fidelizar os clientes.',chips:['Follow up','Programa de fidelidade ou cashback','Contrato','CRM','Pesquisa de satisfação (NPS)','Canais de relacionamento e SAC','Produto ou serviço customizado','Apresentar os principais clientes']},
+ {k:'can',n:11,t:'Canais de vendas',g:'pink',min:2,dica:'Onde o produto ou serviço é vendido.',chips:['Loja física','Site ou e-commerce','Marketplace','WhatsApp','Instagram ou Facebook','Parceiros','Distribuidores','Representante comercial']},
+ {k:'log',n:12,t:'Logística',g:'pink',min:1,dica:'Como o produto ou serviço chega ao cliente.',chips:['Via ponto de venda','Via Correios','Via parceiros','Via equipe e veículo próprio','Via internet']},
+ {k:'eq',n:13,t:'Equipe de vendas',g:'pink',min:1,dica:'Quantas pessoas e quem atuará nas vendas.',chips:['Equipe própria','Equipe de terceiros']},
+ {k:'rec',n:14,t:'Receita',g:'white',min:2,valor:true,dica:'Expectativa de receita por canal, produto, local, vendedor ou grupo de clientes.',chips:['Por canal de venda','Por produto ou serviço','Por localidade','Por colaborador (próprio ou terceiro)','Por cliente ou grupo de clientes']},
+ {k:'inv',n:15,t:'Principais investimentos',g:'white',min:2,valor:true,dica:'O que precisa ser pago para o plano de vendas acontecer.',chips:['Propaganda online e offline','Pessoas (próprias e terceiras)','Equipamentos e tecnologia','Logística']},
+ {k:'kpi',n:16,t:'KPIs',g:'pink',min:3,dica:'Indicadores para acompanhar o desempenho das vendas.',chips:['Receita por forma de pagamento','Receita por cliente','Receita por localidade','Receita por canal de venda','Receita por produto ou serviço','Ticket médio','Nota de satisfação (NPS)','Curva ABC','ROI']}
+];
+const KEYFOR=(c,b)=>c+'_'+b.k;
+const MKB=Object.fromEntries(MK.map(b=>[b.k,b]));
+const VDB=Object.fromEntries(VD.map(b=>[b.k,b]));
+
+/* ================= FERRAMENTAS DO KIT ================= */
+const SWP=[
+ {k:'f',n:'F',t:'Forças',g:'swot',min:3,dica:'Quais são os seus talentos, dons e habilidades?'},
+ {k:'fr',n:'F',t:'Fraquezas',g:'swot',min:3,dica:'Quais aspectos do seu comportamento e relacionamento precisam mudar ou podem melhorar?'},
+ {k:'o',n:'O',t:'Oportunidades',g:'swot',min:3,dica:'Quais novas habilidades ou competências você pode desenvolver para transformar a sua conduta?'},
+ {k:'a',n:'A',t:'Ameaças',g:'swot',min:3,dica:'Quais fatores externos podem atrapalhar as suas ações e o alcance dos seus objetivos?'}
+];
+const REFL_P=['Quando recebe feedbacks, quais qualidades são destacadas e quais pontos de melhoria são apontados?','Se já fez teste de perfil comportamental, quais são seus pontos fortes e quais pode desenvolver?','Você tem plano de carreira que une o negócio ao seu propósito, objetivos e metas pessoais?','Você é escravo ou realmente dono do seu negócio?','Você explora seus pontos fortes por completo no negócio?','Você tem autoconhecimento e inteligência emocional para não se autossabotar?'];
+const REFL_E=['As finanças pessoais e as da empresa estão separadas?','Os controles financeiros básicos são formais e sistematizados?','O preço é formado com base em custos, despesas, lucro desejado, valor e concorrência?','A empresa está saudável financeiramente?','Os processos estão mapeados e formalizados para garantir padrão e qualidade?','A empresa trabalha com objetivos, planejamento, metas e indicadores?','Recrutamento, seleção, treinamento, desenvolvimento e retenção de talentos estão definidos?','A marca e o posicionamento se destacam frente aos concorrentes?','A jornada de compra do cliente está mapeada, com estratégia para cada etapa?','A empresa tem presença digital?','Os clientes têm acessibilidade (estacionamento próprio ou parceria)?'];
+const CAUSAS=['Método','Mão de obra','Material','Medida','Meio ambiente','Máquina'];
+const CAUSA_DICA=['Como o trabalho é feito: processos, regras, rotinas.','Pessoas: treinamento, motivação, quantidade.','Insumos, matéria-prima, mercadoria, informação.','Indicadores, metas e controles usados para medir.','Ambiente físico, mercado, clima, concorrência.','Equipamentos, sistemas, ferramentas e tecnologia.'];
+const STATUS=['Não iniciado','Iniciado','Atrasado','Concluído','Cancelado'];
+const PLANO_F=[{f:'o',l:'O que será feito?',a:1},{f:'p',l:'Por que será feito?',a:1},{f:'c',l:'Como será feito? (recursos necessários)',a:1},{f:'on',l:'Onde será executado?'},{f:'q',l:'Quando? (início e fim)'},{f:'w',l:'Quem será o responsável?'},{f:'cost',l:'Quanto custará? (R$)',m:1},{f:'st',l:'Status',s:STATUS}];
+const IND_F=[{f:'ind',l:'Indicador'},{f:'fin',l:'Finalidade (por que medir?)',a:1},{f:'obj',l:'Objetivo (relação com os objetivos da empresa)',a:1},{f:'meta',l:'Meta (nível de desempenho esperado)'},{f:'met',l:'Métrica (como será medido)'},{f:'fre',l:'Frequência',s:['','Diária','Semanal','Quinzenal','Mensal','Trimestral','Semestral','Anual']},{f:'fon',l:'Fonte dos dados'},{f:'resp',l:'Responsável'}];
+const IND_EX={
+ 'Comércio varejista':[['Faturamento mensal','Saber se a loja está crescendo','Aumentar vendas','+10% sobre o mês anterior','Soma das vendas do mês','Mensal','Sistema de caixa'],['Ticket médio','Ver quanto cada cliente gasta','Aumentar o valor por venda','R$ __','Faturamento ÷ nº de vendas','Mensal','Sistema de caixa'],['Taxa de conversão','Medir quantos visitantes compram','Vender mais para quem já entra','__%','Vendas ÷ visitantes','Semanal','Contador de entrada ou loja virtual'],['Giro de estoque','Evitar dinheiro parado','Melhorar capital de giro','__ vezes ao ano','Custo das vendas ÷ estoque médio','Mensal','Sistema de estoque']],
+ 'Serviços':[['Taxa de ocupação da agenda','Aproveitar a capacidade','Aumentar horas vendidas','__%','Horas vendidas ÷ horas disponíveis','Semanal','Agenda'],['Satisfação do cliente (NPS)','Saber se o cliente indicaria','Reter e gerar indicação','nota acima de __','Pesquisa pós-atendimento','Mensal','Formulário'],['Conversão de propostas','Medir a eficácia da venda','Fechar mais contratos','__%','Propostas aceitas ÷ enviadas','Mensal','Planilha de propostas'],['Retrabalho','Controlar a qualidade','Reduzir custos','abaixo de __%','Serviços refeitos ÷ total','Mensal','Registro interno']],
+ 'Indústria':[['Produtividade','Medir eficiência da produção','Produzir mais com os mesmos recursos','__ unid./hora','Unidades produzidas ÷ horas','Semanal','Apontamento de produção'],['Peças não conformes','Controlar qualidade','Reduzir perdas','abaixo de __%','Peças rejeitadas ÷ produzidas','Semanal','Inspeção'],['Entrega no prazo','Cumprir o combinado','Fidelizar clientes','__%','Pedidos no prazo ÷ total','Mensal','Sistema de pedidos'],['Custo por unidade','Controlar a margem','Proteger o lucro','R$ __','Custo total ÷ unidades','Mensal','Contabilidade']]
+};
+const Q4=[['q1','1. Importante e urgente','Faça agora','Crises, problemas inadiáveis, prazos que vencem hoje.','var(--red)'],['q2','2. Importante, não urgente','Agende','Planejamento, prevenção, relacionamento, melhoria. É onde o plano acontece.','var(--green)'],['q3','3. Urgente, não importante','Delegue','Interrupções, pedidos de outros, reuniões sem objetivo.','var(--orange)'],['q4','4. Nem urgente, nem importante','Elimine','Distrações e tarefas que não levam a lugar nenhum.','var(--muted)']];
+
+/* ================= EXEMPLO (semijoias) ================= */
+const EX={l:{},t:{},o:{obj:''},ck:{},tb:{},p:{}};
+(()=>{const m=(k,a)=>EX.l['mk_'+k]=a.map(t=>({t,v:''}));
+ EX.o.mk_obj='dp';EX.t.mk_obj_txt='Desenvolver um novo produto';EX.t.mk_meta='Faturar R$ 36.000,00 com este novo produto em 2023 (bracelete feminino de ouro 18k)';
+ m('for',['Marca forte da empresa (mais de 15 anos e registrada)','Equipe criativa e capaz de criar produtos','Capital de giro disponível para investir','Nota de satisfação dos clientes elevada']);
+ m('fra',['Pouca presença digital da empresa','Falta treinar a equipe para usar novas tecnologias','Falta de indicadores de resultados por produto','Cadastros de clientes incompletos']);
+ m('fcs',['Preço','Forma de pagamento','Qualidade do atendimento','Variedade de produtos']);
+ m('cli',['Mulheres independentes que moram em São Paulo, com cerca de 35 anos, renda superior a 5 mil, ensino superior completo e que, para manter o status social, consomem produtos diferenciados']);
+ m('pro',['Deve possuir uma inovação do tipo incremental','Precisa ter embalagem diferenciada','Deve permitir a customização pelo cliente','Deve reforçar o status de pessoas bem sucedidas']);
+ m('pra',['Venda pelo Instagram da empresa','Venda direta na loja da empresa com abordagem de venda consultiva']);
+ m('opo',['Clientes interessados em novidades','Clientes com poder aquisitivo','Parcerias com grupos de empreendedorismo feminino','Parcerias com influenciadores locais']);
+ m('ame',['Concorrência','Parte da matéria-prima importada','Prazo de pagamento dos fornecedores']);
+ m('prop',['Produto inovador que enaltece o status social de mulheres bem sucedidas']);
+ m('pre',['Preço mínimo de R$ 500,00','Em combo, até 10% de desconto']);
+ m('prm',['Fazer marketing de conteúdo','Parceria com influencers locais','Investir em tráfego pago no Instagram e Google','Atuar por meio de grupos de empreendedorismo feminino']);
+ m('rec',['Venda direta do produto']);
+ EX.l.mk_inv=[{t:'Tráfego pago',v:'2000'},{t:'Treinamento da equipe',v:'3500'},{t:'Patrocínio de grupos de empreendedorismo feminino',v:'1500'}];
+ m('ind',['Faturamento com o novo produto','Satisfação dos clientes em relação ao produto','Ticket médio dos clientes']);
+})();
+
+/* ================= PROGRESSO ================= */
+function blockFrac(c,b,src=S){
+  const key=KEYFOR(c,b);
+  if(b.kind==='obj')return ((src.o[key]?1:0)+((src.t[key+'_txt']||'').trim()?1:0))/2;
+  if(b.kind==='meta'||b.kind==='text')return (src.t[key]||'').trim().length>(b.kind==='meta'?10:2)?1:0;
+  return Math.min(1,L(key,src).filter(i=>i.t.trim()).length/(b.min||1));
+}
+const frac=(c,keys)=>{const B=c==='mk'?MKB:VDB;return keys.reduce((a,k)=>a+blockFrac(c,B[k]),0)/keys.length};
+function tableCount(key,f){return TB(key).filter(r=>(r[f]||'').trim()).length}
+const ishTotal=()=>CAUSAS.reduce((a,_,i)=>a+L('ish'+i).filter(x=>x.t.trim()).length,0);
+
+/* ================= VIEWS ================= */
+const VIEWS=[];
+const addV=(id,g,t,render,done)=>VIEWS.push({id,g,t,render,done});
+const blocksView=(c,keys,extra)=>()=>{const B=c==='mk'?MKB:VDB;return keys.map(k=>blockHtml(c,B[k])).join('')+(extra?extra():'')};
+addV('inicio','Começar','Meu perfil',vPerfil,()=>(S.p.nome&&S.p.empresa&&S.p.produto)?1:0);
+addV('mk1','Canvas de Marketing','1-2 · Objetivo e meta',blocksView('mk',['obj','meta']),()=>frac('mk',['obj','meta']));
+addV('mk2','','3 · Fatores chave de sucesso',blocksView('mk',['fcs']),()=>frac('mk',['fcs']));
+addV('mk3','','4-7 · SWOT / FOFA',blocksView('mk',['for','fra','opo','ame'],()=>reflexao('Perguntas para refletir sobre a empresa',REFL_E)),()=>frac('mk',['for','fra','opo','ame']));
+addV('mk4','','8 · Clientes (persona)',blocksView('mk',['cli']),()=>frac('mk',['cli']));
+addV('mk5','','9 · Proposta de valor',blocksView('mk',['prop']),()=>frac('mk',['prop']));
+addV('mk6','','10-13 · Mix de marketing (4Ps)',blocksView('mk',['pro','pra','pre','prm']),()=>frac('mk',['pro','pra','pre','prm']));
+addV('mk7','','14-15 · Receitas e investimentos',blocksView('mk',['rec','inv'],()=>`<div class="card"><h3>Tipos de fonte de receita</h3><div class="tablewrap"><table class="t"><tr><th>Tipo</th><th>Definição</th><th>Exemplos</th></tr>${RECTIPOS.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</table></div></div>`),()=>frac('mk',['rec','inv']));
+addV('mk8','','16 · Indicadores',blocksView('mk',['ind']),()=>frac('mk',['ind']));
+addV('mkv','','Meu Canvas de Marketing',vCanvasMk,()=>frac('mk',MK.map(b=>b.k)));
+addV('swp','Kit de ferramentas','SWOT pessoal',vSwp,()=>SWP.reduce((a,b)=>a+Math.min(1,L('swp_'+b.k).filter(i=>i.t.trim()).length/3),0)/4);
+addV('swe','','SWOT da empresa',()=>`<div class="banner">É o mesmo SWOT do Canvas de Marketing (blocos 4 a 7): o que você escrever aqui aparece lá.</div>`+blocksView('mk',['for','fra','opo','ame'],()=>reflexao('Perguntas para refletir sobre a empresa',REFL_E))(),()=>frac('mk',['for','fra','opo','ame']));
+addV('ish','','Diagrama de Ishikawa',vIshikawa,()=>Math.min(1,((S.t.ish_ef||'').trim()?1:0)*0.4+Math.min(1,ishTotal()/3)*0.6));
+addV('ppe','','Plano de ação pessoal',()=>vPlano('ppe','Plano de ação pessoal','Com forças, fraquezas, oportunidades e ameaças pessoais definidas, planeje ações para desenvolver novas habilidades e usar seus pontos fortes a favor de você e do negócio.'),()=>Math.min(1,tableCount('ppe','o')/3));
+addV('pem','','Plano de ação da empresa',()=>vPlano('pem','Plano de ação da empresa','Use as forças da empresa para explorar oportunidades e crie ações para reduzir as fraquezas e deixar o negócio menos vulnerável às ameaças.'),()=>Math.min(1,tableCount('pem','o')/3));
+addV('ind','','Indicadores e metas SMART',vIndicadores,()=>Math.min(1,tableCount('ind','ind')/2));
+addV('pdca','','PDCA: executar e melhorar',vPdca,()=>((S.t.pdca_ap||'').trim()||L('pdca_acoes').length||TB('ind').some(r=>(r.res||'').trim()))?1:0);
+addV('vd1','Bônus','Canvas de Vendas · Produto e cliente',blocksView('vd',['prod','meta','tdg','jtbd','obj']),()=>frac('vd',['prod','meta','tdg','jtbd','obj']));
+addV('vd2','','Canvas de Vendas · Atrair a vender',blocksView('vd',['atr','con','ven','tick']),()=>frac('vd',['atr','con','ven','tick']));
+addV('vd3','','Canvas de Vendas · Reter e canais',blocksView('vd',['ret','can','log','eq']),()=>frac('vd',['ret','can','log','eq']));
+addV('vd4','','Canvas de Vendas · Números',blocksView('vd',['rec','inv','kpi']),()=>frac('vd',['rec','inv','kpi']));
+addV('vdv','','Meu Canvas de Vendas',vCanvasVd,()=>frac('vd',VD.map(b=>b.k)));
+addV('tempo','','Gestão do tempo',vTempo,()=>Math.min(1,Q4.reduce((a,q)=>a+L('tm_'+q[0]).length,0)/4));
+addV('plano','Entrega','Meu plano completo',vResumo,()=>0);
+addV('aval','','Avaliação da oficina',vAval,()=>(S.av.gostou||S.av.nota!=null&&S.av.nota!=='')?1:0);
+addV('ex','','Ver exemplo (semijoias)',vExemplo,()=>0);
+let cur='inicio';
+
+/* ----- renderizadores de peças ----- */
+function blockHtml(c,b){
+  const key=KEYFOR(c,b);let body='';
+  if(b.kind==='obj')body=objBody(key);
+  else if(b.kind==='meta')body=metaBody(key);
+  else if(b.kind==='text')body=`<textarea rows="2" data-t="${key}" placeholder="Escreva aqui">${esc(S.t[key]||'')}</textarea>`;
+  else body=(b.kind==='persona'?personaExtra(key):'')+listBody(key,b);
+  return `<div class="blk g-${b.g}" id="b_${key}"><div class="bh"><span class="num">${b.n}</span><h3>${esc(b.t)}</h3><span class="cnt" data-cnt="${key}" data-c="${c}" data-bk="${b.k}"></span>${b.tempo?`<button class="tm" data-timer="${b.tempo}" data-label="${esc(b.t)}" title="Iniciar cronômetro">⏱ ${b.tempo} min</button>`:''}</div><p class="dica">${esc(b.dica)}</p>${body}</div>`;
+}
+function listBody(key,b){
+  const items=L(key);
+  return `<div class="items">${items.map((it,i)=>`<div class="it"><textarea rows="2" data-li="${key}" data-i="${i}">${esc(it.t)}</textarea>${b.valor?`<div class="money"><span>R$</span><input type="text" inputmode="decimal" placeholder="valor mensal (opcional)" data-lv="${key}" data-i="${i}" value="${esc(it.v||'')}"></div>`:''}<button class="x" data-ldel="${key}" data-i="${i}" aria-label="Remover item">×</button></div>`).join('')}</div>
+  <div class="add"><input type="text" id="add_${key}" data-addin="${key}" placeholder="Escreva e tecle Enter"><button class="btn btn-main" data-ladd="${key}">Adicionar</button></div>
+  ${b.chips?`<div class="chips">${b.chips.map(c=>`<button class="chip" data-chip="${key}" data-txt="${esc(c)}">+ ${esc(c)}</button>`).join('')}</div>`:''}
+  ${b.valor?`<div class="sum" data-sum="${key}"></div>`:''}`;
+}
+function objBody(key){
+  return `<div class="matrix"><div></div><div class="h">Produtos existentes</div><div class="h">Produtos novos</div><div class="h">Mercado existente</div><div>Penetração de mercado</div><div>Desenvolvimento de produto</div><div class="h">Mercado novo</div><div>Desenvolvimento de mercado</div><div>Diversificação</div></div>
+  <div class="radios">${OBJS.map(o=>`<label class="radio"><b><input type="radio" name="${key}" data-o="${key}" value="${o[0]}" ${S.o[key]===o[0]?'checked':''}>${o[1]}</b><small>${o[2]}</small></label>`).join('')}</div>
+  <div class="field" style="margin-top:10px"><label>O que você quer alcançar com o produto ou serviço escolhido?</label><textarea rows="2" data-t="${key}_txt" placeholder="Ex.: vender mais bijuterias para as clientes que já atendo">${esc(S.t[key+'_txt']||'')}</textarea></div>`;
+}
+function metaBody(key){
+  const ck=(s,l)=>`<label><input type="checkbox" data-ck="${key}_${s}" ${S.ck[key+'_'+s]?'checked':''}>${l}</label>`;
+  return `<textarea rows="3" data-t="${key}" placeholder="Ex.: Aumentar o número de clientes atendidos em 10% entre 01/01/2026 e 31/12/2026">${esc(S.t[key]||'')}</textarea>
+  <div class="hintbox" data-smart="${key}"></div>
+  <div class="smart">${ck('s','Específica')}${ck('m','Mensurável')}${ck('a','Atingível')}${ck('r','Relevante')}${ck('t','Temporal')}</div>
+  <details class="dt"><summary>Me ajude a montar a frase</summary><div class="grid" style="margin-top:8px">
+   <div class="field"><label>O que vai crescer ou ser alcançado?</label><input type="text" id="mb1_${key}" placeholder="Ex.: o faturamento do produto A"></div>
+   <div class="field"><label>Quanto?</label><input type="text" id="mb2_${key}" placeholder="Ex.: R$ 36.000 ou 10%"></div>
+   <div class="field"><label>Até quando? (datas de início e fim)</label><input type="text" id="mb3_${key}" placeholder="Ex.: de 01/01/2026 a 31/12/2026"></div>
+   <div class="field" style="align-self:end"><button class="btn btn-navy" data-mbuild="${key}">Montar frase</button></div></div></details>`;
+}
+function personaExtra(key){
+  return `<details class="dt"><summary>Mapa da empatia: sentimentos e necessidades para inspirar</summary>
+  <p class="sub" style="margin:6px 0">Clique para começar uma característica e complete antes de adicionar.</p>
+  <div class="chips">${SENT.map(s=>`<button class="chip" data-chip="${key}" data-txt="Sente-se ${esc(s.toLowerCase())} quando ">${esc(s)}</button>`).join('')}</div>
+  <p class="sub" style="margin:10px 0 0">Necessidades</p>
+  <div class="chips">${NECE.map(s=>`<button class="chip" data-chip="${key}" data-txt="Precisa de ${esc(s.toLowerCase())}: ">${esc(s)}</button>`).join('')}</div></details>`;
+}
+function reflexao(t,arr){return `<details class="card"><summary style="cursor:pointer;font-weight:800">${t}</summary><ul class="tight" style="margin:8px 0;padding-left:20px">${arr.map(q=>`<li>${esc(q)}</li>`).join('')}</ul></details>`}
+
+function vPerfil(){
+  const f=(k,l,ph,full)=>`<div class="field ${full?'full':''}"><label>${l}</label><input type="text" data-p="${k}" value="${esc(S.p[k]||'')}" placeholder="${ph}"></div>`;
+  return `<div class="card"><h2>Bem-vindo(a)!</h2><p class="sub">Aqui você monta o plano de marketing de <b>um produto ou serviço</b> da sua empresa, bloco a bloco, como na oficina. Comece pelo seu perfil e siga o menu pela ordem.</p>
+  <div class="grid">${f('nome','Seu nome','Como quer ser chamado(a)')}${f('empresa','Nome da empresa','Ex.: Studio Aurora')}${f('segmento','Segmento de atuação','Ex.: semijoias')}${f('produto','Produto ou serviço do plano','Escolha apenas um para este plano')}${f('turma','Turma ou data (opcional)','Ex.: Turma 3, 12/03')}</div>
+  <div class="hintbox" style="margin-top:12px"><b>Como funciona:</b> o plano é seu e individual. Ele salva sozinho neste aparelho. Ao terminar, use <b>Salvar meu arquivo</b> para guardar uma cópia ou enviar ao instrutor, e <b>Imprimir ou PDF</b> no “Meu plano completo”.</div>
+  <div class="actions"><button class="btn btn-navy" data-go="mk1">Começar o Canvas de Marketing</button><button class="btn btn-ghost" data-go="ex">Ver exemplo pronto</button><button class="btn btn-ghost" id="bSave">Salvar meu arquivo</button><button class="btn btn-ghost" id="bOpen">Abrir arquivo salvo</button><button class="btn btn-ghost" id="bReset">Começar do zero</button></div></div>
+  <div class="card"><h3>Roteiro sugerido (oficina de 4 horas)</h3><div class="tablewrap"><table class="t"><tr><th>Bloco</th><th>Tema</th><th>Tempo</th></tr><tr><td>Abertura</td><td>Apresentações e expectativas</td><td>30'</td></tr><tr><td>1 e 2</td><td>Objetivo e meta</td><td>15' cada</td></tr><tr><td>3</td><td>Fatores chave de sucesso</td><td>10'</td></tr><tr><td>4 a 7</td><td>SWOT / FOFA</td><td>20'</td></tr><tr><td>8</td><td>Clientes</td><td>15'</td></tr><tr><td>9</td><td>Proposta de valor</td><td>15'</td></tr><tr><td>10 a 13</td><td>Mix de marketing</td><td>25'</td></tr><tr><td>14, 15 e 16</td><td>Receitas, investimentos e indicadores</td><td>10' cada</td></tr><tr><td>Final</td><td>Ferramentas do kit e encerramento</td><td>20'</td></tr></table></div></div>`;
+}
+function vCanvasMk(){return `<div class="card"><h2>Meu Canvas de Marketing</h2><p class="sub">Visão completa dos 16 blocos${S.p.produto?' de <b>'+esc(S.p.produto)+'</b>':''}. Volte aos blocos para editar.</p>${canvasMk(S)}<div class="actions"><button class="btn btn-main" onclick="window.print()">Imprimir ou salvar em PDF</button></div></div>`}
+function vCanvasVd(){return `<div class="card"><h2>Meu Canvas de Vendas</h2><p class="sub">Visão completa dos 16 blocos.</p>${canvasVd(S)}<div class="actions"><button class="btn btn-main" onclick="window.print()">Imprimir ou salvar em PDF</button></div></div>`}
+function vExemplo(){return `<div class="card"><h2>Exemplo: microempresa de semijoias</h2><p class="sub">É assim que fica um Canvas de Marketing preenchido. Use como inspiração e depois volte ao seu.</p>${canvasMk(EX)}<div class="actions"><button class="btn btn-navy" data-go="mk1">Voltar e fazer o meu</button></div></div>`}
+
+function cvCell(src,c,b,span){
+  const key=KEYFOR(c,b);let inner='';
+  if(b.kind==='obj'){const o=OBJS.find(x=>x[0]===src.o[key]);const t=(src.t[key+'_txt']||'').trim();inner=(o?`<div class="pn"><b>${o[1]}</b>${t?': '+esc(t):''}</div>`:t?`<div class="pn">${esc(t)}</div>`:'')}
+  else if(b.kind==='meta'||b.kind==='text'){const t=(src.t[key]||'').trim();inner=t?`<div class="pn">${esc(t)}</div>`:''}
+  else inner=L(key,src).filter(i=>i.t.trim()).map(i=>`<div class="pn">${esc(i.t)}${(b.valor&&num(i.v))?' · <b>'+brl(num(i.v))+'</b>':''}</div>`).join('');
+  return `<div class="c-${b.g}" style="grid-column:span ${span}"><h5>${esc(b.t)}<em>${b.n}</em></h5>${inner||'<span class="emp">vazio</span>'}</div>`;
+}
+function canvasMk(src){
+  const o=[['obj',3],['meta',3],['for',1],['fra',1],['fcs',1],['cli',1],['pro',1],['pra',1],['opo',1],['ame',1],['prop',2],['pre',1],['prm',1],['rec',2],['inv',2],['ind',2]];
+  return `<div class="cv">${o.map(([k,s])=>cvCell(src,'mk',MKB[k],s)).join('')}</div>`;
+}
+function canvasVd(src){
+  const o=[['prod',3],['meta',3],['atr',1],['con',1],['obj',1],['tdg',1],['can',1],['log',1],['ven',1],['ret',1],['jtbd',2],['eq',1],['kpi',1],['tick',2],['inv',2],['rec',2]];
+  return `<div class="cv">${o.map(([k,s])=>cvCell(src,'vd',VDB[k],s)).join('')}</div>`;
+}
+function vSwp(){
+  return `<div class="card"><h2>SWOT / FOFA pessoal</h2><p class="sub">O negócio é o reflexo de quem o conduz. Comece por você.</p></div>`+SWP.map(b=>{const key='swp_'+b.k;return `<div class="blk g-swot" id="b_${key}"><div class="bh"><span class="num">${b.n}</span><h3>${b.t}</h3><span class="cnt" data-cnt="${key}" data-min="3"></span></div><p class="dica">${b.dica}</p>${listBody(key,{})}</div>`}).join('')+reflexao('Perguntas para refletir sobre você',REFL_P);
+}
+function vIshikawa(){
+  const fr=L('mk_fra').filter(i=>i.t.trim());
+  return `<div class="card"><h2>Diagrama de Ishikawa (espinha de peixe)</h2><p class="sub">Todo negócio tem problemas e gargalos. Para achar a causa, descreva o problema (efeito) e liste causas nas 6 famílias. Depois, transforme as causas em ações no plano.</p>
+  <div class="effect"><div class="field"><label>Efeito: qual problema você observa?</label><textarea rows="2" data-t="ish_ef" placeholder="Ex.: poucos clientes voltam a comprar">${esc(S.t.ish_ef||'')}</textarea></div>
+  ${fr.length?`<div class="field" style="margin-top:8px"><label>Ou use uma fraqueza do seu SWOT</label><select id="ishSel"><option value="">Escolher…</option>${fr.map(f=>`<option>${esc(f.t)}</option>`).join('')}</select></div>`:''}</div>
+  <div class="fish">${CAUSAS.map((c,i)=>`<div class="fishc"><h4>${i+1}. ${c}</h4><p class="sub" style="margin-bottom:8px">${CAUSA_DICA[i]}</p>${listBody('ish'+i,{})}</div>`).join('')}</div></div>`;
+}
+function tableView(key,fields,rowTitle){
+  const rows=TB(key);
+  return rows.map((r,i)=>`<div class="act" ${key==='ppe'||key==='pem'?'data-st="'+esc(r.st||'Não iniciado')+'"':''}><button class="btn btn-ghost btn-sm rm" data-tbdel="${key}" data-i="${i}">Remover</button><h4>${rowTitle} ${i+1}</h4><div class="grid">${fields.map(f=>{
+    const v=r[f.f]||'';const full=f.a?'full':'';
+    if(f.s)return `<div class="field"><label>${f.l}</label><select data-tb="${key}" data-i="${i}" data-f="${f.f}">${f.s.map(o=>`<option ${o===(v||f.s[0])?'selected':''}>${o}</option>`).join('')}</select></div>`;
+    if(f.m)return `<div class="field"><label>${f.l}</label><div class="money"><span>R$</span><input type="text" inputmode="decimal" data-tb="${key}" data-i="${i}" data-f="${f.f}" value="${esc(v)}"></div></div>`;
+    if(f.a)return `<div class="field ${full}"><label>${f.l}</label><textarea rows="2" data-tb="${key}" data-i="${i}" data-f="${f.f}">${esc(v)}</textarea></div>`;
+    return `<div class="field"><label>${f.l}</label><input type="text" data-tb="${key}" data-i="${i}" data-f="${f.f}" value="${esc(v)}"></div>`}).join('')}</div></div>`).join('');
+}
+function vPlano(key,titulo,intro){
+  const rows=TB(key);const cnt=Object.fromEntries(STATUS.map(s=>[s,rows.filter(r=>(r.st||'Não iniciado')===s).length]));
+  const custo=rows.reduce((a,r)=>a+num(r.cost),0);
+  const sug=key==='pem'?`<button class="btn btn-ghost" data-tbsug="pem">Sugerir ações a partir do SWOT</button>`:'';
+  return `<div class="card"><h2>${titulo} (5W2H)</h2><p class="sub">${intro}</p>
+  <div class="statbar">${STATUS.map(s=>`<span>${s}: ${cnt[s]}</span>`).join('')}<span>Custo total estimado: ${brl(custo)}</span></div>
+  ${tableView(key,PLANO_F,'Ação')}
+  <div class="actions"><button class="btn btn-main" data-tbadd="${key}">Adicionar ação</button>${sug}</div></div>`;
+}
+function vIndicadores(){
+  return `<div class="card"><h2>Indicadores e metas (SMART)</h2><p class="sub">Para cada indicador, responda: por que medir? Qual a relação com os objetivos? Qual o nível esperado? Como, com que frequência e em que fonte será medido? Quem é o responsável? Cuide para que medir não custe mais do que o processo medido.</p>
+  ${S.l.mk_ind&&L('mk_ind').length?`<div class="hintbox">Você listou ${L('mk_ind').length} indicador(es) no Canvas. <button class="btn btn-ghost btn-sm" data-tbimp="1">Trazer para esta tabela</button></div>`:''}
+  ${tableView('ind',IND_F,'Indicador')}
+  <div class="actions"><button class="btn btn-main" data-tbadd="ind">Adicionar indicador</button></div>
+  <details class="dt"><summary>Ideias de indicadores por setor</summary>${Object.entries(IND_EX).map(([s,a])=>`<p style="margin:8px 0 4px"><b>${s}</b> <button class="btn btn-ghost btn-sm" data-tbex="${s}">Usar estes como base</button></p><ul>${a.map(r=>`<li>${r[0]}</li>`).join('')}</ul>`).join('')}</details></div>`;
+}
+function vPdca(){
+  const acoes=TB('pem');const done=acoes.filter(r=>r.st==='Concluído').length;
+  const inds=TB('ind').filter(r=>(r.ind||'').trim());
+  return `<div class="card"><h2>PDCA: executar, checar e agir</h2><p class="sub">Com o planejamento pronto, execute, confira se as metas estão sendo atingidas e ajuste. O ciclo se repete sempre.</p>
+  <div class="two"><div class="act"><h4>P · PLANEJAR (já feito)</h4><p><b>Meta:</b> ${esc((S.t.mk_meta||'ainda sem meta no Canvas').slice(0,200))}</p><p><b>Ações planejadas:</b> ${acoes.length}</p></div>
+  <div class="act"><h4>D · EXECUTAR</h4><p><b>Ações concluídas:</b> ${done} de ${acoes.length}</p><button class="btn btn-ghost btn-sm" data-go="pem">Atualizar status do plano</button></div></div>
+  <div class="act"><h4>C · CHECAR: resultados contra as metas</h4>${inds.length?TB('ind').map((r,i)=>(r.ind||'').trim()?`<div class="grid" style="margin-bottom:8px"><div class="field"><label>${esc(r.ind)} <small>(meta: ${esc(r.meta||'sem meta')})</small></label><input type="text" data-tb="ind" data-i="${i}" data-f="res" value="${esc(r.res||'')}" placeholder="Resultado obtido"></div><div class="field"><label>Atingiu?</label><select data-tb="ind" data-i="${i}" data-f="ok">${['','Sim','Em parte','Não'].map(o=>`<option ${o===(r.ok||'')?'selected':''}>${o}</option>`).join('')}</select></div></div>`:'').join(''):`<p class="sub">Cadastre indicadores na ferramenta anterior para checar aqui.</p><button class="btn btn-ghost btn-sm" data-go="ind">Ir para indicadores</button>`}</div>
+  <div class="act"><h4>A · AGIR: melhorias para o próximo ciclo</h4>${listBody('pdca_acoes',{})}<div class="field" style="margin-top:10px"><label>O que aprendi neste ciclo?</label><textarea rows="3" data-t="pdca_ap">${esc(S.t.pdca_ap||'')}</textarea></div></div></div>`;
+}
+function vTempo(){
+  return `<div class="card"><h2>Matriz de gestão do tempo</h2><p class="sub">Se o tempo é seu maior desafio para executar o plano, classifique as tarefas pela urgência e pela importância. O plano acontece no quadrante 2.</p>
+  <div class="q4">${Q4.map(q=>`<div style="border-color:${q[4]}"><h4 style="color:${q[4]}">${q[1]}</h4><small><b>${q[2]}.</b> ${q[3]}</small>${listBody('tm_'+q[0],{})}</div>`).join('')}</div></div>`;
+}
+function vAval(){
+  const pct=Math.round(frac('mk',MK.map(b=>b.k))*100);
+  return `<div class="card"><h2>Avaliação da oficina</h2><p class="sub">Sua opinião ajuda a melhorar a oficina. Ela fica salva no seu arquivo.</p>
+  <div class="hintbox">Você preencheu cerca de <b>${pct}%</b> do Canvas de Marketing. ${pct>=70?'Passou dos 70%!':'A meta da oficina é chegar a pelo menos 70%.'}</div>
+  <div class="grid">
+   <div class="field"><label>Achou o método mais simples, fácil e visual?</label><select data-av="simples">${['','Sim','Em parte','Não'].map(o=>`<option ${o===(S.av.simples||'')?'selected':''}>${o}</option>`).join('')}</select></div>
+   <div class="field"><label>Qual a chance de indicar a oficina? (0 a 10)</label><select data-av="nota">${['',0,1,2,3,4,5,6,7,8,9,10].map(o=>`<option ${String(o)===String(S.av.nota??'')?'selected':''}>${o}</option>`).join('')}</select></div>
+   <div class="field full"><label>O que mais gostou do Canvas?</label><textarea rows="3" data-av="gostou">${esc(S.av.gostou||'')}</textarea></div>
+   <div class="field full"><label>O que podemos melhorar?</label><textarea rows="3" data-av="melhorar">${esc(S.av.melhorar||'')}</textarea></div></div>
+  <div class="actions"><button class="btn btn-main" id="bSave">Salvar meu arquivo</button></div></div>`;
+}
+function readList(key,src=S){const a=L(key,src).filter(i=>i.t.trim());return a.length?`<ul style="margin:4px 0;padding-left:18px">${a.map(i=>`<li>${esc(i.t)}${num(i.v)?' · '+brl(num(i.v)):''}</li>`).join('')}</ul>`:'<p class="sub">—</p>'}
+function vResumo(){
+  const p=S.p;
+  const rows=(key,f)=>TB(key).filter(r=>(r[f]||'').trim());
+  const tbl=(key,cols,f)=>{const r=rows(key,f);return r.length?`<div class="tablewrap"><table class="t"><tr>${cols.map(c=>`<th>${c[1]}</th>`).join('')}</tr>${r.map(x=>`<tr>${cols.map(c=>`<td>${esc(x[c[0]]||'')}</td>`).join('')}</tr>`).join('')}</table></div>`:'<p class="sub">—</p>'};
+  return `<div class="card"><h2>Meu plano de marketing</h2><p><b>${esc(p.nome||'Aluno(a)')}</b> · ${esc(p.empresa||'empresa')} · ${esc(p.segmento||'')}<br>Produto ou serviço: <b>${esc(p.produto||'—')}</b>${p.turma?'<br>'+esc(p.turma):''}</p>
+  <div class="actions"><button class="btn btn-main" onclick="window.print()">Imprimir ou salvar em PDF</button><button class="btn btn-ghost" id="bSave">Salvar meu arquivo</button></div></div>
+  <div class="card"><h3>Canvas de Marketing</h3>${canvasMk(S)}</div>
+  <div class="card"><h3>Canvas de Vendas</h3>${canvasVd(S)}</div>
+  <div class="card"><h3>SWOT pessoal</h3><div class="two">${SWP.map(b=>`<div><b>${b.t}</b>${readList('swp_'+b.k)}</div>`).join('')}</div></div>
+  <div class="card"><h3>Ishikawa</h3><p><b>Problema:</b> ${esc(S.t.ish_ef||'—')}</p><div class="two">${CAUSAS.map((c,i)=>`<div><b>${c}</b>${readList('ish'+i)}</div>`).join('')}</div></div>
+  <div class="card"><h3>Plano de ação pessoal</h3>${tbl('ppe',[['o','O que'],['p','Por que'],['c','Como'],['on','Onde'],['q','Quando'],['w','Quem'],['cost','Custo'],['st','Status']],'o')}</div>
+  <div class="card"><h3>Plano de ação da empresa</h3>${tbl('pem',[['o','O que'],['p','Por que'],['c','Como'],['on','Onde'],['q','Quando'],['w','Quem'],['cost','Custo'],['st','Status']],'o')}</div>
+  <div class="card"><h3>Indicadores e metas</h3>${tbl('ind',[['ind','Indicador'],['fin','Finalidade'],['meta','Meta'],['met','Métrica'],['fre','Frequência'],['fon','Fonte'],['resp','Responsável'],['res','Resultado']],'ind')}</div>
+  <div class="card"><h3>Gestão do tempo</h3><div class="two">${Q4.map(q=>`<div><b>${q[1]}</b>${readList('tm_'+q[0])}</div>`).join('')}</div></div>`;
+}
+
+/* ================= NAVEGAÇÃO / RENDER ================= */
+function renderNav(){
+  let h='';
+  VIEWS.forEach(v=>{
+    if(v.g)h+=`<div class="grp">${v.g}</div>`;
+    const f=v.done();const st=['plano','ex'].includes(v.id)?'':(f>=1?'✓':f>0?Math.round(f*100)+'%':'');
+    h+=`<button data-go="${v.id}" class="${v.id===cur?'on':''}">${v.t}<span class="st ${f>=1?'ok':''}">${st}</span></button>`;
+  });
+  $('#nav').innerHTML=h;
+}
+function render(opt={}){
+  const v=VIEWS.find(x=>x.id===cur);const y=window.scrollY;
+  const i=VIEWS.indexOf(v);const prev=VIEWS[i-1],next=VIEWS[i+1];
+  $('#view').innerHTML=v.render()+`<div class="pager noprint">${prev?`<button class="btn btn-ghost" data-go="${prev.id}">← ${prev.t}</button>`:'<span></span>'}${next?`<button class="btn btn-navy" data-go="${next.id}">${next.t} →</button>`:''}</div>`;
+  renderNav();refresh();
+  if(opt.keep)window.scrollTo(0,y);
+  if(opt.focus){const e=document.getElementById(opt.focus);if(e)e.focus({preventScroll:true})}
+}
+function go(id){cur=id;try{history.replaceState(null,'','#'+id)}catch(e){}render();window.scrollTo(0,0)}
+function refresh(){
+  $$('[data-cnt]').forEach(el=>{
+    const key=el.dataset.cnt;let min=+el.dataset.min;let n;
+    if(el.dataset.bk){const b=(el.dataset.c==='mk'?MKB:VDB)[el.dataset.bk];min=b.min;n=b.kind==='obj'||b.kind==='meta'||b.kind==='text'?null:L(key).filter(i=>i.t.trim()).length}
+    else n=L(key).filter(i=>i.t.trim()).length;
+    if(n==null){const b=(el.dataset.c==='mk'?MKB:VDB)[el.dataset.bk];const f=blockFrac(el.dataset.c,b);el.textContent=f>=1?'completo':'preencher';el.classList.toggle('ok',f>=1);return}
+    el.textContent=min?`${n}/${min}`:`${n} item(ns)`;el.classList.toggle('ok',!min||n>=min);
+  });
+  $$('[data-sum]').forEach(el=>{const t=L(el.dataset.sum).reduce((a,i)=>a+num(i.v),0);el.textContent=t?'Total estimado: '+brl(t):''});
+  $$('[data-smart]').forEach(el=>{const t=S.t[el.dataset.smart]||'';const m=/\d/.test(t),d=/(20\d\d|\d{1,2}\/\d{1,2}|até|dias|meses|semanas|ano)/i.test(t);el.textContent=!t.trim()?'Escreva a meta e marque as 5 características quando conferir.':(m&&d?'Boa: a meta tem número e prazo. Confira Atingível e Relevante.':m?'Tem número. Falta um prazo (datas de início e fim).':d?'Tem prazo. Falta um número para medir.':'Dica: coloque um número e um prazo.')});
+  const mk=Math.round(frac('mk',MK.map(b=>b.k))*100);
+  const vs=VIEWS.filter(v=>!['plano','ex'].includes(v.id));const all=Math.round(vs.reduce((a,v)=>a+Math.min(1,v.done()),0)/vs.length*100);
+  $('#p_mk').textContent=mk+'%';$('#b_mk').style.width=mk+'%';$('#p_all').textContent=all+'%';$('#b_all').style.width=all+'%';
+  $('#hsub').textContent=S.p.nome?`${S.p.nome}${S.p.empresa?' · '+S.p.empresa:''}${S.p.produto?' · '+S.p.produto:''}`:'Oficina prática com o Canvas de Marketing e ferramentas de planejamento';
+}
+
+/* ================= EVENTOS ================= */
+const view=$('#view');
+function mut(){save();refresh();renderNavSoft()}
+function renderNavSoft(){const sc=$('#nav').scrollTop;renderNav();$('#nav').scrollTop=sc}
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.t!=null){S.t[t.dataset.t]=t.value;mut()}
+  else if(t.dataset.p!=null){S.p[t.dataset.p]=t.value;mut()}
+  else if(t.dataset.li!=null){L(t.dataset.li)[+t.dataset.i].t=t.value;mut()}
+  else if(t.dataset.lv!=null){L(t.dataset.lv)[+t.dataset.i].v=t.value;mut()}
+  else if(t.dataset.tb!=null){TB(t.dataset.tb)[+t.dataset.i][t.dataset.f]=t.value;mut();if(t.dataset.f==='st')t.closest('.act').setAttribute('data-st',t.value)}
+  else if(t.dataset.av!=null){S.av[t.dataset.av]=t.value;mut()}
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.o!=null){S.o[t.dataset.o]=t.value;mut()}
+  else if(t.dataset.ck!=null){S.ck[t.dataset.ck]=t.checked;save()}
+  else if(t.dataset.tb!=null&&t.dataset.f==='st'){render({keep:true})}
+  else if(t.id==='ishSel'&&t.value){S.t.ish_ef=t.value;save();render({keep:true})}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.addin&&!e.shiftKey){e.preventDefault();ladd(e.target.dataset.addin)}});
+function ladd(key){const inp=$('#add_'+key);const v=inp.value.trim();if(!v)return;L(key).push({t:v,v:''});save();render({keep:true,focus:'add_'+key})}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button,[data-go]');if(!b)return;
+  const d=b.dataset;
+  if(d.go){go(d.go);return}
+  if(d.ladd){ladd(d.ladd);return}
+  if(d.ldel!=null){L(d.ldel).splice(+d.i,1);save();render({keep:true});return}
+  if(d.chip){const inp=$('#add_'+d.chip);inp.value=d.txt;inp.focus();return}
+  if(d.tbadd){TB(d.tbadd).push({});save();render({keep:true});return}
+  if(d.tbdel){if(confirm('Remover este item?')){TB(d.tbdel).splice(+d.i,1);save();render({keep:true})}return}
+  if(d.tbimp){L('mk_ind').filter(i=>i.t.trim()).forEach(i=>{if(!TB('ind').some(r=>r.ind===i.t))TB('ind').push({ind:i.t})});save();render({keep:true});return}
+  if(d.tbex){(IND_EX[d.tbex]||[]).forEach(r=>TB('ind').push({ind:r[0],fin:r[1],obj:r[2],meta:r[3],met:r[4],fre:r[5],fon:r[6]}));save();render({keep:true});return}
+  if(d.tbsug){const add=(arr,pre)=>arr.filter(i=>i.t.trim()).forEach(i=>TB('pem').push({o:pre+i.t,st:'Não iniciado'}));add(L('mk_fra'),'Reduzir: ');add(L('mk_opo'),'Aproveitar: ');add(L('mk_ame'),'Minimizar impacto de: ');save();render({keep:true});return}
+  if(d.mbuild){const k=d.mbuild;const a=$('#mb1_'+k).value.trim(),q=$('#mb2_'+k).value.trim(),p=$('#mb3_'+k).value.trim();if(a||q||p){S.t[k]=`Alcançar ${q||'__'} em ${a||'__'}${p?' '+p:' no período __'}.`;save();render({keep:true})}return}
+  if(d.timer){startTimer(+d.timer,d.label);return}
+  if(b.id==='bSave'){exportar();return}
+  if(b.id==='bOpen'){$('#fileIn').click();return}
+  if(b.id==='bReset'){if(confirm('Apagar tudo e começar do zero neste aparelho? Baixe o arquivo antes, se quiser guardar.')){S=blank();save();go('inicio')}return}
+  if(b.id==='tmstop'){stopTimer();return}
+});
+/* arquivo */
+function exportar(){
+  const blob=new Blob([JSON.stringify({versao:1,salvoEm:new Date().toISOString(),dados:S},null,1)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='plano-marketing-'+(S.p.nome||'aluno').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-')+'.json';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
+$('#fileIn').addEventListener('change',e=>{
+  const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.dados)throw 0;S=Object.assign(blank(),d.dados);save();go('inicio');alert('Plano aberto.')}catch(x){alert('Este arquivo não parece ser um plano salvo por este sistema.')}};
+  r.readAsText(f);e.target.value='';
+});
+/* cronômetro */
+let tmI=null,tmEnd=0;
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function startTimer(min,label){stopTimer();tmEnd=Date.now()+min*60000;$('#timer').className='on';$('#tmlabel').textContent=label+' ·';
+  const tick=()=>{const s=Math.max(0,Math.round((tmEnd-Date.now())/1000));$('#tmtime').textContent=fmt(s);if(s<=0){$('#timer').className='on end';$('#tmlabel').textContent='Tempo esgotado ·';clearInterval(tmI)}};tick();tmI=setInterval(tick,500)}
+function stopTimer(){clearInterval(tmI);$('#timer').className=''}
+
+load();
+const h0=location.hash.slice(1);if(VIEWS.some(v=>v.id===h0))cur=h0;
+render();
+</script>
+</body>
+</html>
