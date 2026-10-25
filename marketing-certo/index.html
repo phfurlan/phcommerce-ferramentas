@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marketing Certo – PHCommerce Consultoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  --bg:#F4F6FA; --card:#FFFFFF; --ink:#1E2430; --muted:#5B6475; --line:#DDE2EC;
+  --navy:#1F3864; --navy-ink:#FFFFFF;
+  --green:#2E7D32; --green-l:#E8F5E9;
+  --orange:#E65100; --orange-l:#FFF3E0;
+  --red:#C62828; --red-l:#FFEBEE;
+  --purple:#6A1B9A; --purple-l:#F3E5F5;
+  --blue:#1565C0; --blue-l:#E3F2FD;
+  --yellow:#F9A825; --yellow-l:#FFF8E1;
+  --field:#F8F9FC;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11151D; --card:#1A202B; --ink:#E9EDF4; --muted:#A3ACBD; --line:#2C3443;
+    --navy:#2A4A82; --field:#141922;
+    --green-l:#1B2E1D; --orange-l:#33230F; --red-l:#341A1C; --purple-l:#2A1B33; --blue-l:#15263A; --yellow-l:#2F2812;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 40px}
+header.top{background:var(--navy);color:var(--navy-ink);border-radius:18px;padding:22px 22px 20px;margin-bottom:16px}
+header.top h1{margin:0;font-size:clamp(22px,4.5vw,30px);line-height:1.15;font-weight:800;letter-spacing:-.01em}
+header.top p{margin:8px 0 0;opacity:.88;font-size:15.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.card h2{margin:0 0 4px;font-size:19px;font-weight:800}
+.card h3{margin:18px 0 6px;font-size:16px;font-weight:800}
+.card .sub{margin:0 0 16px;color:var(--muted);font-size:14.5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+.field{margin:0}
+.field.full{grid-column:1/-1}
+.field label,.field .lab{display:block;font-weight:700;font-size:15px;margin-bottom:2px}
+.field .hint{display:block;color:var(--muted);font-size:13px;margin-bottom:6px;line-height:1.35}
+.money,.pctwrap{position:relative}
+.money span{position:absolute;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:700;pointer-events:none;left:12px}
+.pctwrap span{position:absolute;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:700;pointer-events:none;right:14px}
+input[type=text],select,textarea{width:100%;font:inherit;font-size:16.5px;color:var(--ink);background:var(--field);border:2px solid var(--line);border-radius:10px;padding:10px 12px;outline:none;transition:border-color .15s}
+.money input{padding-left:40px;font-weight:600}
+.pctwrap input{padding-right:32px;font-weight:600}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+.section-title{font-size:13.5px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;margin:18px 0 10px;color:#fff;background:var(--c);padding:7px 12px;border-radius:8px;display:inline-block}
+.section-title:first-of-type{margin-top:0}
+.t-red{--c:var(--red);--cl:var(--red-l)} .t-orange{--c:var(--orange);--cl:var(--orange-l)} .t-green{--c:var(--green);--cl:var(--green-l)} .t-blue{--c:var(--blue);--cl:var(--blue-l)} .t-purple{--c:var(--purple);--cl:var(--purple-l)} .t-navy{--c:var(--navy);--cl:var(--blue-l)}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14.5px;background:var(--field);border:2px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer}
+.checks input{accent-color:var(--navy);width:17px;height:17px;margin:0}
+.checks label:has(input:checked){border-color:var(--navy);background:var(--blue-l)}
+/* resultado */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media (max-width:640px){.kpis{grid-template-columns:1fr}}
+.kpi{border-radius:14px;overflow:hidden;text-align:center;background:var(--cl)}
+.kpi b{display:block;background:var(--c);color:#fff;font-size:12.5px;font-weight:700;padding:7px 8px}
+.kpi span{display:block;font-size:clamp(18px,4vw,22px);font-weight:800;color:var(--c);padding:11px 8px;line-height:1.2}
+.diagrow{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:12px;background:var(--cl);margin-bottom:8px}
+@media (max-width:640px){.diagrow{grid-template-columns:1fr}}
+.diagrow .nm{font-weight:800;color:var(--c)}
+.diagrow .nm small{display:block;font-weight:600;color:var(--muted);font-size:12.5px}
+.diagrow .tx{font-size:14.5px}
+.diagrow .fonte{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.ok{--c:var(--green);--cl:var(--green-l)} .mid{--c:var(--orange);--cl:var(--orange-l)} .bad{--c:var(--red);--cl:var(--red-l)}
+.chan{border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;background:var(--card)}
+.chan.top1{border-color:var(--green)}
+.chan h4{margin:0 0 2px;font-size:16.5px;font-weight:800}
+.chan .tag{display:inline-block;font-size:12px;font-weight:800;color:#fff;background:var(--c,var(--navy));padding:2px 9px;border-radius:99px;margin-right:6px;vertical-align:1px}
+.chan p{margin:4px 0;font-size:14.5px}
+.chan .meta{color:var(--muted);font-size:13.5px}
+.mini{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.mini span{font-size:13px;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:3px 9px}
+.box{background:var(--cl);border-radius:12px;padding:12px 14px;margin:8px 0;font-size:15px}
+.box b{color:var(--c)}
+ul.tight{margin:6px 0 6px 0;padding-left:20px}
+ul.tight li{margin:3px 0;font-size:14.5px}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:640px){.pillars{grid-template-columns:1fr}}
+.pillar{border-radius:12px;padding:12px 14px;background:var(--cl)}
+.pillar h4{margin:0 0 4px;color:var(--c);font-size:15.5px;font-weight:800}
+.phase{border-left:6px solid var(--c);background:var(--cl);border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:10px}
+.phase h4{margin:0;color:var(--c);font-size:15.5px;font-weight:800}
+table.t{width:100%;border-collapse:collapse;font-size:14.5px}
+table.t th,table.t td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+table.t th{font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+.prompt{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--field);overflow:hidden}
+.prompt summary{cursor:pointer;font-weight:800;padding:11px 14px;list-style:none;display:flex;justify-content:space-between;gap:10px}
+.prompt summary::after{content:"＋";color:var(--muted)}
+.prompt[open] summary::after{content:"－"}
+.prompt pre{margin:0;padding:12px 14px;white-space:pre-wrap;font:inherit;font-size:14.5px;border-top:1px solid var(--line);background:var(--card)}
+.prompt .bar{padding:8px 14px 12px;background:var(--card)}
+button.btn{font:inherit;font-weight:700;font-size:15px;border-radius:12px;padding:10px 16px;cursor:pointer;border:2px solid transparent}
+.btn-main{background:var(--green);color:#fff}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.nav{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0;margin:-8px 0 8px;display:flex;gap:8px;overflow-x:auto}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:6px 13px}
+.foot{margin-top:8px;text-align:center;color:var(--muted);font-size:13px}
+.src{color:var(--muted);font-size:12.5px;margin-top:10px}
+.hide{display:none}
+@media print{
+  body{background:#fff;font-size:12.5px}
+  .wrap{padding:0}
+  .noprint,.nav,.actions,.prompt .bar{display:none!important}
+  .card{break-inside:avoid-page;border:none;padding:8px 0}
+  .chan,.phase,.pillar,.diagrow,.kpi{break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .kpi b,.section-title,.tag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .prompt pre{display:block}
+  .prompt:not([open]) pre{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>Marketing Certo</h1>
+  <p>Responda sobre o seu negócio e receba um plano de marketing de 90 dias: canais para testar, mensagem, conteúdo, métricas e prompts prontos. Feito a partir de grandes livros de marketing e crescimento.</p>
+</header>
+
+<nav class="nav noprint">
+  <a href="#negocio">1. Negócio</a><a href="#publico">2. Público</a><a href="#recursos">3. Recursos</a><a href="#resultado">Plano</a><a href="#prompts">Prompts</a>
+</nav>
+
+<!-- 1 -->
+<section class="card noprint" id="negocio">
+  <h2>1. O seu negócio</h2>
+  <p class="sub">Respostas simples. Tudo é salvo só no seu aparelho.</p>
+  <div class="grid">
+    <div class="field"><label for="nome">Nome do negócio</label><input type="text" id="nome" placeholder="Ex.: Studio Aurora"></div>
+    <div class="field"><label for="segmento">O que você vende?</label><input type="text" id="segmento" placeholder="Ex.: roupas fitness femininas"></div>
+    <div class="field"><label for="tipo">Como é o seu negócio?</label>
+      <select id="tipo">
+        <option value="b2c">Loja online / produto para consumidor final</option>
+        <option value="local">Negócio local / loja física</option>
+        <option value="b2b">Vendo para outras empresas (B2B)</option>
+        <option value="servico">Profissional ou serviço (cliente precisa confiar em mim)</option>
+        <option value="digital">Produto digital / curso / assinatura</option>
+      </select></div>
+    <div class="field"><label for="nat">Por que as pessoas compram?</label>
+      <select id="nat">
+        <option value="desejo">Por desejo ou impulso (querem, não precisam)</option>
+        <option value="problema">Para resolver um problema (procuram a solução)</option>
+        <option value="confianca">Compram de quem confiam (depende de quem entrega)</option>
+      </select></div>
+    <div class="field"><label for="ticket">Ticket médio (R$ por venda)</label><div class="money"><span>R$</span><input type="text" inputmode="decimal" id="ticket" data-money value="150,00"></div></div>
+    <div class="field"><label for="margem">Margem de lucro bruta (%)</label><span class="hint">Quanto sobra de cada venda depois do custo do produto/serviço.</span><div class="pctwrap"><input type="text" inputmode="decimal" id="margem" data-money value="40"><span>%</span></div></div>
+    <div class="field"><label for="venda">Como é a venda?</label>
+      <select id="venda"><option value="simples">Simples: 1 contato e compra</option><option value="complexa">Consultiva: várias conversas até fechar</option></select></div>
+    <div class="field"><label for="estagio">Em que momento você está?</label>
+      <select id="estagio">
+        <option value="inicio">Começando / ainda validando</option>
+        <option value="cresce" selected>Já vendo e quero crescer</option>
+        <option value="escala">Já tenho processo e quero escalar</option>
+      </select></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="card noprint" id="publico">
+  <h2>2. Público e promessa</h2>
+  <p class="sub">É aqui que o plano ganha a sua cara. Quanto mais específico, melhor.</p>
+  <div class="grid">
+    <div class="field full"><label for="publico_txt">Para quem exatamente você vende?</label><span class="hint">Um grupo de pessoas com a mesma necessidade. Evite “todo mundo”.</span><input type="text" id="publico_txt" placeholder="Ex.: mulheres de 30 a 45 anos que querem voltar a treinar em casa"></div>
+    <div class="field"><label for="clareza">Hoje, o seu público é…</label>
+      <select id="clareza"><option value="todos">Qualquer pessoa que se interesse</option><option value="amplo" selected>Um grupo amplo</option><option value="especifico">Um grupo específico, com a mesma necessidade</option></select></div>
+    <div class="field"><label for="prob_ext">Qual problema real você resolve?</label><input type="text" id="prob_ext" placeholder="Ex.: não achar roupa de treino que sirva e dure"></div>
+    <div class="field"><label for="prob_int">Como a pessoa se sente com esse problema?</label><span class="hint">É o problema interno que move a decisão.</span><input type="text" id="prob_int" placeholder="Ex.: insegura e frustrada"></div>
+    <div class="field"><label for="resultado">Que transformação você entrega?</label><input type="text" id="resultado" placeholder="Ex.: treinar com conforto e confiança"></div>
+    <div class="field"><label for="prazo">Em quanto tempo?</label><input type="text" id="prazo" placeholder="Ex.: 30 dias, entrega em 3 dias"></div>
+    <div class="field"><label for="promessa">Como você comunica isso hoje?</label>
+      <select id="promessa"><option value="clara">Falo o problema, a transformação e o prazo</option><option value="meio" selected>Falo mais ou menos</option><option value="beneficios">Falo mais de características e benefícios da empresa</option></select></div>
+    <div class="field"><label for="dif">Qual é o seu diferencial?</label>
+      <select id="dif"><option value="fraco">Preço, rapidez ou “ser o melhor”</option><option value="nao" selected>Ainda não sei dizer</option><option value="unico">Algo único para um nicho específico</option></select></div>
+    <div class="field"><label for="prova">Provas que você tem</label>
+      <select id="prova"><option value="nenhuma">Nenhuma ainda</option><option value="pouca" selected>Alguns depoimentos</option><option value="forte">Depoimentos, antes e depois e números</option></select></div>
+    <div class="field"><label for="autoridade">Por que confiar em você?</label><input type="text" id="autoridade" placeholder="Ex.: 8 anos de experiência, 1.200 clientes"></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="card noprint" id="recursos">
+  <h2>3. Recursos e situação atual</h2>
+  <div class="grid">
+    <div class="field"><label for="orc">Verba mensal de marketing</label><span class="hint">Pode ser 0. O plano se adapta.</span><div class="money"><span>R$</span><input type="text" inputmode="decimal" id="orc" data-money value="500"></div></div>
+    <div class="field"><label for="horas">Horas por semana para marketing</label><div class="pctwrap"><input type="text" inputmode="decimal" id="horas" data-money value="6"><span>h</span></div></div>
+    <div class="field"><label for="video">Você aparece em vídeo?</label>
+      <select id="video"><option value="sim">Sim, sem problema</option><option value="talvez" selected>Posso aprender</option><option value="nao">Prefiro não aparecer</option></select></div>
+    <div class="field"><label for="objetivo">Objetivo principal</label>
+      <select id="objetivo"><option value="vendas" selected>Mais vendas</option><option value="leads">Mais contatos/orçamentos</option><option value="reconhecimento">Ser mais conhecido</option><option value="recompra">Fazer o cliente voltar</option><option value="lancamento">Lançar um produto</option></select></div>
+    <div class="field full"><span class="lab">Onde você já está hoje?</span>
+      <div class="checks" id="canais_atuais">
+        <label><input type="checkbox" value="instagram">Instagram</label><label><input type="checkbox" value="tiktok">TikTok</label>
+        <label><input type="checkbox" value="youtube">YouTube</label><label><input type="checkbox" value="whatsapp">WhatsApp</label>
+        <label><input type="checkbox" value="email">E-mail</label><label><input type="checkbox" value="google">Site / Google</label>
+        <label><input type="checkbox" value="ads">Anúncios pagos</label><label><input type="checkbox" value="marketplace">Marketplaces</label>
+        <label><input type="checkbox" value="indicacao">Indicação</label><label><input type="checkbox" value="eventos">Eventos / feiras</label>
+        <label><input type="checkbox" value="vendedor">Vendedores</label>
+      </div></div>
+    <div class="field"><label for="base">Lista de contatos (WhatsApp, e-mail, clientes)</label>
+      <select id="base"><option value="nenhuma">Não tenho</option><option value="pouca" selected>Pouca (menos de 500)</option><option value="tem">Tenho (500 ou mais)</option></select></div>
+    <div class="field"><label for="recompra">O cliente volta a comprar?</label>
+      <select id="recompra"><option value="nao_sei" selected>Nunca medi</option><option value="as_vezes">Às vezes</option><option value="volta">Sim, boa parte volta</option></select></div>
+    <div class="field"><label for="medicao">O que você acompanha?</label>
+      <select id="medicao"><option value="nenhuma">Nada</option><option value="fatura" selected>Só o faturamento</option><option value="funil">Cada etapa do funil</option></select></div>
+    <div class="field"><span class="lab">Facilidade de comprar</span>
+      <div class="checks" id="facil">
+        <label><input type="checkbox" value="pag">Aceito todas as formas de pagamento</label>
+        <label><input type="checkbox" value="entrega">Entrego em toda a minha área de venda</label>
+      </div></div>
+  </div>
+</section>
+
+<!-- RESULTADO -->
+<section class="card" id="resultado">
+  <h2>Seu plano de marketing<span id="r_nome"></span></h2>
+  <p class="sub">Atualiza sozinho conforme você preenche.</p>
+  <div class="kpis" id="kpis"></div>
+
+  <p class="section-title t-red">Diagnóstico</p>
+  <div id="diag"></div>
+  <div id="alertas"></div>
+
+  <p class="section-title t-green">Canais para testar (método Bullseye)</p>
+  <div id="canais"></div>
+
+  <p class="section-title t-blue">Sua mensagem</p>
+  <div id="msg"></div>
+
+  <p class="section-title t-purple">Conteúdo: 5 pilares</p>
+  <div id="pilares"></div>
+
+  <p class="section-title t-orange">Plano de 90 dias</p>
+  <div id="plano"></div>
+
+  <p class="section-title t-navy">Rotina, números e metas</p>
+  <div id="numeros"></div>
+
+  <p class="section-title t-green">Fidelizar e fazer indicar</p>
+  <div id="reter"></div>
+
+  <div class="actions noprint" style="margin-top:14px">
+    <button class="btn btn-main" onclick="window.print()">Imprimir ou salvar em PDF</button>
+    <button class="btn btn-ghost" id="limpar">Limpar respostas</button>
+  </div>
+  <p class="src">Base: Tração (Weinberg e Mares), Hacking Growth (Ellis e Brown), Ogilvy sobre a Propaganda, Blitzscaling (Hoffman e Yeh), De Zero a Um (Thiel), How Brands Grow (Sharp e Romaniuk), Contágio (Berger), Storybrand (Miller) e Empresas Feitas para Vencer (Collins). Resumos e adaptações próprias.</p>
+</section>
+
+<section class="card" id="prompts">
+  <h2>Prompts prontos</h2>
+  <p class="sub">Já preenchidos com as suas respostas. Copie e cole no Claude ou no ChatGPT. Campos em branco ficam como [Inserir].</p>
+  <div id="prompts_list"></div>
+</section>
+
+<p class="foot"><strong>PHCommerce Consultoria</strong> · Este plano é um ponto de partida: teste, meça e ajuste.</p>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=s=>{s=String(s||'').trim().replace(/\./g,'').replace(',','.');const n=parseFloat(s);return isFinite(n)?n:0};
+const brl=n=>'R$ '+Math.round(n).toLocaleString('pt-BR');
+const TEXT=['nome','segmento','tipo','nat','ticket','margem','venda','estagio','publico_txt','clareza','prob_ext','prob_int','resultado','prazo','promessa','dif','prova','autoridade','orc','horas','video','objetivo','base','recompra','medicao'];
+const KEY='marketing-certo-v1';
+
+function get(){
+  const s={};
+  TEXT.forEach(k=>s[k]=$(k).value.trim());
+  s.canais=[...document.querySelectorAll('#canais_atuais input:checked')].map(i=>i.value);
+  s.facil=[...document.querySelectorAll('#facil input:checked')].map(i=>i.value);
+  s.ticketN=num(s.ticket); s.margemN=num(s.margem)/100; s.orcN=num(s.orc); s.horasN=num(s.horas);
+  return s;
+}
+function save(){try{const s={};TEXT.forEach(k=>s[k]=$(k).value);s.canais=[...document.querySelectorAll('#canais_atuais input:checked')].map(i=>i.value);s.facil=[...document.querySelectorAll('#facil input:checked')].map(i=>i.value);localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(!s)return;TEXT.forEach(k=>{if(s[k]!=null)$(k).value=s[k]});document.querySelectorAll('#canais_atuais input').forEach(i=>i.checked=(s.canais||[]).includes(i.value));document.querySelectorAll('#facil input').forEach(i=>i.checked=(s.facil||[]).includes(i.value))}catch(e){}}
+
+/* ---------- CANAIS (19 canais do livro Tração) ---------- */
+const CH=[
+ {id:'seo',n:'SEO (aparecer no Google sem pagar)',teste:'Escreva 4 conteúdos que respondem às perguntas que seu cliente digita no Google e publique no site.',met:'Visitas orgânicas e contatos vindos do Google',prazo:'90 dias (demora a dar retorno)',
+  r:s=>[s.nat=='problema'&&[3,'as pessoas procuram a solução do problema no Google'],(s.tipo=='b2b'||s.tipo=='servico')&&[2,'produtos mais complexos, com dor clara, são buscados'],s.horasN>=4&&[1,'dá para produzir conteúdo com o seu tempo'],s.nat=='desejo'&&[-2,'quem compra por desejo raramente pesquisa']]},
+ {id:'blogs',n:'Blogs e mídias especializadas do seu nicho',teste:'Liste 10 blogs, newsletters e perfis do nicho e proponha um conteúdo ou parceria para 3 deles.',met:'Visitas e contatos vindos dessas fontes',prazo:'30 dias',
+  r:s=>[(s.tipo=='b2b'||s.tipo=='servico'||s.tipo=='digital')&&[2,'nichos específicos geram tração inicial rápida'],s.estagio=='inicio'&&[1,'custa pouco para quem está começando'],s.orcN<300&&[1,'quase não exige verba']]},
+ {id:'publicidade',n:'Publicidade e imprensa digital',teste:'Escreva um release com uma história real (resultado de cliente, dado inédito) e envie para 10 jornalistas e portais do setor.',met:'Matérias publicadas e visitas/contatos gerados',prazo:'45 dias',
+  r:s=>[s.nat=='confianca'&&[3,'gera autoridade para quem vende confiança'],s.tipo=='servico'&&[1,'serviços dependem de credibilidade'],s.prova=='forte'&&[1,'você tem provas para contar histórias'],s.nat=='desejo'&&[-1,'gera mais autoridade do que desejo']]},
+ {id:'rp',n:'Ações inusitadas para chamar atenção (RP não convencional)',teste:'Crie 1 ação ousada e barata ligada ao seu produto (desafio, brinde surpresa, ação na rua) e registre em vídeo.',met:'Alcance, menções espontâneas e vendas na semana',prazo:'30 dias',
+  r:s=>[s.nat=='desejo'&&[2,'funciona para produtos de desejo e pode viralizar'],s.tipo=='b2c'&&[1,'consumidor final reage a ações criativas'],s.nat=='confianca'&&[-2,'gera pouca autoridade']]},
+ {id:'sem',n:'Anúncios em buscas (Google Ads)',teste:'Rode 3 anúncios para as palavras que descrevem o problema que você resolve, com página clara e preço visível.',met:'Custo por contato e custo por venda',prazo:'30 dias',
+  r:s=>[s.nat=='problema'&&[3,'quem tem o problema busca a solução'],s.orcN>=500&&[2,'você tem verba para testar'],s.orcN<300&&[-3,'exige verba que você não tem agora'],s.nat=='desejo'&&[-1,'produto de desejo é pouco buscado']]},
+ {id:'social_ads',n:'Anúncios em redes sociais (Instagram, TikTok, Facebook)',teste:'Teste 3 criativos (vídeo com demonstração, antes e depois, depoimento) para o mesmo público com verba pequena.',met:'Custo por contato, custo por venda e taxa de cliques',prazo:'30 dias',
+  r:s=>[s.nat=='desejo'&&[3,'bom para compra por impulso e desejo'],s.tipo=='b2c'&&[1,'consumidor final está nas redes'],s.orcN>=500&&[2,'você tem verba para testar'],s.orcN<300&&[-3,'exige verba que você não tem agora']]},
+ {id:'offline',n:'Anúncios offline (rádio, panfleto, outdoor, jornal)',teste:'Faça 1 ação local com código ou cupom exclusivo para medir quem veio dela.',met:'Cupons usados e clientes novos',prazo:'30 dias',
+  r:s=>[s.tipo=='local'&&[3,'negócio local alcança a vizinhança'],s.tipo!='local'&&[-2,'não é o ambiente do seu cliente'],s.orcN<300&&[-2,'exige verba']]},
+ {id:'conteudo',n:'Marketing de conteúdo (Instagram, TikTok, YouTube, LinkedIn)',teste:'Publique todos os dias por 30 dias no canal onde o cliente está e veja o que mais atrai e converte.',met:'Alcance, seguidores qualificados, mensagens recebidas e vendas',prazo:'60 a 90 dias',
+  r:s=>[[3,'funciona para praticamente qualquer tipo de empresa'],s.video=='sim'&&[1,'você aparece em vídeo, o que acelera'],s.horasN>=5&&[1,'você tem tempo para produzir'],s.orcN<300&&[1,'custa tempo, não dinheiro'],s.horasN<3&&[-2,'exige constância e você tem pouco tempo']]},
+ {id:'email',n:'E-mail e WhatsApp com a sua lista',teste:'Envie 1 mensagem por semana à sua lista com dica útil e uma oferta; compare aberturas e vendas.',met:'Taxa de abertura/resposta e vendas por envio',prazo:'30 dias',
+  r:s=>[s.base=='tem'&&[3,'você já tem uma lista para trabalhar'],s.base=='nenhuma'&&[-1,'ainda não tem lista'],s.recompra!='nao_sei'&&[1,'o cliente já tem motivo para voltar'],s.tipo=='b2c'&&[1,'ótimo para promoções e compra direta'],s.tipo=='b2b'&&[1,'ótimo para nutrir e conscientizar'],[1,'custo baixo e controle total']]},
+ {id:'viral',n:'Indicação e marketing viral',teste:'Dê um motivo e um jeito fácil para o cliente indicar: recompensa clara, mecânica simples e um lembrete após a compra.',met:'Indicações por cliente e clientes novos vindos de indicação',prazo:'45 dias',
+  r:s=>[s.nat=='desejo'&&[2,'produtos de desejo são mais fáceis de compartilhar'],s.recompra=='volta'&&[2,'clientes satisfeitos já voltam e podem indicar'],s.tipo=='b2c'&&[1,'consumidor final indica com facilidade'],s.prova=='nenhuma'&&[-1,'precisa de clientes satisfeitos antes']]},
+ {id:'eng',n:'Ferramentas gratuitas como marketing (calculadoras, geradores)',teste:'Crie uma ferramenta simples e gratuita que resolve um problema do seu cliente e peça o contato em troca do resultado completo.',met:'Usos da ferramenta e contatos captados',prazo:'60 dias',
+  r:s=>[(s.tipo=='b2b'||s.tipo=='digital'||s.tipo=='servico')&&[2,'ajuda a atrair quem tem o problema'],s.horasN>=8&&[1,'você tem tempo para criar'],(s.tipo=='local')&&[-2,'exige desenvolvimento e pouco aproveitamento local'],[-1,'exige tempo de criação']]},
+ {id:'parcerias',n:'Parcerias estratégicas',teste:'Escolha 5 negócios que atendem o mesmo cliente que você, sem concorrer, e proponha uma ação conjunta.',met:'Clientes novos e contatos vindos dos parceiros',prazo:'45 dias',
+  r:s=>[s.tipo=='b2b'&&[2,'forte entre empresas'],s.tipo=='local'&&[1,'vizinhos atendem o mesmo cliente'],(s.estagio!='inicio')&&[1,'você já tem o que oferecer em troca'],[1,'custo baixo']]},
+ {id:'vendas',n:'Vendas ativas (prospecção direta)',teste:'Monte uma lista de 50 clientes ideais, faça um roteiro de abordagem e fale com todos em 3 semanas.',met:'Reuniões marcadas, propostas e fechamentos',prazo:'30 dias',
+  r:s=>[s.venda=='complexa'&&[3,'venda consultiva pede conversa'],s.ticketN>=1000&&[2,'o ticket paga o tempo de vendas'],s.tipo=='b2b'&&[2,'empresas compram por conversa'],s.ticketN<200&&[-3,'o ticket é baixo para venda ativa']]},
+ {id:'afiliados',n:'Programa de afiliados',teste:'Convide 10 pessoas que já falam com o seu público para vender por comissão, com material pronto e link rastreável.',met:'Vendas por afiliado e custo de comissão sobre a margem',prazo:'60 dias',
+  r:s=>[s.tipo=='digital'&&[3,'ótimo para produtos digitais'],s.tipo=='b2c'&&[2,'comum e eficaz em e-commerce'],s.prova=='nenhuma'&&[-2,'afiliado só vende se houver provas'],s.margemN<0.25&&[-2,'a margem não comporta comissão'],s.estagio=='inicio'&&[-1,'precisa de produto e provas validados']]},
+ {id:'plataformas',n:'Plataformas existentes (marketplaces)',teste:'Publique 20 produtos bem descritos em 1 marketplace e acompanhe vendas, taxa e margem líquida.',met:'Vendas, margem após taxas e avaliações',prazo:'30 dias',
+  r:s=>[s.tipo=='b2c'&&[3,'vende onde a demanda já existe'],s.estagio=='inicio'&&[2,'gera tração inicial sem construir marca'],s.tipo=='digital'&&[1,'plataformas de cursos reúnem compradores'],s.tipo=='local'&&[-1,'depende de entrega']]},
+ {id:'feiras',n:'Feiras de negócios',teste:'Vá a 1 feira do setor, combine um roteiro de abordagem e marque reuniões antes e depois.',met:'Contatos qualificados e reuniões marcadas',prazo:'60 dias',
+  r:s=>[s.tipo=='b2b'&&[2,'ótimo para vendas complexas entre empresas'],s.venda=='complexa'&&[2,'conversa presencial acelera fechamentos'],s.orcN<1000&&[-2,'exige verba'],s.tipo=='local'&&[-1,'público fora da sua região']]},
+ {id:'eventos',n:'Eventos para o público (offline)',teste:'Organize 1 evento pequeno e gratuito (aula, degustação, encontro) para 20 pessoas do seu público.',met:'Participantes, contatos e vendas em até 15 dias',prazo:'45 dias',
+  r:s=>[s.tipo=='local'&&[2,'aproxima quem mora perto'],s.tipo=='servico'&&[1,'demonstra a sua entrega'],s.orcN>=1000&&[1,'você tem verba'],s.horasN>=6&&[1,'você tem tempo para organizar']]},
+ {id:'palestras',n:'Palestras',teste:'Ofereça 1 palestra gratuita para uma associação, empresa ou evento onde estejam seus clientes ideais.',met:'Participantes e contatos que viraram conversa',prazo:'60 dias',
+  r:s=>[s.tipo=='servico'&&[3,'quem vende confiança ganha autoridade falando'],s.nat=='confianca'&&[2,'palestras geram confiança'],s.venda=='complexa'&&[1,'abre conversas de venda'],s.video=='nao'&&[-2,'exige aparecer'],s.tipo=='b2b'&&[1,'plateias de empresas']]},
+ {id:'comunidade',n:'Criação de comunidade',teste:'Abra um grupo fechado (WhatsApp ou Telegram) com 20 a 50 pessoas do seu público, com conteúdo e conversa toda semana.',met:'Participação, retenção e vendas dentro do grupo',prazo:'60 dias',
+  r:s=>[s.tipo=='digital'&&[2,'comunidade sustenta produtos digitais'],s.tipo=='b2c'&&[1,'funciona hoje para quase todo B2C'],s.recompra=='volta'&&[1,'clientes engajados voltam'],s.base=='tem'&&[1,'você já tem de onde convidar'],s.horasN>=6&&[1,'você tem tempo para cuidar'],s.estagio=='inicio'&&[-1,'dá trabalho antes de ter produto validado']]},
+];
+const MAPA_ATUAL={instagram:'conteudo',tiktok:'conteudo',youtube:'conteudo',email:'email',whatsapp:'email',google:'seo',ads:['sem','social_ads'],marketplace:'plataformas',indicacao:'viral',eventos:['eventos','feiras'],vendedor:'vendas'};
+
+function rankChannels(s){
+  const usados=new Set();s.canais.forEach(c=>[].concat(MAPA_ATUAL[c]||[]).forEach(x=>usados.add(x)));
+  return CH.map((c,i)=>{
+    const rs=c.r(s).filter(Boolean);
+    const pts=rs.reduce((a,x)=>a+x[0],0);
+    return {c,pts,i,why:rs.filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(x=>x[1]).slice(0,3),warn:rs.filter(x=>x[0]<0).map(x=>x[1]),usado:usados.has(c.id)};
+  }).sort((a,b)=>b.pts-a.pts||a.i-b.i);
+}
+
+/* ---------- DIAGNÓSTICO ---------- */
+function diagnostico(s){
+  const n=s.canais.length;
+  const L=[];
+  let pub=({todos:0,amplo:1,especifico:2})[s.clareza];
+  if(/todo|qualquer|geral|todos/i.test(s.publico_txt)&&pub>0)pub=Math.min(pub,1);
+  if(!s.publico_txt&&pub>1)pub=1;
+  L.push({nm:'Público',lv:pub,tx:['“Todo mundo” como cliente é começar errado: você compete em vez de dominar e oferece uma solução generalista. Escolha um grupo com a mesma necessidade.','Grupo amplo ainda. Afunile até um grupo cujas soluções sejam as mesmas, como o Facebook, que começou só em uma universidade.','Público específico. Isso permite dominar um segmento e depois expandir para os vizinhos.'][pub],f:'Como descobrir seu público · De Zero a Um'});
+  let pr=({beneficios:0,meio:1,clara:2})[s.promessa];
+  if(pr==2&&!(s.resultado&&s.prazo))pr=1;
+  L.push({nm:'Problema e promessa',lv:pr,tx:['Ninguém quer saber dos seus benefícios: quer saber qual transformação terá e em quanto tempo. Reescreva falando do problema do cliente.','Você fala do problema, mas falta tornar a promessa clara e com prazo. Promessas específicas vendem mais do que genéricas.','Promessa clara e mensurável. Mantenha a repetição até o público lembrar.'][pr],f:'Como anunciar para o seu público · Ogilvy'});
+  const df=({fraco:0,nao:1,unico:2})[s.dif];
+  L.push({nm:'Diferencial',lv:df,tx:['Preço, rapidez e “o melhor” são fracos: uma empresa maior copia. Seja único para um nicho pequeno.','Defina o que só você faz para um grupo específico. Ser único não precisa de grande inovação, pode ser a forma de entregar.','Diferencial único para um nicho: é o que protege você de cópias.'][df],f:'Como anunciar · Lei de Thiel'});
+  const fo=n==0?1:n<=2?2:n==3?1:0;
+  L.push({nm:'Foco de canais',lv:fo,tx:[ 'Quem olha para tudo não olha para nada. Escolha 1 canal, escale e só depois pule para o próximo.','Você ainda não usa canais. Escolha 3 do plano abaixo, teste com pouco dinheiro e depois foque em 1.','Poucos canais ativos: bom. Garanta que um deles seja o principal.','Cuidado com a dispersão: 3 canais já exige disciplina. Defina o principal.'][fo==0?0:n==0?1:fo==2?2:3],f:'Tração · Empresas Feitas para Vencer'});
+  const pv=({nenhuma:0,pouca:1,forte:2})[s.prova];
+  L.push({nm:'Prova e confiança',lv:pv,tx:['Sem provas, qualquer promessa perde força. Colete os 3 primeiros depoimentos e registre antes e depois.','Depoimentos já ajudam. Acrescente antes e depois e números reais, que funcionam muito.','Boas provas. Use depoimentos reais e demonstrações em vídeo, que convencem mais do que celebridades.'][pv],f:'Ogilvy · Confiança é atitude consistente'});
+  const me=({nenhuma:0,fatura:1,funil:2})[s.medicao];
+  L.push({nm:'Medição',lv:me,tx:['Sem números você decide no escuro. Comece com 4 números por semana (veja “Números”).','Faturamento sozinho não mostra onde o funil vaza. Acompanhe cada etapa e defina uma métrica do norte.','Funil medido. Mantenha tempo certo de análise: dados não prevêem tudo.'][me],f:'Hacking Growth'});
+  let rt=({nao_sei:0,as_vezes:1,volta:2})[s.recompra];
+  if(s.base=='nenhuma'&&rt>1)rt=1;
+  L.push({nm:'Retenção',lv:rt,tx:['Você ainda não sabe se o cliente fica. Meça recompra, pois fidelizar sustenta, mas só cresce quem antes alcança novos clientes.','Há retorno parcial. Trabalhe a recompra com lembretes e uma lista própria de contatos.','Boa retenção. Transforme clientes em embaixadores e peça indicação.'][rt],f:'Hacking Growth · How Brands Grow'});
+  const fa=s.facil.length;
+  L.push({nm:'Facilidade de compra',lv:fa,tx:['Disponibilidade física importa: se for difícil pagar ou receber, o cliente compra do concorrente. Aceite todas as formas de pagamento e entregue onde ele estiver.','Falta um dos dois: pagamento ou entrega. Resolva, pois vender é estar disponível na hora da compra.','Fácil comprar de você. Boa base para anunciar.'][fa],f:'How Brands Grow'});
+  const total=L.reduce((a,x)=>a+x.lv,0);
+  return {L,pct:Math.round(total/(L.length*2)*100)};
+}
+
+/* ---------- TEXTOS ---------- */
+const TIPO_N={b2c:'loja online',local:'negócio local',b2b:'B2B',servico:'serviço',digital:'produto digital'};
+const NORTE={b2c:'Compradores que fizeram a 2ª compra em 60 dias',local:'Clientes distintos atendidos por semana',b2b:'Reuniões qualificadas por mês',servico:'Propostas aceitas por mês',digital:'Alunos que concluem a 1ª etapa (momento AHA)'};
+function pick(x,d){return x&&x.trim()?x.trim():d}
+
+function renderAll(){
+  const s=get(); save();
+  const nome=pick(s.nome,'seu negócio');
+  $('r_nome').textContent=s.nome?' · '+s.nome:'';
+  const rk=rankChannels(s), top=rk.slice(0,3);
+  const dg=diagnostico(s);
+  const cac=s.ticketN*s.margemN;
+  const clientesPagam=cac>0?Math.ceil(s.orcN/cac):0;
+
+  $('kpis').innerHTML=
+   `<div class="kpi t-red" style="--c:${dg.pct>=70?'var(--green)':dg.pct>=40?'var(--orange)':'var(--red)'};--cl:${dg.pct>=70?'var(--green-l)':dg.pct>=40?'var(--orange-l)':'var(--red-l)'}"><b>Nota do seu marketing</b><span>${dg.pct}/100</span></div>
+    <div class="kpi t-green"><b>Canal para começar</b><span>${esc(top[0].c.n.split(' (')[0])}</span></div>
+    <div class="kpi t-blue"><b>Pode gastar para ganhar 1 cliente</b><span>${cac>0?brl(cac):'—'}</span></div>`;
+
+  // diagnóstico
+  $('diag').innerHTML=dg.L.map(x=>{const k=x.lv==2?'ok':x.lv==1?'mid':'bad';return `<div class="diagrow ${k}"><div class="nm">${x.nm}<small>${['Atenção urgente','A melhorar','Bom'][x.lv]}</small></div><div class="tx">${esc(x.tx)}<span class="fonte">${esc(x.f)}</span></div></div>`}).join('');
+  const al=[];
+  if(s.estagio=='inicio')al.push('<b>Regra dos 50%:</b> divida o seu tempo igualmente entre melhorar o produto e conquistar clientes. Lance um MVP e ajuste com o feedback; não espere estar perfeito. Seus primeiros clientes querem a sua ideia, mas não se iluda: um produto bom para eles não é, sozinho, bom para o mercado.');
+  if(s.estagio=='cresce')al.push('<b>Primeiro cresça, depois fidelize:</b> fidelizar é importante, mas é o alcance de novos clientes que faz a marca crescer. Domine o nicho e, só então, expanda para segmentos vizinhos. Estar na lembrança (disponibilidade mental) e fácil de comprar (disponibilidade física) vem antes de promessas novas.');
+  if(s.estagio=='escala')al.push('<b>Escalar exige monetizar e focar:</b> o que dita a escala é a forma de ganhar dinheiro, não o quão incrível é o produto. Só abra um novo canal quando o principal estiver saturado, cuide do ROI e não confunda inovar (melhorar o que oferece) com dispersar.');
+  if(cac>0&&s.orcN>0)al.push(`<b>Conta de verba:</b> com margem de ${Math.round(s.margemN*100)}% em um ticket de ${brl(s.ticketN)}, cada venda deixa ${brl(cac)}. Para pagar uma verba de ${brl(s.orcN)} você precisa de pelo menos <b>${clientesPagam} clientes novos por mês</b> só na primeira compra.`);
+  $('alertas').innerHTML=al.map(a=>`<div class="box" style="--c:var(--navy);--cl:var(--blue-l)">${a}</div>`).join('');
+
+  // canais
+  const teste=s.orcN>0?Math.round(s.orcN*0.7/3):0;
+  let h=`<p class="sub">Teste os <b>3 melhores</b> com pouco investimento, compare e escolha <b>1</b> para escalar. Não descarte ideias da lista externa por preconceito.</p>`;
+  h+=top.map((t,i)=>`<div class="chan ${i==0?'top1':''}"><h4><span class="tag" style="--c:${i==0?'var(--green)':'var(--navy)'}">${i==0?'Melhor aposta':'Teste '+(i+1)}</span>${esc(t.c.n)}</h4>
+   <p><b>Por que:</b> ${esc(t.why.join('; ')||'combina com o seu perfil')}.</p>
+   <p><b>Teste:</b> ${esc(t.c.teste)}</p>
+   <div class="mini"><span>Medir: ${esc(t.c.met)}</span><span>Prazo: ${esc(t.c.prazo)}</span>${s.orcN>0?`<span>Verba do teste: ${brl(teste)}</span>`:''}${t.usado?'<span>Você já usa este canal</span>':''}</div>
+   ${t.warn.length?`<p class="meta">Atenção: ${esc(t.warn.join('; '))}.</p>`:''}</div>`).join('');
+  h+=`<p class="meta" style="font-size:14px">Perguntas do teste: qual o custo para ganhar um cliente aqui? Quantos clientes posso alcançar? Os clientes que chegam por aqui estão comprando? ${s.orcN>0?`Reserve os outros ${brl(s.orcN*0.3)} para escalar o canal vencedor.`:''}</p>`;
+  const rest=rk.slice(3);
+  h+=`<details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700">Círculo externo: os outros 16 canais, por ordem de aderência</summary><ul class="tight">${rest.map(t=>`<li>${esc(t.c.n)}${t.pts<0?' <span class="meta">(difícil agora)</span>':''}</li>`).join('')}</ul></details>`;
+  h+=`<p class="meta" style="font-size:13.5px">Conteúdo feito para o canal principal pode alimentar canais secundários: o blog vai para o LinkedIn, o vídeo do TikTok vai para o YouTube.</p>`;
+  $('canais').innerHTML=h;
+
+  // mensagem
+  const pu=pick(s.publico_txt,'o seu público'),pe=pick(s.prob_ext,'o problema do seu cliente'),pi=pick(s.prob_int,'frustrado'),re=pick(s.resultado,'o resultado que ele busca'),pz=pick(s.prazo,'um prazo claro'),au=pick(s.autoridade,'a sua experiência');
+  $('msg').innerHTML=`
+   <div class="box" style="--c:var(--blue);--cl:var(--blue-l)"><b>Frase do seu negócio (Storybrand):</b><br>
+   Para <b>${esc(pu)}</b> que enfrentam <b>${esc(pe)}</b> e se sentem <b>${esc(pi)}</b>, a ${esc(nome)} entrega <b>${esc(re)}</b> em <b>${esc(pz)}</b>. ${s.autoridade?`Você pode confiar porque ${esc(au)}.`:''}</div>
+   <ul class="tight">
+    <li><b>O herói é o cliente</b>, não você. Fale mais do problema dele do que das suas características.</li>
+    <li><b>O problema interno move:</b> “${esc(pi)}”. Os problemas externos sempre existem, mas só motivam quando afetam por dentro.</li>
+    <li><b>Seja o guia:</b> mostre empatia (“entendemos ${esc(pe)}”) e autoridade (${esc(au)}).</li>
+    <li><b>Plano em 3 passos</b> claros do contato até o resultado. Termine com um <b>chamado direto</b> (“Peça seu orçamento”, “Compre agora”) e mostre o que o cliente perde se não agir.</li>
+    <li><b>Balança:</b> as vantagens precisam superar os riscos e a dor de trocar. Reduza a dor de adotar: preço claro, garantia e passo inicial simples.</li>
+   </ul>
+   <h3>Títulos para testar (Ogilvy)</h3>
+   <ul class="tight">
+    <li>${esc(cap(re))} em ${esc(pz)}</li>
+    <li>Como ${esc(pu)} conseguem ${esc(re)}</li>
+    <li>Cansado de ${esc(pe)}? ${esc(cap(re))} em ${esc(pz)}</li>
+    <li>Antes e depois: veja o que ${esc(nome)} fez por ${esc(pu)}</li>
+   </ul>
+   <p class="meta" style="font-size:13.5px">Cinco vezes mais pessoas leem o título do que o texto. Use promessa específica (tempo, % ou valor), preço visível, fatos, depoimentos reais e antes e depois. Textos longos costumam converter mais. Se um anúncio funcionou, repita e adapte até saturar; não mude o posicionamento a cada semestre.</p>`;
+
+  // pilares
+  const P=[
+   ['var(--red)','var(--red-l)','Onde o calo dói (problema)',[`3 sinais de que ${pe}`,`O erro que ${pu} cometem e como evitar`,`Pergunta ao público: qual é o seu maior desafio com isso?`],'30%'],
+   ['var(--green)','var(--green-l)','Prova e transformação',[`Antes e depois com ${re}`,`Depoimento real em vídeo (demonstração e caso)`,`Resultado em ${pz} com números`],'25%'],
+   ['var(--blue)','var(--blue-l)','Dicas de ouro (compartilhável)',[`1 atalho ou checklist que ${pu} mandariam para alguém`,`Mito x verdade do seu mercado`,`Guia rápido de ${pe}`],'25%'],
+   ['var(--purple)','var(--purple-l)','Bastidores e propósito',[`Por que você faz isso (a sua história, inclusive os momentos difíceis)`,`Um dia de trabalho na ${nome}`,`Um erro seu e o que você aprendeu`],'10%'],
+   ['var(--orange)','var(--orange-l)','Convite e oferta',[`Como funciona em 3 passos`,`Preço claro e o que está incluído`,`Chamada direta: o passo seguinte, com urgência real`],'10%']
+  ];
+  $('pilares').innerHTML=`<div class="pillars">${P.map(p=>`<div class="pillar" style="--c:${p[0]};--cl:${p[1]}"><h4>${p[2]} · ${p[4]}</h4><ul class="tight">${p[3].map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`).join('')}</div>
+   <p class="meta" style="font-size:13.5px">Mostre sua marca no momento da compra (gatilho), ofereça valor prático, conte histórias e deixe o produto fácil de compartilhar: embalagem para foto, um bordão, um símbolo. Entre curiosidade, autoridade e prova, nesta ordem, nos vídeos. Os 3 primeiros segundos decidem.</p>`;
+
+  // plano 90 dias
+  const t1=top[0].c.n.split(' (')[0],t2=top[1].c.n.split(' (')[0],t3=top[2].c.n.split(' (')[0];
+  $('plano').innerHTML=`
+   <div class="phase" style="--c:var(--red);--cl:var(--red-l)"><h4>Dias 1 a 30 · Fundação e testes</h4><ul class="tight">
+    <li>Fechar público, problema, promessa e diferencial (seção “Sua mensagem”).</li>
+    <li>Montar o painel de números e definir a métrica do norte.</li>
+    <li>Rodar 3 testes de canal: ${esc(t1)}, ${esc(t2)} e ${esc(t3)}${s.orcN>0?` com ${brl(teste)} cada`:''}.</li>
+    <li>Conversar com pelo menos 2 clientes sobre o que acharam do seu conteúdo e oferta.</li>
+    <li>Garantir facilidade de compra: formas de pagamento e entrega.</li></ul></div>
+   <div class="phase" style="--c:var(--orange);--cl:var(--orange-l)"><h4>Dias 31 a 60 · Escolher e dobrar a aposta</h4><ul class="tight">
+    <li>Comparar custo por cliente, volume e conversão dos 3 canais. Escolher <b>1 canal principal</b>.</li>
+    <li>Entrar no ciclo de growth: analisar dados, gerar ideias, priorizar por impacto, confiança e facilidade, testar, revisar. Meta: ${s.estagio=='inicio'?'1 a 2 testes por semana':'2 a 4 testes por semana'}.</li>
+    <li>Para cada novo teste iniciado, encerrar outro. O controle vale até o novo provar o contrário.</li>
+    <li>Repetir e adaptar os criativos e posts que funcionaram.</li></ul></div>
+   <div class="phase" style="--c:var(--green);--cl:var(--green-l)"><h4>Dias 61 a 90 · Escalar e reter</h4><ul class="tight">
+    <li>Escalar o canal vencedor com a verba reservada; reaproveitar o conteúdo em 1 canal secundário.</li>
+    <li>Ativar retenção: lista própria, mensagem de recompra e pedido de indicação (veja abaixo).</li>
+    <li>Revisar a meta: o crescimento está dentro do esperado? Se não está e o canal já foi testado, é hora de decidir ajustar ou pivotar.</li>
+    <li>Só abra um novo canal quando o principal estiver saturado.</li></ul></div>`;
+
+  // números
+  const hs=s.horasN||0;
+  const rot=[['Criar conteúdo/ativos no canal principal',.4],['Responder pessoas (comentários, direct, WhatsApp)',.2],['Testes nos canais secundários',.2],['Conversar com clientes e coletar feedback',.1],['Números e decisão (sexta, horário fixo)',.1]];
+  $('numeros').innerHTML=`
+   <div class="box" style="--c:var(--navy);--cl:var(--blue-l)"><b>Métrica do norte:</b> ${esc(NORTE[s.tipo])}. Foque em uma métrica que represente valor entregue ao cliente, não em números de vaidade.</div>
+   <h3>Rotina semanal (${hs?hs+' h':'defina as horas'})</h3>
+   <div class="tablewrap"><table class="t"><tr><th>Atividade</th><th>Tempo</th></tr>${rot.map(r=>`<tr><td>${r[0]}</td><td>${hs?(r[1]*hs).toFixed(1).replace('.',',')+' h':Math.round(r[1]*100)+'%'}</td></tr>`).join('')}</table></div>
+   <p class="meta" style="font-size:13.5px">${s.estagio=='inicio'?'Como você está começando, metade do tempo total do negócio deve ir para conquistar clientes.':''} Pequenas ações diárias acumulam mais que um grande esforço isolado. ${hs&&hs<4?'Com pouco tempo, use um único canal.':''}</p>
+   <h3>Painel semanal (4 números)</h3>
+   <div class="tablewrap"><table class="t"><tr><th>Etapa</th><th>O que medir</th></tr>
+    <tr><td>Alcance</td><td>Pessoas novas que viram você</td></tr>
+    <tr><td>Interesse</td><td>Contatos, mensagens ou cadastros</td></tr>
+    <tr><td>Conversão</td><td>Vendas e taxa de conversão do contato</td></tr>
+    <tr><td>Retenção</td><td>Recompra e indicações, por grupo de clientes (mês de entrada ou canal)</td></tr></table></div>
+   <ul class="tight"><li><b>Custo por cliente</b> = verba do canal ÷ clientes novos. Máximo para não perder dinheiro na 1ª venda: <b>${cac>0?brl(cac):'—'}</b>.</li>
+   <li>Correlação não é causa. Combine números com conversas com clientes e não pare para analisar demais: um plano razoável hoje vale mais que um perfeito amanhã.</li></ul>
+   <h3>Meta em 90 dias (sugestão)</h3>
+   <ul class="tight"><li>1 canal principal escolhido com base em dados.</li><li>${cac>0&&s.orcN>0?clientesPagam+' clientes novos por mês pagando a verba de marketing.':'Custo por cliente conhecido e abaixo de '+(cac>0?brl(cac):'o limite da margem')+'.'}</li><li>Pelo menos 3 depoimentos ou antes e depois novos publicados.</li></ul>`;
+
+  // reter
+  $('reter').innerHTML=`<ul class="tight">
+   <li><b>Ativação:</b> mapeie os passos até o cliente sentir o valor (momento AHA) e remova obstáculos. A primeira interação é a mais importante para educar.</li>
+   <li><b>Mimos e experiência:</b> uma surpresa na entrega e um atendimento acima da média (é por isso que o cliente lembra e conta).</li>
+   <li><b>Recompra:</b> ligue sua marca ao momento de uso e lembre o cliente por WhatsApp/e-mail com algo de valor claro, em grupos segmentados.</li>
+   <li><b>Indicação (3 passos):</b> 1) escolha uma recompensa que o cliente valorize; 2) mecânica clara e simples; 3) lance, meça e otimize.</li>
+   <li><b>Clientes inativos:</b> pergunte por que se afastaram e lembre o momento AHA que os convenceu.</li>
+   <li><b>Reconheça conquistas</b> do cliente e ofereça um tratamento especial aos melhores.</li></ul>`;
+
+  renderPrompts(s);
+}
+function cap(t){return t?t.charAt(0).toUpperCase()+t.slice(1):t}
+
+/* ---------- PROMPTS ---------- */
+function renderPrompts(s){
+  const f=(v)=>v&&v.trim()?v.trim():'[Inserir]';
+  const neg=[s.segmento,s.nome].filter(Boolean).join(' – ')||'';
+  const plataformas=s.canais.filter(c=>['instagram','tiktok','youtube','email','whatsapp'].includes(c)).join(', ');
+  const OBJ={vendas:'aumentar as vendas',leads:'gerar mais contatos e orçamentos',reconhecimento:'aumentar o reconhecimento da marca',recompra:'fazer o cliente voltar a comprar',lancamento:'lançar um produto'}[s.objetivo];
+  const pub=s.publico_txt;
+  const P=[
+   ['1. Estratégia para Redes Sociais',`Aja como meu estrategista de redes sociais. Analise o meu nicho, público-alvo, concorrentes, oferta e objetivos e, em seguida, crie uma estratégia específica para cada plataforma, abrangendo posicionamento, 4 pilares de conteúdo, mix de conteúdos, canais de crescimento, táticas de engagement, caminho de conversão, KPIs e um plano de ação de 90 dias. Priorize estratégias adequadas ao meu mercado em vez de conselhos genéricos sobre redes sociais.\nMeu negócio: ${f(neg)}.\nPúblico-alvo: ${f(pub)}.\nObjetivo: ${f(OBJ)}.\nPlataformas: ${f(plataformas)}.`],
+   ['2. Criador de Pilares de Conteúdo',`Crie 5 pilares de conteúdo para o meu nicho que atraiam o público certo e apoiem o meu objetivo de negócio. Para cada pilar, apresente 5 ideias específicas de posts, 2 ideias de vídeos, 2 ideias de carrosséis, 2 perguntas para o público e 1 CTA. Faça com que cada pilar seja distinto e garanta que as ideias abordem problemas, interesses, objeções ou desejos reais do meu público.\nNicho: ${f(s.segmento)}.\nPúblico-alvo: ${f(pub)}.\nObjetivo: ${f(OBJ)}.`],
+   ['3. Calendário de Conteúdo para 30 Dias',`Crie um calendário de conteúdo de 30 dias para [Plataforma], utilizando estes pilares: [Pilares]. Para cada dia, apresente o tema, hook, formato, objetivo e CTA. Misture conteúdos educativos, opiniões, histórias, provas, engagement e promoção, sem repetir temas ou ângulos. Priorize conteúdos que conduzam o meu público da atenção à confiança e, depois, à ação.\nPúblico-alvo: ${f(pub)}.\nObjetivo: ${f(OBJ)}.`.replace('[Plataforma]',plataformas.split(', ')[0]||'[Plataforma]').replace('[Pilares]','Onde o calo dói; Prova e transformação; Dicas de ouro; Bastidores e propósito; Convite e oferta')],
+   ['4. Post que Faz Parar o Scroll',`Escreva um post de alta retenção sobre [Tema] para ${plataformas.split(', ')[0]||'[Plataforma]'}. Comece com um hook específico que desperte curiosidade ou desafie uma crença comum. Apresente insights úteis com exemplos concretos, elimine frases desnecessárias e clichês, utilize parágrafos curtos e termine com uma conclusão forte e um CTA. Escreva para ${f(pub)} e otimize o conteúdo para [Alcance/Comentários/Guardados/Leads].`],
+   ['5. Roteiro para Vídeo Curto',`Escreva um roteiro de 60 segundos sobre [Tema] para [TikTok/Reels/Shorts]. Estruture-o como: Hook → Problema → Insight → Exemplo → Resultado → CTA e apresente Diálogo e Visuais/B-roll em duas colunas. Faça com que os primeiros 3 segundos sejam impossíveis de ignorar, mantenha um ritmo rápido e inclua textos específicos no ecrã ou mudanças visuais sempre que ajudarem a aumentar a retenção.\nContexto: ${f(neg)}, para ${f(pub)}.`],
+   ['6. Sistema de Crescimento da Comunidade',`Crie um sistema de comunidade replicável para ${f(s.nome||s.segmento)} que transforme seguidores em participantes ativos e clientes. Apresente ações diárias, atividades semanais, perguntas para iniciar conversas, sondagens, estratégias para comentários, desafios para a comunidade e ciclos de feedback. Foque na construção de confiança e interação recorrente e explique quais ações têm maior probabilidade de gerar engagement, retenção ou conversões.\nPúblico-alvo: ${f(pub)}.\nPlataforma: ${f(plataformas)}.`],
+   ['7. Analisador de Performance das Redes Sociais',`Analise os dados dos meus posts recentes e identifique os padrões por trás dos meus conteúdos vencedores e dos que tiveram pior desempenho. Compare hooks, temas, formatos, CTAs, engagement, alcance, guardados, partilhas e crescimento de seguidores. Depois, identifique o que devo repetir, parar e testar. Apresente 5 mudanças específicas para os meus próximos 10 posts e 3 experiências com uma hipótese clara e uma métrica de sucesso.\nDados: [Colar os dados].`],
+   ['Extra · Consultor de crescimento com a metodologia dos livros',`Aja como consultor de marketing e growth. Use estes métodos: Bullseye (testar 3 canais com pouco dinheiro e escolher 1), Storybrand (o cliente é o herói; problema externo, interno e plano em 3 passos), Ogilvy (promessa específica, título forte, prova, repetição), Hacking Growth (métrica do norte, ciclo de testes, ativação e retenção), How Brands Grow (alcance, disponibilidade mental e física, ativos distintivos) e Blitzscaling (foco em um canal até saturar).\nBriefing:\n- Negócio: ${f(neg)} (${TIPO_N[s.tipo]}, compra por ${({desejo:'desejo',problema:'resolver problema',confianca:'confiança'})[s.nat]}).\n- Momento: ${({inicio:'começando',cresce:'quer crescer',escala:'quer escalar'})[s.estagio]}.\n- Público: ${f(pub)}.\n- Problema que resolve: ${f(s.prob_ext)}; como a pessoa se sente: ${f(s.prob_int)}.\n- Transformação e prazo: ${f(s.resultado)} em ${f(s.prazo)}.\n- Ticket médio: ${s.ticketN?brl(s.ticketN):'[Inserir]'}; margem: ${s.margem||'[Inserir]'}%.\n- Verba mensal: ${s.orcN?brl(s.orcN):'R$ 0'}; tempo semanal: ${s.horas||'[Inserir]'} h.\n- Canais atuais: ${s.canais.join(', ')||'nenhum'}.\n- Objetivo: ${f(OBJ)}.\nEntregue: 1) diagnóstico do que está fraco; 2) os 3 canais para testar, com experimento, métrica e prazo; 3) mensagem principal e 5 títulos; 4) plano de 90 dias semana a semana; 5) perguntas que você precisa que eu responda antes.`]
+  ];
+  $('prompts_list').innerHTML=P.map((p,i)=>`<details class="prompt"><summary>${esc(p[0])}</summary><pre id="pr${i}">${esc(p[1])}</pre><div class="bar noprint"><button class="btn btn-main" data-copy="${i}">Copiar prompt</button></div></details>`).join('');
+  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{
+    const t=$('pr'+b.dataset.copy).textContent;
+    try{await navigator.clipboard.writeText(t)}catch(e){const r=document.createRange();r.selectNodeContents($('pr'+b.dataset.copy));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);document.execCommand('copy')}
+    const o=b.textContent;b.textContent='Copiado!';setTimeout(()=>b.textContent=o,1400);
+  });
+}
+
+/* ---------- eventos ---------- */
+document.querySelectorAll('input,select').forEach(el=>{el.addEventListener('input',renderAll);el.addEventListener('change',renderAll)});
+document.querySelectorAll('[data-money]').forEach(el=>el.addEventListener('blur',()=>{}));
+$('limpar').onclick=()=>{if(confirm('Apagar todas as respostas deste aparelho?')){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}};
+load();renderAll();
+</script>
+</body>
+</html>
