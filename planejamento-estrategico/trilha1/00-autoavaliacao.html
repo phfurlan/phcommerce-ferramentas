@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autoavaliação diagnóstica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="diag" data-base="../" data-cor="verde">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Abertura</span>
+    <h1>📝 Autoavaliação diagnóstica</h1>
+    <p>Serve só para você conferir o que já sabe sobre planejamento estratégico. Não é prova e não vale nota. O gabarito aparece no final.</p>
+  </div>
+  <div id="qs"></div>
+  <div class="acoes nao-imprimir"><button type="button" class="btn verde" id="b-gab">✅ Ver gabarito</button></div>
+  <div id="gab"></div>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var Q = [
+  { n: 1, t: 'Você já implementou algum tipo de planejamento empresarial?', multi: true, o: ['Planejamento Estratégico estruturado.', 'Planejamento de projetos.', 'Planejamento financeiro.', 'Planejamento de produção.', 'Não'], r: null },
+  { n: 2, t: 'Qual das frases abaixo está relacionada com a ANÁLISE DO AMBIENTE EXTERNO?', o: ['É o elemento que traduz as responsabilidades e pretensões da organização junto ao ambiente e define o negócio, delimitando o seu ambiente de atuação.', 'Mostra uma imagem da organização no momento da realização de seus propósitos no futuro. Trata-se não de predizer o futuro, mas de assegurá-lo no presente.', 'Cria um “estado de tensão” positivo entre o mundo como ele é e como gostaríamos que fosse (sonho).', 'Procura antecipar oportunidades e ameaças para a concretização da visão, da missão e dos objetivos empresariais.', 'Corresponde ao diagnóstico da situação da organização diante das dinâmicas ambientais.'], r: 3 },
+  { n: 3, t: 'Quais os diferenciais competitivos do seu negócio (Forças)?', multi: true, outros: true, o: ['Vendas', 'Estrutura física', 'Produto e/ou produção', 'Máquinas e ferramentas', 'Relacionamento com clientes, fornecedores e outros', 'Equipe'], r: null },
+  { n: 4, t: 'Sun Tzu já dizia: “Se conhecemos o inimigo e a nós mesmos, não precisamos temer o resultado de uma centena de combates. Se nos conhecemos, mas não ao inimigo, para cada vitória sofreremos uma derrota. Se não nos conhecemos nem ao inimigo, sucumbiremos em todas as batalhas.” Adaptando esses ensinamentos para a vida empresarial, podemos afirmar que para termos sucesso nos negócios, é preciso:', o: ['Conhecer muito bem o ambiente interno da empresa e o seu ambiente externo.', 'Ser uma empresa, com um grande conhecimento dos procedimentos, dos processos, das pessoas.', 'Ser o dirigente principal um excelente conhecedor do mercado e de suas relações.', 'Realizar constantes pesquisas de clima organizacional para saber o poder de fogo da empresa.', 'Conhecer bem as forças e as fraquezas do ambiente externo à empresa.'], r: 0 },
+  { n: 5, t: 'Quais são as suas oportunidades de negócio?', multi: true, o: ['O mercado oferece novos nichos de atuação.', 'Existe algum projeto de lei para favorecer seu mercado.', 'Novas tecnologias.', 'Na sua avaliação, a fiscalização no seu setor é frequente para eliminar concorrência desleal.', 'Identificação e escolha dos fornecedores e parceiros.'], r: null },
+  { n: 6, t: '(Concurso: TRT 9ª Região, 2013) O Processo de Planejamento Estratégico tem como foco central:', o: ['Alcançar o potencial máximo da organização por meio do fortalecimento da capacidade de prever ocorrências futuras com impacto estratégico nas metas de longo prazo.', 'Realizar metas organizacionais de longo alcance, mediante a priorização de enfrentamento das incertezas ambientais internas.', 'Capacitar os níveis diretivos superiores para enfrentar as incertezas ambientais externas.', 'Reduzir as incertezas em ambientes competitivos para alcançar resultados precisos no curto prazo.', 'Fortalecer a sinergia entre as capacidades efetivas da organização visando alcançar seu pleno potencial de ação num ambiente de incerteza sistêmica.'], r: 4 }
+];
+var L = 'abcdefg';
+var h = '';
+Q.forEach(function (q) {
+  h += '<section class="cartao ' + (q.n % 2 ? 'verde' : 'azul') + '"><h2>Questão ' + q.n + '</h2><div class="corpo"><p><b>' + PE.esc(q.t) + '</b></p><p class="legenda">' + (q.multi ? 'Marque todas as que se aplicam.' : 'Escolha uma alternativa.') + '</p>';
+  q.o.forEach(function (o, i) {
+    h += '<label class="marca"><input type="' + (q.multi ? 'checkbox' : 'radio') + '" ' + (q.multi ? 'data-k="q' + q.n + '_' + i + '"' : 'name="q' + q.n + '" data-r="q' + q.n + '" value="' + i + '"') + '><span><b>' + L[i] + '.</b> ' + PE.esc(o) + '</span></label>';
+  });
+  if (q.outros) h += '<div class="campo" style="margin-top:8px"><label for="o3">Citar outros:</label><input type="text" id="o3" data-k="q3_outros"></div>';
+  h += '<div class="gab" id="g' + q.n + '"></div></div></section>';
+});
+document.getElementById('qs').innerHTML = h;
+
+PE.pagina({
+  resumo: function () {
+    var o = [];
+    Q.forEach(function (q) {
+      var sel = [];
+      q.o.forEach(function (t, i) { if (q.multi ? PE.get('q' + q.n + '_' + i) === '1' : PE.get('q' + q.n) === String(i)) sel.push(L[i] + '. ' + t); });
+      if (q.outros && PE.get('q3_outros')) sel.push('Outros: ' + PE.get('q3_outros'));
+      if (sel.length) o.push('\n*Questão ' + q.n + '*\n' + sel.join('\n'));
+    });
+    return o.join('\n');
+  }
+});
+
+// respostas únicas (radios)
+Array.prototype.forEach.call(document.querySelectorAll('input[data-r]'), function (r) {
+  var k = r.getAttribute('data-r');
+  r.checked = PE.get(k) === r.value;
+  r.addEventListener('change', function () { PE.set(k, r.value); PE.fire(); });
+});
+PE.bind(document.getElementById('qs'));
+
+function gabarito() {
+  Q.forEach(function (q) {
+    var g = document.getElementById('g' + q.n);
+    if (q.r == null) { g.innerHTML = '<div class="aviso">Resposta individual da empresa participante.</div>'; return; }
+    var u = PE.get('q' + q.n), acertou = u === String(q.r);
+    g.innerHTML = '<div class="' + (acertou ? 'gab-ok' : 'aviso') + '">Resposta: letra ' + L[q.r].toUpperCase() + '.' + (u === '' ? ' (você não respondeu)' : acertou ? ' Você acertou! ✔' : ' Você marcou a letra ' + L[+u].toUpperCase() + '.') + '</div>';
+  });
+  document.body.classList.add('mostra-gab');
+}
+document.getElementById('b-gab').onclick = gabarito;
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dia 2 – Estratégia Competitiva e Metas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="t2d2" data-base="../" data-cor="verde">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 2 · Desafio da Empresa Simulada · Dia 2</span>
+    <h1>⚖️ Estratégia Competitiva e Metas</h1>
+    <p>Decidam como a empresa vai competir e definam as metas SMART do 1º ano de cada setor.</p>
+  </div>
+
+  <section class="cartao verde">
+    <h2>A. A Decisão Crítica: Qualidade × Custo</h2>
+    <div class="corpo">
+      <p>Onde a empresa vai se posicionar? Deslize o controle:</p>
+      <div class="campo"><input type="range" min="1" max="5" step="1" value="3" data-k="pos" id="pos" aria-label="Posicionamento de custo a qualidade"></div>
+      <div style="display:flex;justify-content:space-between;font-size:.85rem;font-weight:700"><span>💲 Foco total em custo baixo</span><span>💎 Foco total em qualidade</span></div>
+      <div class="aviso vd" id="pos-t" style="text-align:center;margin-top:10px"></div>
+      <h3>Justifique a escolha</h3>
+      <div id="just"></div>
+    </div>
+  </section>
+
+  <section class="cartao laranja">
+    <h2>B. Metas SMART do 1º ano (por setor)</h2>
+    <div class="corpo" id="metas"></div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<p><b>Posicionamento:</b> 4 de 5 (inclinado para qualidade). <b>Operações:</b> ingredientes selecionados. <b>RH:</b> equipe treinada. <b>Marketing:</b> marca premium.</p><table><tr><th>Setor</th><th>Foco</th><th>Meta SMART</th></tr><tr><td>VENDAS/MKT</td><td>Fidelizar clientes</td><td>Conquistar 400 clientes fixos até dezembro do 1º ano.</td></tr><tr><td>FINANCEIRO</td><td>Caixa saudável</td><td>Manter saldo de caixa acima de R$ 10.000 todo mês.</td></tr></table>';
+PE.pagina({ exemplo: ex, pronto: atualiza });
+PE.onChange(atualiza);
+var POS = ['Foco total em custo baixo', 'Mais inclinado para custo baixo', 'Equilíbrio entre custo e qualidade', 'Mais inclinado para qualidade', 'Foco total em qualidade'];
+var J = [['j_ops', 'Operações', 'Como a escolha muda compras, produção e estoque?'], ['j_rh', 'RH', 'Que tipo de equipe e salários combinam com essa escolha?'], ['j_mkt', 'Marketing', 'Como vamos comunicar esse posicionamento ao cliente?']];
+document.getElementById('just').innerHTML = J.map(function (j) { return PE.campo({ k: j[0], id: j[0], rot: j[1], tipo: 'area', linhas: 3, ph: j[2], dica: j[2] }); }).join('');
+
+var S = [['mkt', 'VENDAS / MKT', 'verde'], ['fin', 'FINANCEIRO', 'azul'], ['ops', 'OPERAÇÕES', 'laranja'], ['rh', 'RH / CULTURA', 'roxo']];
+var CK = [['S', 'Específica'], ['M', 'Mensurável'], ['A', 'Atingível'], ['R', 'Relevante'], ['T', 'Tem prazo (Temporal)']];
+var h = '';
+S.forEach(function (s) {
+  h += '<section class="cartao ' + s[2] + '" id="m-' + s[0] + '"><h2><span>' + s[1] + '</span><span class="selo-ok">Meta completa ✔</span></h2><div class="corpo">' +
+    PE.campo({ k: s[0] + '_foco', id: s[0] + 'f', rot: 'Foco estratégico', tipo: 'text', ph: 'Ex.: Fidelizar clientes' }) +
+    PE.campo({ k: s[0] + '_meta', id: s[0] + 'm', rot: 'Meta SMART para o 1º ano', tipo: 'area', linhas: 2, ph: 'Ex.: Conquistar 400 clientes fixos até dezembro do 1º ano.', dica: 'Uma frase com o que, quanto e até quando.' }) +
+    '<p class="legenda" style="margin-bottom:0">A meta é…</p>' +
+    CK.map(function (c) { return '<label class="marca"><input type="checkbox" data-k="' + s[0] + '_' + c[0] + '"><span>' + c[1] + '?</span></label>'; }).join('') +
+    '<div class="aviso" id="a-' + s[0] + '" hidden></div></div></section>';
+});
+document.getElementById('metas').innerHTML = h;
+PE.bind(document.getElementById('metas'));
+
+function atualiza() {
+  var pos = +PE.valor('pos') || 3;
+  document.getElementById('pos-t').innerHTML = '<b>' + pos + ' de 5</b> – ' + POS[pos - 1];
+  S.forEach(function (s) {
+    var meta = (PE.valor(s[0] + '_meta') || '').trim();
+    var falta = CK.filter(function (c) { return !PE.valor(s[0] + '_' + c[0]); });
+    var ok = meta && !falta.length;
+    document.getElementById('m-' + s[0]).classList.toggle('completa', !!ok);
+    var a = document.getElementById('a-' + s[0]);
+    if (meta && falta.length) { a.hidden = false; a.textContent = '💛 Ainda falta confirmar: ' + falta.map(function (c) { return c[1].split(' ')[0]; }).join(', ') + '.'; } else a.hidden = true;
+  });
+}
+</script>
+</body>
+</html>

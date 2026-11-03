@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dia 1 – Fundação e Diagnóstico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="t2d1" data-base="../" data-cor="azul">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 2 · Desafio da Empresa Simulada · Dia 1</span>
+    <h1>🚀 Fundação e Diagnóstico</h1>
+    <p>Seu grupo cria uma empresa fictícia com R$ 100.000,00 de orçamento. Hoje: identidade, papéis e diagnóstico.</p>
+  </div>
+
+  <section class="cartao azul">
+    <h2>A. O Grito de Guerra (Identidade)</h2>
+    <div class="corpo" id="ident"></div>
+  </section>
+
+  <section class="cartao verde">
+    <h2>B. Divisão de Papéis</h2>
+    <div class="corpo" id="papeis"></div>
+  </section>
+
+  <section class="cartao roxo">
+    <h2>C. Análise FOFA (SWOT) do grupo</h2>
+    <div class="corpo"><div class="grade2" id="swot"></div></div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<p><b>Nome:</b> Padaria Pão de Ouro · <b>Produto:</b> Pães artesanais e café · <b>Super poder:</b> pão quentinho a cada hora</p><p><b>Missão:</b> Levar pão fresco e afeto à mesa das famílias.</p><p><b>Visão (2 anos):</b> Ser a padaria preferida do bairro, com 400 clientes fixos.</p><p><b>Valores:</b> Qualidade, higiene, respeito ao cliente.</p><p><b>Forças:</b> receita própria · <b>Fraquezas:</b> equipe nova · <b>Oportunidades:</b> condomínios novos · <b>Ameaças:</b> padaria grande na esquina.</p>';
+PE.pagina({ exemplo: ex });
+var I = [
+  ['nome', 'Nome da Empresa', 'text', 'Ex.: Padaria Pão de Ouro', 'Um nome curto, fácil de lembrar e que combine com o produto.'],
+  ['produto', 'Produto / Serviço Principal', 'area', 'Ex.: Pães artesanais e café', 'O que a empresa vende, em uma frase.'],
+  ['poder', 'Super Poder (Diferencial)', 'area', 'Ex.: Pão quentinho a cada hora', 'O que só a sua empresa faz de especial?'],
+  ['missao', 'MISSÃO', 'area', 'Ex.: Levar pão fresco e afeto à mesa das famílias', 'Por que a empresa existe? O que entrega e para quem?'],
+  ['visao', 'VISÃO (2 anos)', 'area', 'Ex.: Ser a padaria preferida do bairro', 'Onde a empresa quer estar daqui a 2 anos?'],
+  ['valores', 'VALORES', 'area', 'Ex.: Qualidade, higiene, respeito', 'Princípios que guiam as decisões e o comportamento da equipe.']
+];
+document.getElementById('ident').innerHTML = I.map(function (i) { return PE.campo({ k: i[0], id: 'i' + i[0], rot: i[1], tipo: i[2], ph: i[3], dica: i[4], linhas: 2 }); }).join('');
+var P = [['dir_mkt', 'Vendas / Marketing', 'Diretor(a) de Marketing'], ['dir_fin', 'Financeiro', 'Diretor(a) Financeiro'], ['dir_ops', 'Operações / Produção', 'Diretor(a) de Compras e Operações'], ['dir_rh', 'RH / Cultura', 'Diretor(a) de RH']];
+document.getElementById('papeis').innerHTML = P.map(function (p) {
+  return '<div class="campo"><label for="' + p[0] + '"><b>' + p[1] + '</b> → ' + p[2] + '</label><input type="text" id="' + p[0] + '" data-k="' + p[0] + '" placeholder="Nome do(a) responsável"></div>';
+}).join('');
+var Q = [
+  ['F', '💪 Forças', 'verde', 'O que já fazemos bem', 'Ex.: Receita própria'],
+  ['Fr', '⚠️ Fraquezas', 'vermelho', 'O que pode melhorar', 'Ex.: Equipe nova'],
+  ['O', '🌅 Oportunidades', 'azul', 'O que podemos aproveitar para crescer', 'Ex.: Condomínios novos'],
+  ['A', '⛈️ Ameaças', 'laranja', 'O que pode atrapalhar', 'Ex.: Concorrente grande']
+];
+var sw = document.getElementById('swot');
+Q.forEach(function (q) {
+  var s = document.createElement('section'); s.className = 'cartao ' + q[2];
+  s.innerHTML = '<h2>' + q[1] + '</h2><div class="corpo"><p class="legenda">' + q[3] + '</p><div id="sw-' + q[0] + '"></div></div>';
+  sw.appendChild(s);
+  PE.lista('#sw-' + q[0], 'sw' + q[0], [{ k: 't', tipo: 'text', ph: q[4], w: 12 }], { min: 3, simples: true, addRot: '+ item' });
+});
+</script>
+</body>
+</html>

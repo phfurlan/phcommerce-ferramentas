@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dia 4 – Plano de Ação e Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="t2d4" data-base="../" data-cor="roxo">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 2 · Desafio da Empresa Simulada · Dia 4</span>
+    <h1>📋 Plano de Ação e Apresentação</h1>
+    <p>Transformem a meta prioritária em ações e escolham os indicadores (KPIs) de cada setor.</p>
+  </div>
+
+  <section class="cartao roxo">
+    <h2>A. Plano 5W2H da meta prioritária</h2>
+    <div class="corpo">
+      <div class="campo"><label for="meta">Meta prioritária (Vendas/Marketing) – pode editar</label>
+        <textarea id="meta" data-k="meta" rows="2">Conquistar 400 clientes fixos até Dezembro do 1º ano.</textarea></div>
+      <div id="acoes"></div>
+      <div class="numeros">
+        <div class="num-box"><small>Custo total das ações</small><b id="c-acoes"></b></div>
+        <div class="num-box"><small>Saldo de caixa de segurança (Dia 3)</small><b id="c-saldo"></b></div>
+        <div class="num-box"><small>Sobra depois das ações</small><b id="c-sobra"></b></div>
+      </div>
+      <div class="aviso vm" id="av" hidden></div>
+    </div>
+  </section>
+
+  <section class="cartao verde">
+    <h2>B. KPIs – Indicadores-chave por setor</h2>
+    <div class="corpo" id="kpis"></div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<table><tr><th>Ação</th><th>Quem</th><th>Quando</th><th>Quanto</th></tr><tr><td>Campanha de lançamento no Instagram</td><td>Marketing</td><td>01/02</td><td>R$ 3.000,00</td></tr><tr><td>Cartão fidelidade</td><td>Vendas/Marketing</td><td>15/03</td><td>R$ 1.500,00</td></tr></table><table><tr><th>Setor</th><th>KPI</th><th>Como medir</th></tr><tr><td>Vendas/Marketing</td><td>Nº de clientes fixos</td><td>Cadastro do cartão fidelidade, contagem mensal</td></tr><tr><td>Financeiro</td><td>Saldo de caixa</td><td>Planilha de fluxo de caixa, toda sexta</td></tr></table>';
+PE.pagina({ exemplo: ex, pronto: calcula });
+PE.onChange(calcula);
+
+PE.lista('#acoes', 'acoes', [
+  { k: 'a', rot: 'Ação essencial (O quê?)', tipo: 'area', w: 5, ph: 'Ex.: Campanha de lançamento no Instagram', dica: 'Que ação concreta nos leva à meta?' },
+  { k: 'q', rot: 'Quem? (setor principal)', tipo: 'sel', opcoes: PE.RESP.concat(['Todos']), w: 3 },
+  { k: 'd', rot: 'Quando? (data limite)', tipo: 'date', w: 2 },
+  { k: 'v', rot: 'Quanto custa? (R$)', tipo: 'num', w: 2, ph: '0,00' }
+], { min: 4, addRot: '+ Adicionar ação' });
+
+var SET = [
+  ['mkt', 'Vendas / Marketing', 'verde', ['Nº de clientes fixos', 'Ticket médio', 'Vendas por canal']],
+  ['fin', 'Financeiro', 'azul', ['Saldo de caixa', 'Margem de lucro', 'Custos fixos (R$)']],
+  ['ops', 'Operações', 'laranja', ['% de ruptura de estoque', 'Prazo médio de entrega', 'Índice de desperdício (%)']],
+  ['rh', 'RH', 'roxo', ['Rotatividade de equipe', 'Satisfação da equipe', 'Horas de treinamento']]
+];
+var h = '';
+SET.forEach(function (s) {
+  h += '<section class="cartao ' + s[2] + '"><h2>' + s[1] + '</h2><div class="corpo">' +
+    PE.campo({ k: 'kpi_' + s[0], id: 'k' + s[0], rot: 'Indicador-chave (KPI)', tipo: 'text', ph: 'Escolha uma sugestão ou escreva' }) +
+    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px">' + s[3].map(function (k) { return '<button type="button" class="btn claro peq sug nao-imprimir" data-alvo="kpi_' + s[0] + '">+ ' + PE.esc(k) + '</button>'; }).join('') + '</div>' +
+    PE.campo({ k: 'med_' + s[0], id: 'md' + s[0], rot: 'Como vamos medir?', tipo: 'area', linhas: 2, ph: 'Ex.: Contagem mensal no cadastro de clientes' }) +
+    '</div></section>';
+});
+document.getElementById('kpis').innerHTML = '<div class="grade2">' + h + '</div>';
+PE.bind(document.getElementById('kpis'));
+Array.prototype.forEach.call(document.querySelectorAll('button.sug'), function (b) {
+  b.onclick = function () {
+    var i = document.querySelector('[data-k="' + b.getAttribute('data-alvo') + '"]');
+    i.value = b.textContent.replace(/^\+\s*/, ''); i.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+});
+
+function calcula() {
+  var $ = function (i) { return document.getElementById(i); };
+  var L = PE.listas.acoes, t = 0;
+  if (L) L.rows.forEach(function (r) { t += PE.num(r.v); });
+  var saldo = PE.orcamento().saldo, sobra = saldo - t;
+  $('c-acoes').textContent = PE.brl(t); $('c-saldo').textContent = PE.brl(saldo);
+  $('c-sobra').textContent = PE.brl(sobra); $('c-sobra').style.color = sobra < 0 ? '#C62828' : '#2E7D32';
+  var a = $('av');
+  if (t > saldo) { a.hidden = false; a.textContent = '⚠️ As ações custam ' + PE.brl(t - saldo) + ' a mais que o saldo de caixa de segurança do Dia 3. Reduza custos ou revise o orçamento.'; } else a.hidden = true;
+}
+</script>
+</body>
+</html>

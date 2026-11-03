@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOFA Cruzada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="cruzada" data-base="../" data-cor="roxo">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Parte 4</span>
+    <h1>✖️ FOFA Cruzada</h1>
+    <p>Aqui você não digita nada: o site soma as pontuações da Matriz FOFA e mostra a postura estratégica recomendada.</p>
+  </div>
+
+  <div class="aviso" id="vazio" hidden>💛 Ainda não há pontuações. Preencha antes a <a href="07-fofa-gut.html">Matriz FOFA com GUT</a>.</div>
+
+  <section class="cartao roxo">
+    <h2>🧭 Quadro cruzado</h2>
+    <div class="corpo">
+      <div class="numeros" id="somas"></div>
+      <div class="cruz" id="cruz"></div>
+    </div>
+  </section>
+
+  <section class="cartao amarelo" id="rec">
+    <h2>⭐ Postura estratégica recomendada</h2>
+    <div class="corpo" id="rec-t"></div>
+  </section>
+
+  <section class="cartao azul">
+    <h2>✍️ Matriz GUT versus FOFA – responda</h2>
+    <div class="corpo">
+      <div class="campo"><label for="n1">Qual estratégia vocês devem adotar em seus negócios?</label><textarea id="n1" data-k="nota" rows="3" placeholder="Escreva com suas palavras."></textarea></div>
+      <div class="campo"><label for="n2">Conseguem agora direcionar as ações para atingir a visão de futuro?</label><textarea id="n2" data-k="n2" rows="3"></textarea></div>
+      <div class="campo"><label for="n3">Percebem que todo o planejamento feito até o momento está interligado com o que será feito no plano de ações?</label><textarea id="n3" data-k="n3" rows="3"></textarea></div>
+    </div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<p>Somas do exemplo: Forças 60 · Oportunidades 80 · Fraquezas 100 · Ameaças 48.</p><table><tr><th></th><th>Oportunidades</th><th>Ameaças</th></tr><tr><th>Forças</th><td>Desenvolvimento = 140</td><td>Manutenção = 108</td></tr><tr><th>Fraquezas</th><td>Crescimento = 180</td><td>Sobrevivência = 148</td></tr></table><p><b>Postura recomendada:</b> Crescimento (180). Pergunta: como evitar que uma fraqueza impeça a busca pela oportunidade?</p>';
+PE.pagina({ exemplo: ex, pronto: desenha });
+PE.onChange(desenha);
+function desenha() {
+  var r = PE.posturas(), s = r.soma;
+  document.getElementById('vazio').hidden = r.max > 0;
+  document.getElementById('somas').innerHTML = [['💪 Forças', s.F], ['🌅 Oportunidades', s.O], ['⚠️ Fraquezas', s.Fr], ['⛈️ Ameaças', s.A]].map(function (a) { return '<div class="num-box"><small>' + a[0] + '</small><b>' + a[1] + '</b></div>'; }).join('');
+  var P = {}; r.res.forEach(function (p) { P[p.id] = p; });
+  function q(p) {
+    return '<div class="quad' + (p.venc ? ' venc' : '') + '" style="border-left:8px solid ' + p.cor + '"><h3 style="color:' + p.cor + '">' + p.nome + ' <span class="sel">⭐ Maior soma</span></h3><div class="legenda">' + p.ab + '</div><div class="pt">' + p.soma + '</div><p>' + p.q + '</p></div>';
+  }
+  document.getElementById('cruz').innerHTML =
+    '<div></div><div class="eixo">🌅 Oportunidades (externo)</div><div class="eixo">⛈️ Ameaças (externo)</div>' +
+    '<div class="eixo">💪 Forças (interno)</div>' + q(P.des) + q(P.man) +
+    '<div class="eixo">⚠️ Fraquezas (interno)</div>' + q(P.cre) + q(P.sob);
+  var v = r.res.filter(function (p) { return p.venc; });
+  document.getElementById('rec-t').innerHTML = v.length ? v.map(function (p) {
+    return '<h3 style="color:' + p.cor + ';font-size:1.3rem;margin-top:0">' + p.nome + ' (' + p.soma + ' pontos)</h3><p>' + p.d + '</p><p><b>Postura estratégica – pergunta do curso:</b> ' + p.q + '</p>';
+  }).join('') + (v.length > 1 ? '<p class="legenda">Houve empate: considere as posturas acima em conjunto.</p>' : '') : '<p>Preencha a Matriz FOFA para ver a recomendação.</p>';
+}
+</script>
+</body>
+</html>

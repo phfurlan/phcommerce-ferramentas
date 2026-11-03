@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planejamento Estratégico – Exercícios do curso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body data-page="perfil" data-base="">
+<main class="pagina">
+  <section class="hero">
+    <div class="etiqueta">Curso Sebrae</div>
+    <h1>Alcance resultados no seu negócio com planejamento estratégico</h1>
+    <p>Exercícios online do curso. Tudo o que você escrever é salvo sozinho neste aparelho.</p>
+  </section>
+
+  <section class="cartao azul">
+    <h2>👤 Quem está preenchendo?</h2>
+    <div class="corpo">
+      <div class="campo"><label for="grupo">Nome do grupo ou da sua empresa</label><input type="text" id="grupo" data-k="perfil.grupo" placeholder="Ex.: Confecções Boa Costura"></div>
+      <div class="campo"><label for="nome">Seu nome</label><input type="text" id="nome" data-k="perfil.nome" placeholder="Ex.: Maria da Silva"></div>
+      <div class="salvo" style="margin-top:6px">✔ Salvo automaticamente</div>
+    </div>
+  </section>
+
+  <section class="cartao verde">
+    <h2>📈 Seu progresso</h2>
+    <div class="corpo">
+      <div class="prog" style="font-size:1rem"><div class="barra"><i id="pg-geral" style="width:0"></i></div><b id="pg-geral-t">0%</b></div>
+      <p class="legenda" id="pg-detalhe"></p>
+    </div>
+  </section>
+
+  <section class="trilha" style="--cor:var(--azul)">
+    <header><h2>TRILHA 1 – Planejamento Estratégico passo a passo</h2><p>Os exercícios do Livro do Participante, na ordem do curso.</p>
+      <div class="prog" style="color:#fff"><div class="barra"><i id="pg-t1" style="width:0"></i></div><span id="pg-t1-t"></span></div></header>
+    <div class="cards" id="cards1"></div>
+  </section>
+
+  <section class="trilha" style="--cor:var(--laranja)">
+    <header><h2>TRILHA 2 – Desafio da Empresa Simulada</h2><p>Dinâmica de 4 dias: seu grupo cria uma empresa com orçamento de R$ 100.000.</p>
+      <div class="prog" style="color:#fff"><div class="barra"><i id="pg-t2" style="width:0"></i></div><span id="pg-t2-t"></span></div></header>
+    <div class="cards" id="cards2"></div>
+  </section>
+
+  <section class="cartao roxo">
+    <h2>💾 Não perca seus dados</h2>
+    <div class="corpo">
+      <p>Seu trabalho fica guardado só neste aparelho. Para trocar de celular ou ter uma cópia de segurança, baixe o backup (um arquivo) e depois restaure no outro aparelho.</p>
+      <div class="acoes" style="margin:8px 0">
+        <button type="button" class="btn roxo" id="b-exp">⬇️ Baixar backup (arquivo)</button>
+        <button type="button" class="btn claro" id="b-imp">⬆️ Restaurar backup</button>
+        <input type="file" id="f-imp" accept=".json,application/json" hidden>
+      </div>
+    </div>
+  </section>
+
+  <p class="rodape"><a href="instrutor.html">Área do instrutor</a> · <a href="#" id="b-tudo">Apagar tudo deste aparelho</a><br>Material de apoio – PHCommerce Consultoria · Baseado no curso Sebrae</p>
+</main>
+<script src="js/app.js"></script>
+<script>
+function cartoes() {
+  [1, 2].forEach(function (t) {
+    var c = document.getElementById('cards' + t); c.innerHTML = '';
+    PE.PAGES.filter(function (p) { return p.t === t; }).forEach(function (p) {
+      var a = PE.el('a', 'card-pg'); a.href = p.f; a.style.setProperty('--cor', 'var(--' + p.cor + ')');
+      a.innerHTML = (PE.feito(p) ? '<span class="ok" title="Já preenchido">✅</span>' : '') + '<div class="ic">' + p.ic + '</div><b>' + p.n + '. ' + PE.esc(p.nome) + '</b><span>' + PE.esc(p.desc) + '</span>';
+      c.appendChild(a);
+    });
+  });
+}
+PE.pagina({
+  semAcoes: true,
+  pronto: function () {
+    cartoes();
+    document.getElementById('b-exp').onclick = PE.exportar;
+    var fi = document.getElementById('f-imp');
+    document.getElementById('b-imp').onclick = function () { fi.click(); };
+    fi.onchange = function () { if (fi.files[0]) PE.importar(fi.files[0]); };
+    document.getElementById('b-tudo').onclick = function (e) { e.preventDefault(); PE.limparTudo(); };
+  },
+  progressoHome: function (r) {
+    var pc = function (a, b) { return Math.round(100 * a / b); };
+    document.getElementById('pg-geral').style.width = pc(r.feitos, r.total) + '%';
+    document.getElementById('pg-geral-t').textContent = pc(r.feitos, r.total) + '%';
+    document.getElementById('pg-detalhe').textContent = r.feitos + ' de ' + r.total + ' páginas com alguma coisa preenchida.';
+    [1, 2].forEach(function (t) {
+      document.getElementById('pg-t' + t).style.width = pc(r.t[t][0], r.t[t][1]) + '%';
+      document.getElementById('pg-t' + t + '-t').textContent = r.t[t][0] + ' de ' + r.t[t][1];
+    });
+    if (document.getElementById('cards1')) cartoes();
+  }
+});
+</script>
+</body>
+</html>

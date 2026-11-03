@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel da Empresa e Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="t2res" data-base="../" data-cor="vermelho">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 2 · Resultado</span>
+    <h1>🏆 Painel da Empresa e Apresentação</h1>
+    <p>Tudo do Dia 1 ao Dia 4 em um pitch de 5 telas. Toque em "Modo apresentação" para mostrar em tela cheia.</p>
+    <div class="acoes nao-imprimir" style="margin:10px 0 0"><button type="button" class="btn laranja" id="b-apr">▶ Modo apresentação (tela cheia)</button></div>
+  </div>
+  <div id="pitch"></div>
+  <div class="pitch-nav" id="pn"><button type="button" class="btn claro" id="p-ant">← Anterior</button><span style="color:#fff;align-self:center" id="p-n"></span><button type="button" class="btn claro" id="p-prox">Próxima →</button><button type="button" class="btn vermelho" id="p-sai">✕ Sair</button></div>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<p>Este painel é montado sozinho a partir das páginas do Dia 1 ao Dia 4. Quanto mais você preencher, mais completo ele fica.</p>';
+var idx = 0, modo = false;
+function v(k) { return (PE.get(k) || '').trim(); }
+function lista(rows, f) { rows = rows.filter(function (r) { return f(r); }); return rows.length ? '<ul>' + rows.map(function (r) { return '<li>' + PE.esc(f(r)) + '</li>'; }).join('') + '</ul>' : '<p class="legenda">(vazio)</p>'; }
+function pizza(fatias) {
+  var tot = fatias.reduce(function (a, f) { return a + Math.max(0, f.v); }, 0);
+  if (!tot) return '<p class="legenda">Sem valores para o gráfico.</p>';
+  var s = '<svg viewBox="-110 -110 220 220" style="width:100%;max-width:260px" role="img" aria-label="Gráfico de pizza do orçamento">', a0 = -Math.PI / 2;
+  var pos = fatias.filter(function (f) { return f.v > 0; });
+  if (pos.length === 1) s += '<circle r="100" fill="' + pos[0].c + '"/>';
+  else pos.forEach(function (f) {
+    var a1 = a0 + 2 * Math.PI * f.v / tot, g = a1 - a0 > Math.PI ? 1 : 0;
+    s += '<path d="M0 0 L' + (100 * Math.cos(a0)).toFixed(2) + ' ' + (100 * Math.sin(a0)).toFixed(2) + ' A100 100 0 ' + g + ' 1 ' + (100 * Math.cos(a1)).toFixed(2) + ' ' + (100 * Math.sin(a1)).toFixed(2) + ' Z" fill="' + f.c + '" stroke="#fff" stroke-width="2"/>'; a0 = a1;
+  });
+  s += '</svg><div class="pizza-leg">' + fatias.map(function (f) { return '<span><i style="background:' + f.c + '"></i>' + f.n + ': <b>' + PE.brl(f.v) + '</b> (' + Math.round(100 * Math.max(0, f.v) / tot) + '%)</span>'; }).join('') + '</div>';
+  return s;
+}
+function slides() {
+  var S = [], o = PE.orcamento();
+  var nome = v('t2d1.nome') || 'Nossa empresa';
+  var dir = [['Marketing', 'dir_mkt'], ['Financeiro', 'dir_fin'], ['Operações', 'dir_ops'], ['RH', 'dir_rh']].filter(function (d) { return v('t2d1.' + d[1]); }).map(function (d) { return d[0] + ': ' + v('t2d1.' + d[1]); }).join(' · ');
+  S.push(['1. Quem somos', 'azul', '<h3 style="margin-top:0;font-size:1.5em">' + PE.esc(nome) + '</h3>' +
+    (v('t2d1.produto') ? '<p><b>O que fazemos:</b> ' + PE.esc(v('t2d1.produto')) + '</p>' : '') +
+    (v('t2d1.poder') ? '<p><b>Super poder:</b> ' + PE.esc(v('t2d1.poder')) + '</p>' : '') +
+    (v('t2d1.missao') ? '<p><b>Missão:</b> ' + PE.esc(v('t2d1.missao')) + '</p>' : '') +
+    (v('t2d1.visao') ? '<p><b>Visão (2 anos):</b> ' + PE.esc(v('t2d1.visao')) + '</p>' : '') +
+    (v('t2d1.valores') ? '<p><b>Valores:</b> ' + PE.esc(v('t2d1.valores')) + '</p>' : '') +
+    (dir ? '<p><b>Diretoria:</b> ' + PE.esc(dir) + '</p>' : '')]);
+  var sw = [['💪 Forças', 'swF'], ['⚠️ Fraquezas', 'swFr'], ['🌅 Oportunidades', 'swO'], ['⛈️ Ameaças', 'swA']];
+  S.push(['2. Diagnóstico (FOFA)', 'verde', '<div class="grade2">' + sw.map(function (q) { return '<div><h3 style="margin-top:0">' + q[0] + '</h3>' + lista(PE.getJSON('t2d1.' + q[1], []), function (r) { return String(r.t || '').trim(); }) + '</div>'; }).join('') + '</div>']);
+  var pos = +v('t2d2.pos') || 3, PT = ['Foco total em custo baixo', 'Mais inclinado para custo baixo', 'Equilíbrio entre custo e qualidade', 'Mais inclinado para qualidade', 'Foco total em qualidade'];
+  var st = '<p><b>Posicionamento:</b> ' + pos + '/5 – ' + PT[pos - 1] + '</p>';
+  [['Operações', 'j_ops'], ['RH', 'j_rh'], ['Marketing', 'j_mkt']].forEach(function (j) { if (v('t2d2.' + j[1])) st += '<p><b>' + j[0] + ':</b> ' + PE.esc(v('t2d2.' + j[1])) + '</p>'; });
+  st += '<h3>Metas do 1º ano</h3><ul>';
+  var nm = 0;
+  [['Vendas/Marketing', 'mkt'], ['Financeiro', 'fin'], ['Operações', 'ops'], ['RH/Cultura', 'rh']].forEach(function (s) { var m = v('t2d2.' + s[1] + '_meta'); if (m) { nm++; st += '<li><b>' + s[0] + ':</b> ' + PE.esc(m) + '</li>'; } });
+  st += nm ? '</ul>' : '</ul><p class="legenda">(metas ainda não preenchidas)</p>';
+  S.push(['3. Estratégia e metas', 'laranja', st]);
+  var fat = [{ n: 'Implantação', v: o.si, c: '#1565C0' }, { n: '1º mês', v: o.sm, c: '#E65100' }, { n: 'Saldo de segurança', v: o.saldo, c: '#2E7D32' }];
+  var itens = o.impl.concat(o.mes1).filter(function (r) { return PE.num(r.valor) > 0; });
+  var mx = Math.max.apply(null, [1].concat(itens.map(function (r) { return PE.num(r.valor); })));
+  S.push(['4. Orçamento', 'roxo', '<div class="grade2"><div>' + pizza(fat) + '<p><b>Total gasto:</b> ' + PE.brl(o.total) + ' de ' + PE.brl(o.orc) + '</p>' +
+    (o.saldo < 0 ? '<div class="aviso vm">Ultrapassou o orçamento em ' + PE.brl(-o.saldo) + '</div>' : '') + '</div><div>' +
+    itens.map(function (r) { return '<div class="barra-item"><span>' + PE.esc(r.item || '(sem nome)') + '</span><div class="faixa"><i style="width:' + (100 * PE.num(r.valor) / mx) + '%"></i></div><b>' + PE.brl(PE.num(r.valor)) + '</b></div>'; }).join('') + '</div></div>']);
+  var ac = PE.getJSON('t2d4.acoes', []).filter(function (r) { return String(r.a || '').trim(); });
+  var tot = 0; ac.forEach(function (r) { tot += PE.num(r.v); });
+  var kp = [['Vendas/Marketing', 'mkt'], ['Financeiro', 'fin'], ['Operações', 'ops'], ['RH', 'rh']].filter(function (s) { return v('t2d4.kpi_' + s[1]); });
+  S.push(['5. Plano de ação e KPIs', 'vermelho', '<p><b>Meta prioritária:</b> ' + PE.esc(v('t2d4.meta') || 'Conquistar 400 clientes fixos até Dezembro do 1º ano.') + '</p>' +
+    (ac.length ? '<table class="tab"><tr><th>Ação</th><th>Quem</th><th>Quando</th><th>Quanto</th></tr>' + ac.map(function (r) { return '<tr><td>' + PE.esc(r.a) + '</td><td>' + PE.esc(r.q || '') + '</td><td>' + PE.esc(r.d ? r.d.split('-').reverse().join('/') : '') + '</td><td>' + PE.brl(PE.num(r.v)) + '</td></tr>'; }).join('') + '<tr><th colspan="3">Total das ações</th><th>' + PE.brl(tot) + '</th></tr></table>' : '<p class="legenda">(nenhuma ação preenchida)</p>') +
+    '<h3>KPIs</h3>' + (kp.length ? '<ul>' + kp.map(function (s) { return '<li><b>' + s[0] + ':</b> ' + PE.esc(v('t2d4.kpi_' + s[1])) + (v('t2d4.med_' + s[1]) ? ' – ' + PE.esc(v('t2d4.med_' + s[1])) : '') + '</li>'; }).join('') + '</ul>' : '<p class="legenda">(KPIs ainda não escolhidos)</p>')]);
+  return S;
+}
+function desenha() {
+  var S = slides();
+  document.getElementById('pitch').className = modo ? 'apresenta' : '';
+  document.getElementById('pitch').innerHTML = S.map(function (s, i) { return '<section class="slide' + (i === idx ? ' ativo' : '') + '" style="--cor:var(--' + s[1] + ')"><h2>' + s[0] + '</h2><div class="corpo">' + s[2] + '</div></section>'; }).join('');
+  document.getElementById('pn').classList.toggle('on', modo);
+  document.getElementById('p-n').textContent = (idx + 1) + ' / ' + S.length;
+}
+function vai(d) { idx = Math.max(0, Math.min(4, idx + d)); desenha(); }
+function entra() { modo = true; idx = 0; desenha(); var e = document.documentElement; try { if (e.requestFullscreen) e.requestFullscreen(); } catch (x) {} }
+function sai() { modo = false; desenha(); try { if (document.fullscreenElement) document.exitFullscreen(); } catch (x) {} }
+document.getElementById('b-apr').onclick = entra;
+document.getElementById('p-ant').onclick = function () { vai(-1); };
+document.getElementById('p-prox').onclick = function () { vai(1); };
+document.getElementById('p-sai').onclick = sai;
+document.addEventListener('keydown', function (e) {
+  if (!modo) return;
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); vai(1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); vai(-1); }
+  else if (e.key === 'Escape') sai();
+});
+document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement && modo) { modo = false; desenha(); } });
+var x0 = null;
+document.getElementById('pitch').addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+document.getElementById('pitch').addEventListener('touchend', function (e) { if (!modo || x0 == null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 60) vai(dx < 0 ? 1 : -1); x0 = null; }, { passive: true });
+PE.pagina({
+  exemplo: null, semLimpar: true, pronto: desenha,
+  resumo: function () { return slides().map(function (s) { var t = document.createElement('div'); t.innerHTML = s[2].replace(/<\/(li|p|h3|tr)>/g, '$&\n'); return '\n*' + s[0] + '*\n' + t.textContent.replace(/\n\s*\n/g, '\n').trim(); }).join('\n'); }
+});
+</script>
+</body>
+</html>

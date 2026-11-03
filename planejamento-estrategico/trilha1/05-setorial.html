@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análise Setorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="setorial" data-base="../" data-cor="azul">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Parte 3</span>
+    <h1>🏭 Análise Setorial</h1>
+    <p>Quem faz parte do seu setor e como cada grupo influencia o seu negócio.</p>
+  </div>
+  <section class="cartao azul"><h2>O setor do meu negócio</h2><div class="corpo" id="areas"></div></section>
+  <section class="cartao laranja">
+    <h2>🧠 Vivência setorial – para concluir</h2>
+    <div class="corpo">
+      <div class="campo"><label for="q1">Quais atores do setor mais influenciam o meu negócio?</label><textarea id="q1" data-k="q1" rows="3"></textarea></div>
+      <div class="campo"><label for="q2">Que oportunidades e ameaças o setor traz para o meu negócio?</label><textarea id="q2" data-k="q2" rows="3"></textarea></div>
+      <div class="campo"><label for="q3">O que preciso fazer para me posicionar melhor diante de clientes, concorrentes e fornecedores?</label><textarea id="q3" data-k="q3" rows="3"></textarea></div>
+    </div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<table><tr><th>Área</th><th>Exemplo</th></tr><tr><td>Clientes</td><td>Lojistas da região e famílias que compram por encomenda.</td></tr><tr><td>Concorrentes</td><td>Duas confecções grandes e vendedores de marketplace.</td></tr><tr><td>Fornecedores</td><td>Distribuidora de tecidos de São Paulo (prazo de 30 dias).</td></tr><tr><td>Mão de obra</td><td>Poucas costureiras experientes na cidade.</td></tr></table>';
+PE.pagina({ exemplo: ex });
+var A = [
+  ['cli', 'Clientes', 'Quem compra de mim? O que valorizam?', 'Descreva o perfil dos clientes e o que eles mais valorizam (preço, prazo, qualidade).'],
+  ['con', 'Concorrentes', 'Quem vende o mesmo que eu?', 'Liste os principais concorrentes diretos e indiretos e no que eles são fortes.'],
+  ['for', 'Fornecedores', 'De quem eu compro? Como é a relação?', 'Pense em prazo, preço, qualidade e se você depende de poucos fornecedores.'],
+  ['mao', 'Mão de obra', 'Encontro gente qualificada? Quanto custa?', 'Fale da disponibilidade e do custo de contratar e treinar pessoas.'],
+  ['inv', 'Investidores', 'Quem financia ou poderia financiar?', 'Bancos, sócios, programas de crédito, investidores-anjo.'],
+  ['com', 'Comunidade', 'Como a comunidade ao redor se relaciona com a empresa?', 'Vizinhos, associações, escolas, entidades locais e o impacto da empresa na região.'],
+  ['reg', 'Grupos reguladores', 'Que órgãos e regras me afetam?', 'Prefeitura, vigilância sanitária, sindicatos, associações do setor.']
+];
+var h = '';
+A.forEach(function (a) { h += PE.campo({ k: a[0], id: 's' + a[0], rot: a[1], ph: a[2], dica: a[3], tipo: 'area', linhas: 3 }); });
+document.getElementById('areas').innerHTML = h;
+</script>
+</body>
+</html>

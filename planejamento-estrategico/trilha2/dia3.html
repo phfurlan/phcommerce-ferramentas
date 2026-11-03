@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dia 3 – Recursos e Orçamento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="t2d3" data-base="../" data-cor="laranja">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 2 · Desafio da Empresa Simulada · Dia 3</span>
+    <h1>💰 Planejamento de Recursos e Custos</h1>
+    <p>Orçamento de R$ 100.000,00. Os valores abaixo são o modelo: altere, remova ou adicione linhas.</p>
+  </div>
+
+  <section class="cartao azul">
+    <h2>A. Justificativa setorial</h2>
+    <div class="corpo" id="just"></div>
+  </section>
+
+  <section class="cartao laranja">
+    <h2>B. Orçamento final (Diretor Financeiro)</h2>
+    <div class="corpo">
+      <div class="campo" style="max-width:300px"><label for="orc">Orçamento total disponível (R$)</label><input type="text" inputmode="decimal" id="orc" data-k="orc" value="100000"></div>
+
+      <h3>1. Custos de Implantação (Investimento)</h3>
+      <div id="impl"></div>
+      <div class="numeros"><div class="num-box"><small>Subtotal implantação</small><b id="s-impl"></b></div></div>
+
+      <h3>2. Custos do 1º Mês (Operação)</h3>
+      <div id="mes1"></div>
+      <div class="numeros"><div class="num-box"><small>Subtotal 1º mês</small><b id="s-mes"></b></div></div>
+    </div>
+  </section>
+
+  <section class="cartao verde">
+    <h2>📊 Resultado do orçamento</h2>
+    <div class="corpo">
+      <div class="numeros">
+        <div class="num-box"><small>CUSTO TOTAL DE IMPLANTAÇÃO E 1º MÊS</small><b id="total"></b></div>
+        <div class="num-box"><small>SALDO DE CAIXA DE SEGURANÇA</small><b id="saldo"></b></div>
+        <div class="num-box"><small>Saldo como % do orçamento</small><b id="saldo-p"></b></div>
+      </div>
+      <p style="margin:12px 0 4px"><b>Orçamento usado:</b> <span id="usado-p"></span></p>
+      <div class="faixa"><i id="barra" style="width:0"></i></div>
+      <div class="aviso vm" id="estouro" hidden></div>
+    </div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<table><tr><th>Item</th><th>Valor</th></tr><tr><td>Implantação – Aluguel</td><td>R$ 10.000,00</td></tr><tr><td>Implantação – Equipamentos</td><td>R$ 30.000,00</td></tr><tr><td>Implantação – Legalização</td><td>R$ 5.000,00</td></tr><tr><td>1º mês – Salários</td><td>R$ 18.000,00</td></tr><tr><td>1º mês – Estoque</td><td>R$ 15.000,00</td></tr><tr><td>1º mês – Marketing</td><td>R$ 5.000,00</td></tr><tr><th>Total</th><th>R$ 83.000,00</th></tr><tr><th>Saldo de segurança</th><th>R$ 17.000,00 (17%)</th></tr></table>';
+PE.pagina({ exemplo: ex, pronto: calcula });
+PE.onChange(calcula);
+
+var J = [['j_ops', 'Diretor(a) de Operações', 'Explique a estrutura de custos de Operações: equipamentos, estoque, aluguel.'], ['j_rh', 'Diretor(a) de RH', 'Explique a estrutura de custos de pessoal: salários, encargos, treinamento.'], ['j_mkt', 'Diretor(a) de Marketing', 'Explique a estrutura de custos de Marketing: lançamento, divulgação, materiais.']];
+document.getElementById('just').innerHTML = J.map(function (j) { return PE.campo({ k: j[0], id: j[0], rot: j[1], tipo: 'area', linhas: 3, ph: 'Justifique os custos do setor…', dica: j[2] }); }).join('');
+
+var COLS = [
+  { k: 'item', rot: 'Item', tipo: 'text', w: 5, ph: 'Ex.: Aluguel' },
+  { k: 'valor', rot: 'Valor (R$)', tipo: 'num', w: 3, ph: '0,00' },
+  { k: 'resp', rot: 'Responsável principal', tipo: 'sel', opcoes: PE.RESP, w: 3 }
+];
+PE.lista('#impl', 'impl', COLS, { def: PE.ORC.impl, addRot: '+ Adicionar custo de implantação' });
+PE.lista('#mes1', 'mes1', COLS, { def: PE.ORC.mes1, addRot: '+ Adicionar custo do 1º mês' });
+
+function calcula() {
+  var o = PE.orcamento();
+  var $ = function (i) { return document.getElementById(i); };
+  $('s-impl').textContent = PE.brl(o.si); $('s-mes').textContent = PE.brl(o.sm);
+  $('total').textContent = PE.brl(o.total); $('saldo').textContent = PE.brl(o.saldo);
+  $('saldo').style.color = o.saldo < 0 ? '#C62828' : '#2E7D32';
+  var usado = o.orc > 0 ? 100 * o.total / o.orc : 0;
+  $('saldo-p').textContent = (o.orc > 0 ? (100 * o.saldo / o.orc).toFixed(1).replace('.', ',') : '0') + '%';
+  $('usado-p').textContent = usado.toFixed(1).replace('.', ',') + '%';
+  var b = $('barra'); b.style.width = Math.min(100, usado) + '%';
+  b.className = usado > 100 ? 'vm' : usado >= 80 ? 'am' : '';
+  var e = $('estouro');
+  if (o.saldo < 0) { e.hidden = false; e.textContent = '⚠️ Você ultrapassou o orçamento em ' + PE.brl(-o.saldo) + '. Revise os valores acima.'; } else e.hidden = true;
+}
+</script>
+</body>
+</html>

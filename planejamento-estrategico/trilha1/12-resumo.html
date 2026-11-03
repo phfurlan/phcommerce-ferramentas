@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meu Plano Estratégico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="resumo" data-base="../" data-cor="azul">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Resumo final</span>
+    <h1>📘 Meu Plano Estratégico</h1>
+    <p>Tudo o que você preencheu, reunido em um só documento. Use os botões abaixo para imprimir/PDF ou copiar para o WhatsApp.</p>
+  </div>
+  <div id="doc"></div>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var CORES = ['azul', 'verde', 'laranja', 'roxo', 'vermelho', 'azul'];
+function topo(q) {
+  var rows = PE.getJSON('fofa.' + q, []).filter(function (r) { return String(r.x || '').trim(); });
+  rows.forEach(function (r) { r._t = PE.gut(r); });
+  rows.sort(function (a, b) { return b._t - a._t; });
+  return rows.slice(0, 3).map(function (r) { return r.x.trim() + (r._t ? ' (' + r._t + ' pts)' : ''); });
+}
+function montar() {
+  var S = [], v = function (k) { return (PE.get(k) || '').trim(); };
+  var it = [];
+  if (v('arvore.sonho')) it.push('Sonho: ' + v('arvore.sonho'));
+  if (v('arvore.hoje')) it.push('Onde estamos hoje: ' + v('arvore.hoje'));
+  var fl = PE.getJSON('arvore.folhas', []).filter(function (f) { return String(f.t || '').trim(); }).map(function (f) { return f.t.trim(); });
+  if (fl.length) it.push('Aspirações: ' + fl.join('; '));
+  S.push({ t: '🌳 1. Meu sonho', i: it });
+
+  it = [];
+  [['F', '💪 Forças'], ['O', '🌅 Oportunidades'], ['Fr', '⚠️ Fraquezas'], ['A', '⛈️ Ameaças']].forEach(function (q) {
+    var t = topo(q[0]); if (t.length) it.push(q[1] + ': ' + t.join(' · '));
+  });
+  S.push({ t: '🎯 2. Principais fatores da matriz FOFA', i: it });
+
+  it = [];
+  var r = PE.posturas();
+  if (r.max > 0) {
+    r.res.filter(function (p) { return p.venc; }).forEach(function (p) { it.push('Postura recomendada: ' + p.nome + ' (' + p.soma + ' pontos) – ' + p.q); });
+    it.push('Somas: ' + r.res.map(function (p) { return p.nome + ' ' + p.soma; }).join(' · '));
+  }
+  S.push({ t: '✖️ 3. Postura estratégica', i: it });
+
+  it = [];
+  PE.getJSON('smart.objs', []).forEach(function (r) {
+    var T = function (x) { return String(x || '').trim(); };
+    if (!T(r.s) && !T(r.m) && !T(r.t)) return;
+    it.push((r.area ? r.area + ': ' : '') + 'Minha equipe irá ' + (T(r.s) || '…') + ', com resultado medido por ' + (T(r.m) || '…') + ', até ' + (T(r.t) || '…') + '.');
+  });
+  S.push({ t: '🏁 4. Objetivos SMART', i: it });
+
+  it = [];
+  var tot = 0;
+  PE.getJSON('plano.acoes', []).forEach(function (a) {
+    if (!String(a.o || '').trim()) return;
+    var c = PE.num(a.v); tot += c;
+    var p = [a.o.trim()]; if (a.qm) p.push('Quem: ' + a.qm); if (a.fim) p.push('Até: ' + a.fim.split('-').reverse().join('/')); if (a.v) p.push(PE.brl(c));
+    it.push(p.join(' – '));
+  });
+  if (it.length) it.push('Custo total das ações: ' + PE.brl(tot));
+  S.push({ t: '🛠️ 5. Plano de ação (5W2H)', i: it });
+
+  it = [];
+  PE.getJSON('ind.inds', []).forEach(function (x) {
+    if (!String(x.i || '').trim()) return;
+    var p = [x.i.trim()]; if (x.m) p.push('Meta: ' + x.m); if (x.fq) p.push(x.fq); if (x.r) p.push('Resp.: ' + x.r);
+    it.push(p.join(' – '));
+  });
+  S.push({ t: '📊 6. Indicadores', i: it });
+  return S;
+}
+function desenha() {
+  var h = '';
+  montar().forEach(function (s, n) {
+    h += '<section class="cartao ' + CORES[n] + '"><h2>' + s.t + '</h2><div class="corpo">';
+    h += s.i.length ? '<ul>' + s.i.map(function (x) { return '<li>' + PE.esc(x) + '</li>'; }).join('') + '</ul>' : '<p class="legenda">(ainda não preenchido)</p>';
+    h += '</div></section>';
+  });
+  document.getElementById('doc').innerHTML = h;
+}
+PE.pagina({
+  pronto: desenha, semLimpar: true,
+  resumo: function () {
+    return montar().filter(function (s) { return s.i.length; }).map(function (s) { return '\n*' + s.t + '*\n' + s.i.map(function (x) { return '• ' + x; }).join('\n'); }).join('\n');
+  }
+});
+</script>
+</body>
+</html>

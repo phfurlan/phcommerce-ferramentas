@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Objetivos SMART</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="smart" data-base="../" data-cor="verde">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Parte 4</span>
+    <h1>🏁 Objetivos SMART</h1>
+    <p>Escreva cada objetivo com os 5 critérios. O site monta a frase do objetivo sozinho e avisa quando está completo.</p>
+  </div>
+
+  <section class="cartao verde">
+    <h2>Os 5 critérios</h2>
+    <div class="corpo">
+      <p><b>S – Específico:</b> claro, explícito e conciso; envolve o que fazer, quem faz, por que, onde.<br>
+      <b>M – Mensurável:</b> preferencialmente quantitativo (quanto? sob qual aspecto: lucro, receita, produção…).<br>
+      <b>A – Atingível (alcançável):</b> desafiador, mas possível; nem fácil demais, nem difícil demais.<br>
+      <b>R – Relevante:</b> faz diferença para a missão e atende às partes interessadas (clientes, equipe, comunidade…).<br>
+      <b>T – Temporal:</b> tem prazo para acontecer e acabar.</p>
+    </div>
+  </section>
+
+  <section class="cartao verde">
+    <h2>📝 Meus objetivos SMART <span class="total-quadro">Um para cada área estratégica</span></h2>
+    <div class="corpo"><div id="objs"></div></div>
+  </section>
+
+  <section class="cartao azul">
+    <h2>🔗 Objetivos SMART versus FOFA</h2>
+    <div class="corpo">
+      <div class="campo"><label for="r1">Qual a relação dos objetivos de vocês com todo o planejamento feito até agora?</label><textarea id="r1" data-k="r1" rows="3"></textarea></div>
+      <div class="campo"><label for="r2">Conseguem relacionar esses objetivos SMART com a visão de futuro da empresa?</label><textarea id="r2" data-k="r2" rows="3"></textarea></div>
+      <div class="campo"><label for="r3">Conseguem fazer a relação entre os objetivos e a análise FOFA?</label><textarea id="r3" data-k="r3" rows="3"></textarea></div>
+    </div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<table><tr><th>Área estratégica</th><td>Desenvolvimento</td></tr><tr><th>S – Específico</th><td>Aumentar as vendas online</td></tr><tr><th>M – Mensurável</th><td>20% a mais que hoje</td></tr><tr><th>A – Atingível</th><td>Já vendemos pelo Instagram e temos estoque</td></tr><tr><th>R – Relevante</th><td>As vendas online são a maior oportunidade</td></tr><tr><th>T – Temporal</th><td>Até o fim do 1º semestre</td></tr></table><div class="frase">Minha equipe irá aumentar as vendas online, com resultado medido por 20% a mais que hoje, até o fim do 1º semestre.</div>';
+PE.pagina({ exemplo: ex, resumo: function () {
+  var o = []; PE.getJSON('smart.objs', []).forEach(function (r) { var f = frase(r); if (f) o.push('• ' + (r.area ? r.area + ': ' : '') + f.split('\n')[0]); });
+  return o.length ? '\n*Objetivos SMART*\n' + o.join('\n') : '';
+} });
+function t(v) { return String(v || '').trim(); }
+function frase(r) {
+  if (!t(r.s) && !t(r.m) && !t(r.t)) return '';
+  return 'Minha equipe irá ' + (t(r.s) || '…') + ', com resultado medido por ' + (t(r.m) || '…') + ', até ' + (t(r.t) || '…') + '.';
+}
+PE.frasesSmart = frase;
+var AREAS = ['Desenvolvimento', 'Manutenção', 'Crescimento', 'Sobrevivência', 'Outra'];
+PE.lista('#objs', 'objs', [
+  { k: 'area', rot: 'Área estratégica', tipo: 'sel', opcoes: AREAS, w: 4, vazio: 'Escolha a área…', dica: 'Desenvolvimento = forças + oportunidades · Manutenção = forças + ameaças · Crescimento = fraquezas + oportunidades · Sobrevivência = fraquezas + ameaças.' },
+  { k: 's', rot: 'S – Específico (o que eu quero?)', tipo: 'area', w: 8, ph: 'Ex.: Aumentar as vendas online', linhas: 2 },
+  { k: 'm', rot: 'M – Mensurável (quanto?)', tipo: 'text', w: 6, ph: 'Ex.: 20% a mais que hoje' },
+  { k: 'a', rot: 'A – Atingível (é possível?)', tipo: 'text', w: 6, ph: 'Ex.: Já temos estoque e clientes' },
+  { k: 'r', rot: 'R – Relevante (impacta o negócio?)', tipo: 'text', w: 6, ph: 'Ex.: É a maior oportunidade' },
+  { k: 't', rot: 'T – Temporal (até quando?)', tipo: 'text', w: 6, ph: 'Ex.: Até 30 de junho' },
+  { tipo: 'calc', rot: 'Objetivo SMART', w: 9, fn: function (r) { return frase(r) || 'Preencha as letras para ver o objetivo aqui.'; }, cls: function () { return 'txt'; } },
+  { tipo: 'calc', rot: 'Situação', w: 3, fn: function (r) { return (t(r.s) && t(r.m) && t(r.a) && t(r.r) && t(r.t)) ? 'Completo ✔' : 'Faltam letras'; }, cls: function (r) { return (t(r.s) && t(r.m) && t(r.a) && t(r.r) && t(r.t)) ? 'ok' : ''; } }
+], { def: [{ area: 'Desenvolvimento' }, { area: 'Manutenção' }, { area: 'Crescimento' }, { area: 'Sobrevivência' }], min: 4, addRot: '+ Novo objetivo' });
+</script>
+</body>
+</html>

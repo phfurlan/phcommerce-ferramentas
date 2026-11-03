@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indicadores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="ind" data-base="../" data-cor="roxo">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Parte 5</span>
+    <h1>📊 Indicadores</h1>
+    <p>Indicadores medem a diferença entre a situação desejada (a meta) e a situação atual (o resultado): são o velocímetro e as placas de sinalização da sua empresa.</p>
+  </div>
+
+  <section class="cartao roxo nao-imprimir no-resumo">
+    <h2>💡 Exemplos do curso por perspectiva (toque para usar)</h2>
+    <div class="corpo" id="sug"></div>
+  </section>
+
+  <section class="cartao roxo">
+    <h2>📈 Meus indicadores</h2>
+    <div class="corpo"><div id="inds"></div></div>
+  </section>
+
+  <section class="cartao amarelo">
+    <h2>✅ Critérios para a efetividade de indicadores</h2>
+    <div class="corpo">
+      <label class="marca"><input type="checkbox" data-k="ck1"><span><b>Indicadores eficazes:</b> medem “a coisa certa”</span></label>
+      <label class="marca"><input type="checkbox" data-k="ck2"><span><b>Indicadores eficientes:</b> poucos, porém abrangentes</span></label>
+      <label class="marca"><input type="checkbox" data-k="ck3"><span><b>Indicadores viáveis:</b> possíveis de serem medidos</span></label>
+    </div>
+  </section>
+
+  <section class="cartao azul">
+    <h2>📌 Encerramento da Parte 5</h2>
+    <div class="corpo"><div class="campo"><label for="enc">Anotações e dúvidas desta parte</label><textarea id="enc" data-k="encerramento" rows="3" placeholder="Escreva suas anotações e dúvidas."></textarea></div></div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<p><b>Exemplo do curso:</b> Indicador: racionalização de produtos · Descrição: reduzir a linha de produtos e os esforços para reduzir a base de custos · Fórmula: nº de produtos no mês n ÷ nº de produtos no início do ano · Meta: reduzir em 10% o nº de produtos até o final do ano · Fonte: sistema MRP · Responsável: Diretor de Engenharia · Frequência: mensal.</p><table><tr><th>Indicador</th><th>Fórmula</th><th>Meta</th><th>Fonte</th><th>Responsável</th><th>Frequência</th></tr><tr><td>Vendas online no mês</td><td>Soma dos pedidos do WhatsApp e do site</td><td>+20% no semestre</td><td>Planilha de pedidos</td><td>Ana</td><td>Mensal</td></tr><tr><td>Margem de lucro</td><td>(Lucro ÷ Receita) × 100</td><td>15%</td><td>Fluxo de caixa</td><td>João</td><td>Mensal</td></tr></table>';
+PE.pagina({ exemplo: ex });
+var SUG = [
+  ['💰 Financeiros', 'verde', ['Faturamento', 'Lucratividade', 'Rentabilidade', 'EBITDA', 'Margem de contribuição', 'Retorno sobre investimento', 'Despesas comerciais sobre faturamento', 'Despesas administrativas sobre faturamento', 'Despesas de juros sobre faturamento', 'Liquidez', 'Risco', 'Necessidade de capital de giro']],
+  ['🙂 Clientes', 'azul', ['Faturamento por produtos, negócio ou grupos de clientes', 'Participação de mercado', 'Captação de clientes', 'Retenção de clientes', 'Satisfação dos clientes', 'Lucratividade dos clientes']],
+  ['⚙️ Processos internos', 'laranja', ['% de vendas geradas por novos produtos', 'Lançamento de novos produtos x lançamento da concorrência', 'Tempo de desenvolvimento de novos produtos', 'Qualidade do produto/serviço', 'Produtividade', 'Retrabalho', 'Entrega eficiente de produtos', 'Serviço pós-venda']],
+  ['🎓 Aprendizado e crescimento', 'roxo', ['Competência dos funcionários', 'Satisfação dos funcionários', 'Projetos estratégicos da empresa', 'Infraestrutura da empresa', 'Capacidade dos sistemas de informação']]
+];
+var h = '';
+SUG.forEach(function (s) {
+  h += '<h3>' + s[0] + '</h3><div style="display:flex;flex-wrap:wrap;gap:8px">';
+  s[2].forEach(function (n) { h += '<button type="button" class="btn claro peq sug" style="border-color:var(--' + s[1] + ')">+ ' + PE.esc(n) + '</button>'; });
+  h += '</div>';
+});
+document.getElementById('sug').innerHTML = h;
+
+var L = PE.lista('#inds', 'inds', [
+  { k: 'i', rot: 'Indicador', tipo: 'text', w: 4, ph: 'Ex.: Vendas online no mês' },
+  { k: 'd', rot: 'Descrição', tipo: 'area', w: 8, ph: 'O que ele mostra?' },
+  { k: 'f', rot: 'Fórmula', tipo: 'area', w: 6, ph: 'Ex.: (Lucro ÷ Receita) × 100' },
+  { k: 'm', rot: 'Meta', tipo: 'text', w: 3, ph: 'Ex.: 15%' },
+  { k: 'fo', rot: 'Fonte dos dados', tipo: 'text', w: 3, ph: 'Ex.: Planilha' },
+  { k: 'r', rot: 'Responsável', tipo: 'text', w: 4, ph: 'Ex.: João' },
+  { k: 'fq', rot: 'Frequência', tipo: 'sel', opcoes: ['Diária', 'Semanal', 'Quinzenal', 'Mensal', 'Trimestral', 'Semestral'], w: 4 },
+  { k: 'c', rot: 'Comentários', tipo: 'text', w: 3 }
+], { min: 3, addRot: '+ Novo indicador' });
+
+Array.prototype.forEach.call(document.querySelectorAll('button.sug'), function (b) {
+  b.onclick = function () {
+    var nome = b.textContent.replace(/^\+\s*/, '');
+    var vazio = L.rows.filter(function (r) { return !String(r.i || '').trim(); })[0];
+    if (vazio) { vazio.i = nome; L.render(); L.mudou(); }
+    else { L.add({ i: nome }); }
+    PE.aviso('✔ "' + nome + '" adicionado ao formulário');
+  };
+});
+</script>
+</body>
+</html>

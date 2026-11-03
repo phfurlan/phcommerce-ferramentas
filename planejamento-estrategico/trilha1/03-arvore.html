@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Árvore dos Sonhos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="arvore" data-base="../" data-cor="verde">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Parte 2</span>
+    <h1>🌳 Árvore dos Sonhos</h1>
+    <p>O sonho fica no tronco e as aspirações nas folhas. A árvore se desenha sozinha enquanto você escreve.</p>
+  </div>
+
+  <div class="grade2">
+    <div>
+      <section class="cartao verde">
+        <h2>🌱 O sonho (tronco)</h2>
+        <div class="corpo">
+          <div class="campo"><label for="sonho">Qual o maior sonho para o futuro da sua empresa? <button type="button" class="dica-btn" data-dica="Pense grande, mas em uma frase curta. Ex.: 'Ser a confecção mais lembrada da cidade'.">💡 Ver dica</button></label>
+            <textarea id="sonho" data-k="sonho" rows="2" placeholder="Ex.: Ser referência em roupas sob medida na região."></textarea></div>
+          <div class="campo"><label for="hoje">Onde a empresa está hoje? <button type="button" class="dica-btn" data-dica="Descreva a situação atual: tamanho, equipe, clientes, resultados.">💡 Ver dica</button></label>
+            <textarea id="hoje" data-k="hoje" rows="4" placeholder="Ex.: Somos 4 pessoas, vendemos para a vizinhança e queremos vender pela internet."></textarea></div>
+        </div>
+      </section>
+      <section class="cartao verde">
+        <h2>🍃 Quais são as aspirações e desejos? (folhas)</h2>
+        <div class="corpo"><p class="legenda">Até 8 folhas. Cada folha é uma aspiração ou desejo.</p><div id="folhas" class="simples"></div></div>
+      </section>
+    </div>
+    <section class="cartao verde">
+      <h2>🌳 Minha árvore</h2>
+      <div class="corpo"><svg class="arvore-svg" id="svg" viewBox="0 0 360 400" role="img" aria-label="Desenho da árvore dos sonhos"></svg></div>
+    </section>
+  </div>
+  <section class="cartao azul">
+    <h2>📌 Encerramento da Parte 2</h2>
+    <div class="corpo"><div class="campo"><label for="enc">Anotações e dúvidas desta parte <button type="button" class="dica-btn" data-dica="Verifique suas anotações e dúvidas e consolide aqui, para o instrutor ou consultor checar o entendimento.">💡 Ver dica</button></label><textarea id="enc" data-k="encerramento" rows="3" placeholder="Escreva suas anotações e dúvidas."></textarea></div></div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<p><b>Sonho (tronco):</b> Ser a confecção mais lembrada da cidade.</p><p><b>Folhas:</b></p><ul><li>Vender também pela internet</li><li>Ter uma equipe treinada</li><li>Abrir uma segunda loja</li><li>Lançar linha de uniformes</li></ul>';
+PE.pagina({ exemplo: ex, pronto: desenha });
+
+var POS = [[85, 95], [150, 70], [215, 90], [275, 120], [70, 150], [130, 130], [200, 150], [265, 175]];
+var CORES = ['#2E7D32', '#43A047', '#1B5E20', '#66BB6A', '#2E7D32', '#43A047', '#1B5E20', '#66BB6A'];
+function quebra(t, max, n) {
+  var pal = String(t || '').trim().split(/\s+/), ls = [], cur = '';
+  pal.forEach(function (p) { if ((cur + ' ' + p).trim().length > max && cur) { ls.push(cur); cur = p; } else cur = (cur + ' ' + p).trim(); });
+  if (cur) ls.push(cur);
+  if (ls.length > n) { ls = ls.slice(0, n); ls[n - 1] = ls[n - 1].slice(0, max - 1) + '…'; }
+  return ls.map(function (l) { return l.length > max ? l.slice(0, max - 1) + '…' : l; });
+}
+function desenha() {
+  var s = '<rect x="150" y="215" width="60" height="170" rx="10" fill="#8B5A2B"/><ellipse cx="180" cy="390" rx="110" ry="8" fill="#6aa84f" opacity=".5"/>';
+  s += '<ellipse cx="180" cy="130" rx="165" ry="115" fill="#C8E6C9"/>';
+  var folhas = (PE.listas.folhas && PE.listas.folhas.rows) || [];
+  folhas.forEach(function (f, i) {
+    if (i >= 8) return; var p = POS[i], t = String(f.t || '').trim();
+    s += '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="45" ry="30" fill="' + CORES[i] + '" transform="rotate(' + (i % 2 ? 12 : -12) + ' ' + p[0] + ' ' + p[1] + ')"/>';
+    var ls = t ? quebra(t, 12, 3) : ['Folha ' + (i + 1)];
+    ls.forEach(function (l, j) { s += '<text x="' + p[0] + '" y="' + (p[1] + 4 - (ls.length - 1) * 6 + j * 12) + '" font-size="10.5" font-weight="700" text-anchor="middle" fill="#fff">' + PE.esc(l) + '</text>'; });
+  });
+  var sonho = PE.valor('sonho'), ls = quebra(sonho, 9, 6);
+  if (!ls.length) ls = ['Meu', 'sonho'];
+  ls.forEach(function (l, j) { s += '<text x="180" y="' + (250 + j * 17) + '" font-size="13" font-weight="800" text-anchor="middle" fill="#fff">' + PE.esc(l) + '</text>'; });
+  document.getElementById('svg').innerHTML = s;
+}
+PE.lista('#folhas', 'folhas', [{ k: 't', tipo: 'text', ph: 'Ex.: Vender pela internet', w: 12 }], { min: 4, max: 8, simples: true, addRot: '+ Adicionar folha', aposMudar: desenha });
+PE.onChange(desenha);
+</script>
+</body>
+</html>

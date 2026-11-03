@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análise PEST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="pest" data-base="../" data-cor="roxo">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Parte 3</span>
+    <h1>🌎 Análise PEST</h1>
+    <p>Marque os fatores externos que afetam o seu negócio e explique como. P = Político · E = Econômico · S = Social · T = Tecnológico.</p>
+  </div>
+  <div class="grade4 pest" id="pest"></div>
+
+  <section class="cartao roxo">
+    <h2>🧠 Para concluir</h2>
+    <div class="corpo">
+      <div class="campo"><label for="q1">Seu negócio sofre influência dos fatores PEST?</label><textarea id="q1" data-k="q1" rows="3"></textarea></div>
+      <div class="campo"><label for="q2">Qual a importância da análise PEST para seu negócio?</label><textarea id="q2" data-k="q2" rows="3"></textarea></div>
+      <div class="campo"><label for="q3">Como você deverá agir para se manter competitivo?</label><textarea id="q3" data-k="q3" rows="3"></textarea></div>
+    </div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<table><tr><th>Fator</th><th>Afeta?</th><th>Como impacta</th></tr><tr><td>Político – Legislação trabalhista</td><td>✔</td><td>Aumenta o custo de contratar costureiras.</td></tr><tr><td>Econômico – Custo de matéria-prima</td><td>✔</td><td>O tecido subiu 12% e reduz a margem.</td></tr><tr><td>Social – Compra online</td><td>✔</td><td>Clientes querem pedir pelo WhatsApp.</td></tr><tr><td>Tecnológico – Pix</td><td>✔</td><td>Recebimento mais rápido.</td></tr></table>';
+PE.pagina({ exemplo: ex, pronto: function () { conta(); } });
+
+var G = [
+  { id: 'p', nome: '🏛️ Político', cor: 'azul', f: ['Impacto tributário', 'Informalidade', 'Incentivos fiscais', 'Mudança de legislação', 'Concessões do Estado', 'Legislação antitruste e monopólios', 'Política internacional (incentivos à exportação/importação; acordos internacionais)', 'Direito do consumidor', 'Legislação trabalhista', 'Fiscalização', 'Compras governamentais', 'Infraestrutura (estradas, portos, aeroportos, ferrovias etc.)', 'Direito comercial, propriedade intelectual'] },
+  { id: 'e', nome: '💵 Econômico', cor: 'verde', f: ['Mercados globais', 'Aumento do comércio entre países', 'Estabilização econômica', 'Aumento do poder de compra das classes sociais, ascensão social', '(Des)valorização da moeda nacional', 'Possibilidade de pessoas e empresas realizarem planejamento financeiro', 'Liberalização do crédito', 'Taxa de juros', 'Crescimento dos serviços', 'Fusões e aquisições entre empresas'] },
+  { id: 's', nome: '👥 Social', cor: 'laranja', f: ['Envelhecimento da população', 'Preocupação com saúde', 'Preocupação com estética', 'Pressões pela conservação do meio ambiente, aquecimento global', 'Concentração nas grandes cidades x migração para subúrbios', 'Aumento do trânsito nas grandes cidades', 'Menor tempo livre', 'Flexibilização das relações de trabalho', 'Mais atividades centradas no lar', 'Incorporação da mulher ao mercado de trabalho', 'Crescimento no nível educacional', 'Aumento dos valores democráticos', 'Transformação da família', 'Convergência x divergência cultural', 'Consumo ético', 'Responsabilidade na comunidade'] },
+  { id: 't', nome: '💻 Tecnológico', cor: 'roxo', f: ['Internet de fácil acesso', 'Telecomunicações', 'Redes sociais', 'TV digital', 'Informática', 'Convergência tecnológica', 'Novos materiais', 'Nanotecnologia', 'Automação', 'Biotecnologia e engenharia genética', 'Redução do ciclo de vida dos produtos'] }
+];
+var h = '';
+G.forEach(function (g) {
+  h += '<section class="cartao ' + g.cor + '"><h2>' + g.nome + '</h2><div class="corpo"><details class="mais" id="det-' + g.id + '"><summary>Fatores citados no curso (<span id="n-' + g.id + '">0</span> marcados)</summary><p class="legenda">Marque os que afetam o seu negócio:</p>';
+  g.f.forEach(function (f, i) {
+    h += '<div class="campo" style="margin:0"><label class="marca"><input type="checkbox" data-k="' + g.id + i + '"><span>' + f + '</span></label></div>';
+  });
+  h += '</details>';
+  h += '<div class="campo"><label for="o' + g.id + '">Outros fatores</label><input type="text" id="o' + g.id + '" data-k="o' + g.id + '" placeholder="Ex.: ..."></div>';
+  h += '<div class="campo"><label for="c' + g.id + '">Como isso impacta? <button type="button" class="dica-btn" data-dica="Diga se o fator ajuda ou atrapalha e de que forma (custo, vendas, clientes).">💡 Ver dica</button></label><textarea id="c' + g.id + '" data-k="c' + g.id + '" rows="3" placeholder="Ex.: Aumenta meu custo porque..."></textarea></div>';
+  h += '</div></section>';
+});
+document.getElementById('pest').innerHTML = h;
+function conta() { G.forEach(function (g) { document.getElementById('n-' + g.id).textContent = document.querySelectorAll('#det-' + g.id + ' input:checked').length; }); }
+PE.onChange(conta);
+</script>
+</body>
+</html>

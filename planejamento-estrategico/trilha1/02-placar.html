@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quadros Coloridos – Placar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="placar" data-base="../" data-cor="laranja">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Parte 1</span>
+    <h1>🧱 Quadros Coloridos – Placar</h1>
+    <p>Cada grupo registra o que executou na Etapa 1 e compara o previsto com o realizado nas Etapas 2 e 3.</p>
+  </div>
+
+  <section class="cartao laranja nao-imprimir no-resumo">
+    <h2>⏱️ Cronômetros (para o instrutor / projetor)</h2>
+    <div class="corpo"><div class="crono-grade" id="cronos"></div></div>
+  </section>
+
+  <section class="cartao laranja">
+    <h2>📋 Placar dos grupos</h2>
+    <div class="corpo">
+      <p class="legenda">Etapa 1: quanto o grupo executou em 1:30. Etapas 2 e 3: quanto previu e quanto realizou. A diferença é calculada sozinha: <b style="color:#2E7D32">verde</b> = bateu a meta (realizado ≥ previsto), <b style="color:#C62828">vermelho</b> = não bateu.</p>
+      <div id="placar"></div>
+    </div>
+  </section>
+
+  <section class="cartao azul">
+    <h2>💬 O que aprendi sobre planejamento?</h2>
+    <div class="corpo">
+      <div class="campo"><label for="a0">O que aprendi sobre planejamento?</label><textarea id="a0" data-k="aprendi" rows="3" placeholder="Escreva com suas palavras."></textarea></div>
+      <h3>Perguntas do debate</h3>
+      <div class="campo"><label for="d1">Como me senti?</label><textarea id="d1" data-k="d1" rows="2"></textarea></div>
+      <div class="campo"><label for="d2">Como foi planejar?</label><textarea id="d2" data-k="d2" rows="2"></textarea></div>
+      <div class="campo"><label for="d3">É possível planejar?</label><textarea id="d3" data-k="d3" rows="2"></textarea></div>
+      <div class="campo"><label for="d4">O que aprendi?</label><textarea id="d4" data-k="d4" rows="2"></textarea></div>
+    </div>
+  </section>
+  <section class="cartao azul">
+    <h2>📌 Encerramento da Parte 1</h2>
+    <div class="corpo"><div class="campo"><label for="enc">Anotações e dúvidas desta parte <button type="button" class="dica-btn" data-dica="Verifique suas anotações e dúvidas e consolide aqui, para o instrutor ou consultor checar o entendimento.">💡 Ver dica</button></label><textarea id="enc" data-k="encerramento" rows="3" placeholder="Escreva suas anotações e dúvidas."></textarea></div></div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<table><tr><th>Grupo</th><th>Etapa 1</th><th>Etapa 2 prev./real.</th><th>Etapa 3 prev./real.</th></tr>' +
+  '<tr><td>Grupo 1</td><td>12</td><td>20 / 22 (+2 ✔)</td><td>30 / 27 (-3 ✖)</td></tr>' +
+  '<tr><td>Grupo 2</td><td>10</td><td>18 / 18 (0 ✔)</td><td>25 / 30 (+5 ✔)</td></tr></table>' +
+  '<p><b>O que aprendi:</b> que prever o resultado ajuda a organizar a equipe antes de começar.</p>';
+PE.pagina({ exemplo: ex });
+
+var C = document.getElementById('cronos');
+PE.cronometro(C, 90, 'Etapa 1 – 1:30');
+PE.cronometro(C, 120, 'Etapas 2 e 3 – 2:00');
+
+function dif(p, r) {
+  return function (row) { if (String(row[p] || '').trim() === '' || String(row[r] || '').trim() === '') return '—'; var d = PE.num(row[r]) - PE.num(row[p]); return (d > 0 ? '+' : '') + d; };
+}
+function cls(p, r) {
+  return function (row) { if (String(row[p] || '').trim() === '' || String(row[r] || '').trim() === '') return ''; return PE.num(row[r]) >= PE.num(row[p]) ? 'ok' : 'nok'; };
+}
+PE.lista('#placar', 'grupos', [
+  { k: 'g', rot: 'Grupo', tipo: 'text', w: 2 },
+  { k: 'e1', rot: 'Etapa 1 – executado', tipo: 'num', w: 2 },
+  { k: 'p2', rot: 'Etapa 2 – previsto', tipo: 'num', w: 2 },
+  { k: 'r2', rot: 'Etapa 2 – realizado', tipo: 'num', w: 2 },
+  { k: 'p3', rot: 'Etapa 3 – previsto', tipo: 'num', w: 2 },
+  { k: 'r3', rot: 'Etapa 3 – realizado', tipo: 'num', w: 2 },
+  { tipo: 'calc', rot: 'Diferença Etapa 2', w: 3, fn: dif('p2', 'r2'), cls: cls('p2', 'r2') },
+  { tipo: 'calc', rot: 'Diferença Etapa 3', w: 3, fn: dif('p3', 'r3'), cls: cls('p3', 'r3') }
+], { def: [{ g: 'Grupo 1' }, { g: 'Grupo 2' }, { g: 'Grupo 3' }, { g: 'Grupo 4' }, { g: 'Grupo 5' }], addRot: '+ Adicionar grupo' });
+</script>
+</body>
+</html>

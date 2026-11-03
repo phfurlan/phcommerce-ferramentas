@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matriz FOFA com GUT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="fofa" data-base="../" data-cor="vermelho">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Partes 3 e 4</span>
+    <h1>🎯 Matriz FOFA com GUT</h1>
+    <p>Liste Forças, Oportunidades, Fraquezas e Ameaças. Dê nota de 1 a 5 em cada menu e o total (G × U × T, máximo 125) é calculado sozinho.</p>
+  </div>
+
+  <div class="intro">
+    <b>Matriz GUT:</b> uma técnica para definir prioridades. Ela responde: <i>O que devemos fazer primeiro? Por quê? Por onde devemos começar?</i> <b>G</b>ravidade (intensidade dos danos), <b>U</b>rgência (tempo para os danos aparecerem) e <b>T</b>endência (como o fator evolui se nada for feito). Nota de 1 a 5; a pontuação é G × U × T (máximo 5×5×5 = 125, mínimo 1×1×1 = 1). Quem tiver a maior pontuação deve ser resolvido primeiro.<br><br><b>Como funciona aqui:</b> <b>F</b>orças e <b>Fr</b>aquezas são coisas de <u>dentro</u> da empresa. <b>O</b>portunidades e <b>A</b>meaças vêm de <u>fora</u>. Quanto maior o total, mais importante é o fator. Os 3 maiores de cada quadro ficam destacados com 🏆.
+    <div class="acoes nao-imprimir" style="margin:8px 0 0"><button type="button" class="btn laranja" id="ordena-todos">↕️ Ordenar todos por pontuação</button></div>
+  </div>
+
+  <div id="quadros"></div>
+
+  <section class="cartao azul">
+    <h2>📌 Encerramento da Parte 3</h2>
+    <div class="corpo"><div class="campo"><label for="enc">Anotações e dúvidas desta parte</label><textarea id="enc" data-k="encerramento" rows="3" placeholder="Escreva suas anotações e dúvidas."></textarea></div></div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<table><tr><th>Quadro</th><th>Fator</th><th>G</th><th>U</th><th>T</th><th>Total</th></tr>' +
+  '<tr><td>Força</td><td>Acabamento de qualidade</td><td>5</td><td>3</td><td>4</td><td><b>60</b></td></tr>' +
+  '<tr><td>Oportunidade</td><td>Venda pelo WhatsApp e Instagram</td><td>4</td><td>4</td><td>5</td><td><b>80</b></td></tr>' +
+  '<tr><td>Fraqueza</td><td>Sem controle de fluxo de caixa</td><td>5</td><td>5</td><td>4</td><td><b>100</b></td></tr>' +
+  '<tr><td>Ameaça</td><td>Aumento do preço do tecido</td><td>4</td><td>3</td><td>4</td><td><b>48</b></td></tr></table>' +
+  '<p class="legenda">Exemplo: a Fraqueza (100) é a mais pontuada, então é a primeira coisa a resolver.</p>';
+PE.pagina({ exemplo: ex });
+
+var ESC = {
+  neg: {
+    g: ['Sem gravidade', 'Pouco grave', 'Grave', 'Muito grave', 'Extremamente grave'],
+    t: ['Não irá mudar', 'Irá piorar a longo prazo', 'Irá piorar', 'Irá piorar em pouco tempo', 'Irá piorar rapidamente'],
+    u: ['Pode esperar', 'Pouco urgente', 'O mais rápido possível', 'É urgente', 'Precisa de ação imediata'],
+    gr: 'Gravidade'
+  },
+  pos: {
+    g: ['Sem influência', 'Pouco influente', 'Influencia', 'Influencia muito', 'Extremamente influente'],
+    t: ['Piora muito', 'Piora', 'Mantém', 'Melhora', 'Melhora muito'],
+    u: ['Pode esperar', 'Pouco urgente', 'Urgente', 'Muito urgente', 'Imediatamente'],
+    gr: 'Influência'
+  }
+};
+function ops(arr) { return arr.map(function (t, i) { return [String(i + 1), (i + 1) + ' – ' + t]; }); }
+
+var Q = [
+  { id: 'O', nome: '🌅 Oportunidades', cor: 'azul', tipo: 'pos', ph: 'Ex.: Vendas pela internet', parte: 'Parte I – Fatores externos (a empresa não tem poder de mudar). Use a análise PEST e a Setorial como referência.' },
+  { id: 'A', nome: '⛈️ Ameaças', cor: 'laranja', tipo: 'neg', ph: 'Ex.: Concorrente novo no bairro' },
+  { id: 'F', nome: '💪 Forças', cor: 'verde', tipo: 'pos', ph: 'Ex.: Equipe experiente', parte: 'Parte II – Fatores internos (a empresa tem total influência para mudar).' },
+  { id: 'Fr', nome: '⚠️ Fraquezas', cor: 'vermelho', tipo: 'neg', ph: 'Ex.: Falta controle financeiro' }
+];
+var cont = document.getElementById('quadros');
+Q.forEach(function (q) {
+  if (q.parte) { var pp = document.createElement('div'); pp.className = 'intro'; pp.innerHTML = '<b>Vivência FOFA – ' + q.parte.split(' – ')[0] + '</b><br>' + q.parte.split(' – ').slice(1).join(' – '); cont.appendChild(pp); }
+  var s = document.createElement('section'); s.className = 'cartao ' + q.cor;
+  s.innerHTML = '<h2><span>' + q.nome + '</span><span><span class="total-quadro">Soma: <b id="tot-' + q.id + '">0</b></span> <button type="button" class="btn claro peq nao-imprimir" id="ord-' + q.id + '">↕️ Ordenar</button></span></h2>' +
+    '<div class="corpo"><p class="legenda">' + (q.tipo === 'pos' ? 'Influência: quanto isso ajuda · Tendência: se tende a melhorar.' : 'Gravidade: o tamanho do problema · Tendência: se tende a piorar.') + '</p><div id="L-' + q.id + '"></div><div class="aviso" id="av-' + q.id + '" hidden>💛 Algumas linhas têm texto mas ainda faltam menus. Preencha os 3 para calcular o total.</div></div>';
+  cont.appendChild(s);
+  var E = ESC[q.tipo];
+  var L = PE.lista('#L-' + q.id, q.id, [
+    { k: 'x', rot: 'Fator', tipo: 'area', ph: q.ph, w: 5, linhas: 2 },
+    { k: 'g', rot: E.gr, tipo: 'sel', opcoes: ops(E.g), w: 2 },
+    { k: 'u', rot: 'Urgência', tipo: 'sel', opcoes: ops(E.u), w: 2 },
+    { k: 't', rot: 'Tendência', tipo: 'sel', opcoes: ops(E.t), w: 2 },
+    { tipo: 'calc', rot: 'Total', w: 1, fn: function (r) { var t = PE.gut(r); return t || '—'; } }
+  ], {
+    min: 5, max: 15, selo: true, addRot: '+ linha',
+    aposMudar: function (L) {
+      var tot = L.rows.map(PE.gut), soma = tot.reduce(function (a, b) { return a + b; }, 0);
+      document.getElementById('tot-' + q.id).textContent = soma;
+      var idx = tot.map(function (v, i) { return i; }).filter(function (i) { return tot[i] > 0; }).sort(function (a, b) { return tot[b] - tot[a] || a - b; }).slice(0, 3);
+      L.els.forEach(function (d, i) { d.classList.toggle('top', idx.indexOf(i) >= 0); });
+      var incompleta = L.rows.some(function (r) { return String(r.x || '').trim() && !PE.gut(r); });
+      document.getElementById('av-' + q.id).hidden = !incompleta;
+    }
+  });
+  function ordena() {
+    var r = L.rows.slice().sort(function (a, b) { var ta = PE.gut(a), tb = PE.gut(b); var va = ta || (String(a.x || '').trim() ? 0.5 : -1), vb = tb || (String(b.x || '').trim() ? 0.5 : -1); return vb - va; });
+    L.setRows(r);
+  }
+  L.ordena = ordena;
+  document.getElementById('ord-' + q.id).onclick = ordena;
+});
+document.getElementById('ordena-todos').onclick = function () { Q.forEach(function (q) { PE.listas[q.id].ordena(); }); PE.aviso('✔ Ordenado do maior para o menor'); };
+</script>
+</body>
+</html>

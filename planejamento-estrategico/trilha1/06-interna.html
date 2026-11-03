@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análise Interna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-page="interna" data-base="../" data-cor="laranja">
+<main class="pagina">
+  <div class="titulo-pg">
+    <span class="etiqueta">Trilha 1 · Parte 3</span>
+    <h1>🔍 Análise Interna</h1>
+    <p>Olhe para dentro da empresa: o que fazemos bem e o que precisa melhorar em cada área.</p>
+  </div>
+  <details class="mais"><summary>Temas da análise interna citados no curso</summary>
+    <p>Estrutura · Fatores críticos de sucesso · Diferenciais em relação aos concorrentes · Conhecimentos técnicos · Gestão · Recursos humanos · Comercial · Finanças · Processos.</p></details>
+  <div class="grade2" id="areas"></div>
+  <section class="cartao roxo">
+    <h2>🧠 Negócio – para concluir</h2>
+    <div class="corpo">
+      <div class="campo"><label for="q1">Seu negócio tem o que melhorar?</label><textarea id="q1" data-k="q1" rows="3"></textarea></div>
+      <div class="campo"><label for="q2">Qual a importância da análise interna para seu negócio?</label><textarea id="q2" data-k="q2" rows="3"></textarea></div>
+      <div class="campo"><label for="q3">Como você deverá agir para se manter competitivo?</label><textarea id="q3" data-k="q3" rows="3"></textarea></div>
+    </div>
+  </section>
+</main>
+<script src="../js/app.js"></script>
+<script>
+var ex = '<table><tr><th>Aspecto</th><th>Fazemos bem</th><th>Precisa melhorar</th></tr><tr><td>Organizacionais</td><td>Pedidos entregues no prazo.</td><td>Ninguém sabe quem decide o quê.</td></tr><tr><td>Marketing</td><td>Boa presença no Instagram.</td><td>Não temos site nem catálogo.</td></tr><tr><td>Financeiros</td><td>Pagamos fornecedores em dia.</td><td>Não controlamos o fluxo de caixa.</td></tr><tr><td>Pessoal</td><td>Equipe unida.</td><td>Falta treinamento.</td></tr><tr><td>Produção</td><td>Acabamento de qualidade.</td><td>Muito desperdício de tecido.</td></tr></table>';
+PE.pagina({ exemplo: ex });
+var A = [
+  ['org', 'Aspectos organizacionais', 'cartao azul', 'Estrutura, divisão de tarefas, processos, decisões, sistemas.'],
+  ['mkt', 'Aspectos de marketing', 'cartao laranja', 'Produto, preço, praça (onde vende), divulgação, imagem da marca.'],
+  ['fin', 'Aspectos financeiros', 'cartao verde', 'Fluxo de caixa, custos, margem, capital de giro, inadimplência.'],
+  ['pes', 'Aspectos de pessoal', 'cartao roxo', 'Equipe, treinamento, clima, rotatividade, liderança.'],
+  ['pro', 'Aspectos de produção', 'cartao vermelho', 'Capacidade, qualidade, prazos, estoque, equipamentos, desperdício.']
+];
+var h = '';
+A.forEach(function (a) {
+  h += '<section class="' + a[2] + '"><h2>' + a[1] + '</h2><div class="corpo">' +
+    PE.campo({ k: a[0] + '_bem', id: a[0] + 'b', rot: '✅ O que fazemos bem', ph: 'Ex.: ...', dica: a[3], tipo: 'area', linhas: 3 }) +
+    PE.campo({ k: a[0] + '_melhor', id: a[0] + 'm', rot: '🔧 O que precisa melhorar', ph: 'Ex.: ...', tipo: 'area', linhas: 3 }) +
+    '</div></section>';
+});
+document.getElementById('areas').innerHTML = h;
+</script>
+</body>
+</html>
