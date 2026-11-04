@@ -92,6 +92,20 @@ Q.forEach(function (q) {
   document.getElementById('ord-' + q.id).onclick = ordena;
 });
 document.getElementById('ordena-todos').onclick = function () { Q.forEach(function (q) { PE.listas[q.id].ordena(); }); PE.aviso('✔ Ordenado do maior para o menor'); };
+
+PE.cfg.resultado = function () {
+  var nomes = { F: 'Força', O: 'Oportunidade', Fr: 'Fraqueza', A: 'Ameaça' }, k = [], lista = [];
+  Q.forEach(function (q) {
+    var rows = (PE.listas[q.id] || { rows: [] }).rows;
+    rows.forEach(function (r) { var t = PE.gut(r); if (t) lista.push({ q: q.id, x: (r.x || '').trim() || '(sem texto)', t: t }); });
+    k.push([q.nome.replace(/^\S+\s/, ''), PE.somaGut(q.id) + ' pts', q.cor]);
+  });
+  lista.sort(function (a, b) { return b.t - a.t; });
+  var m = lista.slice(0, 3).map(function (i, n) { return [(n + 1) + 'º ' + nomes[i.q] + ': ' + i.x + ' – ' + i.t + ' pontos', n === 0 ? 'ok' : '']; });
+  var pr = PE.posturas();
+  if (pr.max > 0) m.push(['Postura estratégica sugerida: ' + pr.res.filter(function (p) { return p.venc; }).map(function (p) { return p.nome; }).join(' / '), 'ok']);
+  return { live: lista.length ? 'Prioridade nº 1: ' + lista[0].t + ' pts' : 'Pontue os fatores', kpis: k, msgs: m.length ? m : [['Preencha os fatores e dê as notas de 1 a 5.', 'alerta']] };
+};
 </script>
 </body>
 </html>

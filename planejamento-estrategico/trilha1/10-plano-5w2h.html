@@ -58,6 +58,17 @@ PE.lista('#acoes', 'acoes', [
   { k: 'meta', rot: 'Meta', tipo: 'text', w: 3, ph: 'Ex.: 30 produtos' },
   { k: 'ind', rot: 'Indicador', tipo: 'text', w: 3, ph: 'Ex.: nº de pedidos' }
 ], { min: 3, addRot: '+ Adicionar ação', aposMudar: atual });
+
+PE.cfg.resultado = function () {
+  var rows = PE.listas.acoes.rows.filter(function (r) { return (r.o || '').trim(); }), c = { 'Concluída': 0, 'Em andamento': 0, 'Atrasada': 0, 'Não iniciada': 0 }, tot = 0, prox = null;
+  rows.forEach(function (r) { c[r.sit || 'Não iniciada']++; tot += PE.num(r.v); if (r.fim && r.sit !== 'Concluída' && (!prox || r.fim < prox.fim)) prox = r; });
+  var m = [];
+  if (prox) m.push(['Próximo prazo: ' + prox.o.trim() + ' – até ' + prox.fim.split('-').reverse().join('/'), 'alerta']);
+  if (c['Atrasada']) m.push([c['Atrasada'] + ' ação(ões) atrasada(s).', 'ruim']);
+  var sem = rows.filter(function (r) { return !(r.qm || '').trim() || !r.fim; }).length;
+  if (sem) m.push([sem + ' ação(ões) sem responsável ou sem prazo de término.', 'alerta']);
+  return { live: rows.length + ' ações · ' + PE.brl(tot), kpis: [['Ações', rows.length, 'azul'], ['Concluídas', c['Concluída'], 'verde'], ['Em andamento', c['Em andamento'], 'laranja'], ['Atrasadas', c['Atrasada'], 'vermelho'], ['Custo total', PE.brl(tot), 'roxo']], msgs: m.length ? m : [['Cadastre as ações do plano.', 'alerta']] };
+};
 </script>
 </body>
 </html>

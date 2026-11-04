@@ -40,6 +40,13 @@ var A = [
 var h = '';
 A.forEach(function (a) { h += PE.campo({ k: a[0], id: 's' + a[0], rot: a[1], ph: a[2], dica: a[3], tipo: 'area', linhas: 3 }); });
 document.getElementById('areas').innerHTML = h;
+
+PE.cfg.resultado = function () {
+  var f = A.filter(function (a) { return (PE.valor(a[0]) || '').trim(); }), fal = A.filter(function (a) { return !(PE.valor(a[0]) || '').trim(); });
+  var q = ['q1', 'q2', 'q3'].filter(function (x) { return (PE.valor(x) || '').trim(); }).length;
+  return { live: f.length + ' de ' + A.length + ' atores analisados', kpis: [['Atores analisados', f.length + ' de ' + A.length, 'azul'], ['Perguntas finais', q + ' de 3', 'laranja']],
+    msgs: fal.length ? [['Ainda falta analisar: ' + fal.map(function (a) { return a[1]; }).join(', ') + '.', 'alerta']] : [['Todos os atores do setor foram analisados ✔', 'ok']] };
+};
 </script>
 </body>
 </html>

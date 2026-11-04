@@ -64,6 +64,13 @@ PE.lista('#objs', 'objs', [
   { tipo: 'calc', rot: 'Objetivo SMART', w: 9, fn: function (r) { return frase(r) || 'Preencha as letras para ver o objetivo aqui.'; }, cls: function () { return 'txt'; } },
   { tipo: 'calc', rot: 'Situação', w: 3, fn: function (r) { return (t(r.s) && t(r.m) && t(r.a) && t(r.r) && t(r.t)) ? 'Completo ✔' : 'Faltam letras'; }, cls: function (r) { return (t(r.s) && t(r.m) && t(r.a) && t(r.r) && t(r.t)) ? 'ok' : ''; } }
 ], { def: [{ area: 'Desenvolvimento' }, { area: 'Manutenção' }, { area: 'Crescimento' }, { area: 'Sobrevivência' }], min: 4, addRot: '+ Novo objetivo' });
+
+PE.cfg.resultado = function () {
+  var rows = PE.listas.objs.rows.filter(function (r) { return t(r.s) || t(r.m) || t(r.t); });
+  var ok = rows.filter(function (r) { return t(r.s) && t(r.m) && t(r.a) && t(r.r) && t(r.t); }).length;
+  return { live: ok + ' de ' + rows.length + ' objetivos completos', kpis: [['Objetivos escritos', rows.length, 'azul'], ['Completos (5 letras)', ok, 'verde'], ['Incompletos', rows.length - ok, rows.length - ok ? 'laranja' : 'verde']],
+    msgs: rows.map(function (r) { var c = t(r.s) && t(r.m) && t(r.a) && t(r.r) && t(r.t); return [(c ? '✔ ' : '⚠ ') + (r.area ? r.area + ': ' : '') + frase(r), c ? 'ok' : 'alerta']; }) };
+};
 </script>
 </body>
 </html>

@@ -45,6 +45,14 @@ A.forEach(function (a) {
     '</div></section>';
 });
 document.getElementById('areas').innerHTML = h;
+
+PE.cfg.resultado = function () {
+  var bem = A.filter(function (a) { return (PE.valor(a[0] + '_bem') || '').trim(); }), mel = A.filter(function (a) { return (PE.valor(a[0] + '_melhor') || '').trim(); });
+  var q = ['q1', 'q2', 'q3'].filter(function (x) { return (PE.valor(x) || '').trim(); }).length;
+  var nm = function (a) { return a[1].replace('Aspectos ', '').replace('de ', ''); };
+  return { live: bem.length + ' pontos fortes · ' + mel.length + ' a melhorar', kpis: [['Áreas com algo que fazemos bem', bem.length + ' de ' + A.length, 'verde'], ['Áreas a melhorar', mel.length + ' de ' + A.length, 'vermelho'], ['Perguntas finais', q + ' de 3', 'azul']],
+    msgs: [mel.length ? ['Áreas com pontos a melhorar: ' + mel.map(nm).join(', ') + '.', 'alerta'] : ['Preencha o que precisa melhorar em cada área.', 'alerta'], bem.length ? ['Pontos fortes em: ' + bem.map(nm).join(', ') + '.', 'ok'] : ['Preencha o que a empresa faz bem.', 'alerta']] };
+};
 </script>
 </body>
 </html>

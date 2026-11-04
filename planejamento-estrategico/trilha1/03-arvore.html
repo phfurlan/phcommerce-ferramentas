@@ -72,6 +72,13 @@ function desenha() {
 }
 PE.lista('#folhas', 'folhas', [{ k: 't', tipo: 'text', ph: 'Ex.: Vender pela internet', w: 12 }], { min: 4, max: 8, simples: true, addRot: '+ Adicionar folha', aposMudar: desenha });
 PE.onChange(desenha);
+
+PE.cfg.resultado = function () {
+  var f = PE.listas.folhas.rows.filter(function (r) { return (r.t || '').trim(); }).length, s = (PE.valor('sonho') || '').trim(), h = (PE.valor('hoje') || '').trim();
+  return { live: s ? 'Sonho definido · ' + f + ' folhas' : 'Defina o sonho da empresa',
+    kpis: [['Sonho (tronco)', s ? 'Definido ✔' : 'Pendente', s ? 'verde' : 'laranja'], ['Aspirações (folhas)', f + ' de 8', 'verde'], ['Situação de hoje', h ? 'Descrita ✔' : 'Pendente', h ? 'azul' : 'laranja']],
+    msgs: [s ? ['🌳 Seu sonho: ' + s, 'ok'] : ['Escreva o maior sonho para o futuro da sua empresa.', 'alerta']] };
+};
 </script>
 </body>
 </html>

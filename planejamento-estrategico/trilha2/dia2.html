@@ -67,6 +67,13 @@ function atualiza() {
     if (meta && falta.length) { a.hidden = false; a.textContent = '💛 Ainda falta confirmar: ' + falta.map(function (c) { return c[1].split(' ')[0]; }).join(', ') + '.'; } else a.hidden = true;
   });
 }
+
+PE.cfg.resultado = function () {
+  var pos = +PE.valor('pos') || 3, comp = document.querySelectorAll('#metas .completa').length;
+  var j = ['j_ops', 'j_rh', 'j_mkt'].filter(function (k) { return (PE.valor(k) || '').trim(); }).length;
+  return { live: 'Posição ' + pos + '/5 · ' + comp + ' de 4 metas completas', kpis: [['Posicionamento', pos + ' de 5', 'verde'], ['Justificativas', j + ' de 3', 'azul'], ['Metas completas', comp + ' de 4', comp === 4 ? 'verde' : 'laranja']],
+    msgs: [[POS[pos - 1] + '.', 'ok']] };
+};
 </script>
 </body>
 </html>

@@ -80,6 +80,12 @@ function calcula() {
   var e = $('estouro');
   if (o.saldo < 0) { e.hidden = false; e.textContent = '⚠️ Você ultrapassou o orçamento em ' + PE.brl(-o.saldo) + '. Revise os valores acima.'; } else e.hidden = true;
 }
+
+PE.cfg.resultado = function () {
+  var o = PE.orcamento(), p = o.orc > 0 ? Math.round(100 * o.total / o.orc) : 0;
+  return { live: 'Saldo de segurança: ' + PE.brl(o.saldo), kpis: [['Orçamento', PE.brl(o.orc), 'azul'], ['Total gasto', PE.brl(o.total), 'laranja'], ['Saldo de segurança', PE.brl(o.saldo), o.saldo < 0 ? 'vermelho' : 'verde']],
+    msgs: [o.saldo < 0 ? ['Você ultrapassou o orçamento em ' + PE.brl(-o.saldo) + '.', 'ruim'] : [p + '% do orçamento usado' + (p >= 80 ? ' – atenção, o saldo de segurança está curto.' : '.'), p >= 80 ? 'alerta' : 'ok']] };
+};
 </script>
 </body>
 </html>

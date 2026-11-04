@@ -60,6 +60,14 @@ Q.forEach(function (q) {
   sw.appendChild(s);
   PE.lista('#sw-' + q[0], 'sw' + q[0], [{ k: 't', tipo: 'text', ph: q[4], w: 12 }], { min: 3, simples: true, addRot: '+ item' });
 });
+
+PE.cfg.resultado = function () {
+  var id = I.filter(function (i) { return (PE.valor(i[0]) || '').trim(); }).length, pa = P.filter(function (p) { return (PE.valor(p[0]) || '').trim(); }).length;
+  var n = function (k) { return PE.listas['sw' + k].rows.filter(function (r) { return (r.t || '').trim(); }).length; };
+  var nome = (PE.valor('nome') || '').trim();
+  return { live: nome ? nome + ' · identidade ' + id + '/6' : 'Identidade ' + id + ' de 6', kpis: [['Identidade', id + ' de 6', 'azul'], ['Diretores definidos', pa + ' de 4', 'verde'], ['Forças', n('F'), 'verde'], ['Fraquezas', n('Fr'), 'vermelho'], ['Oportunidades', n('O'), 'azul'], ['Ameaças', n('A'), 'laranja']],
+    msgs: [nome ? ['🏢 ' + nome + (PE.valor('missao') ? ' – ' + PE.valor('missao') : ''), 'ok'] : ['Defina o nome da empresa.', 'alerta']] };
+};
 </script>
 </body>
 </html>

@@ -77,6 +77,16 @@ Array.prototype.forEach.call(document.querySelectorAll('button.sug'), function (
     PE.aviso('✔ "' + nome + '" adicionado ao formulário');
   };
 });
+
+PE.cfg.resultado = function () {
+  var rows = L.rows.filter(function (r) { return (r.i || '').trim(); }), comp = rows.filter(function (r) { return (r.f || '').trim() && (r.m || '').trim() && (r.r || '').trim(); }).length;
+  var ck = ['ck1', 'ck2', 'ck3'].filter(function (k) { return PE.valor(k); }).length;
+  var m = [];
+  if (rows.length > 10) m.push(['Você tem muitos indicadores. Prefira poucos, porém abrangentes.', 'alerta']);
+  if (rows.length && comp < rows.length) m.push([(rows.length - comp) + ' indicador(es) sem fórmula, meta ou responsável.', 'alerta']);
+  if (rows.length && comp === rows.length) m.push(['Todos os indicadores têm fórmula, meta e responsável ✔', 'ok']);
+  return { live: rows.length + ' indicadores · ' + comp + ' completos', kpis: [['Indicadores', rows.length, 'roxo'], ['Completos', comp, 'verde'], ['Critérios checados', ck + ' de 3', 'laranja']], msgs: m.length ? m : [['Escolha seus indicadores usando os exemplos do curso.', 'alerta']] };
+};
 </script>
 </body>
 </html>

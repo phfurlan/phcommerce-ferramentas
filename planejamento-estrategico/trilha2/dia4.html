@@ -81,6 +81,13 @@ function calcula() {
   var a = $('av');
   if (t > saldo) { a.hidden = false; a.textContent = '⚠️ As ações custam ' + PE.brl(t - saldo) + ' a mais que o saldo de caixa de segurança do Dia 3. Reduza custos ou revise o orçamento.'; } else a.hidden = true;
 }
+
+PE.cfg.resultado = function () {
+  var rows = PE.listas.acoes.rows.filter(function (r) { return (r.a || '').trim(); }), t = 0; rows.forEach(function (r) { t += PE.num(r.v); });
+  var saldo = PE.orcamento().saldo, k = SET.filter(function (s) { return (PE.valor('kpi_' + s[0]) || '').trim(); }).length;
+  return { live: rows.length + ' ações · sobra ' + PE.brl(saldo - t), kpis: [['Ações', rows.length, 'azul'], ['Custo das ações', PE.brl(t), 'laranja'], ['Sobra do saldo', PE.brl(saldo - t), saldo - t < 0 ? 'vermelho' : 'verde'], ['KPIs escolhidos', k + ' de 4', 'roxo']],
+    msgs: [saldo - t < 0 ? ['As ações custam mais que o saldo de caixa de segurança.', 'ruim'] : ['As ações cabem no saldo de caixa de segurança ✔', 'ok']] };
+};
 </script>
 </body>
 </html>

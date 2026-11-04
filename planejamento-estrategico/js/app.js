@@ -24,9 +24,6 @@
 
   /* ---------- páginas do site ---------- */
   PE.PAGES = [
-    { id: 'diag', t: 1, f: 'trilha1/00-autoavaliacao.html', ic: '📝', nome: 'Autoavaliação diagnóstica', desc: 'Teste inicial dos seus conhecimentos (com gabarito).', cor: 'verde' },
-    { id: 'exp', t: 1, f: 'trilha1/01-expectativas.html', ic: '🙋', nome: 'Expectativas', desc: 'O que espero destes encontros e o que quero aprender.', cor: 'azul' },
-    { id: 'placar', t: 1, f: 'trilha1/02-placar.html', ic: '🧱', nome: 'Quadros Coloridos – Placar', desc: 'Planejar, executar e comparar previsto × realizado.', cor: 'laranja' },
     { id: 'arvore', t: 1, f: 'trilha1/03-arvore.html', ic: '🌳', nome: 'Árvore dos Sonhos', desc: 'O grande sonho da empresa e as aspirações (folhas).', cor: 'verde' },
     { id: 'pest', t: 1, f: 'trilha1/04-pest.html', ic: '🌎', nome: 'Análise PEST', desc: 'Fatores políticos, econômicos, sociais e tecnológicos.', cor: 'roxo' },
     { id: 'setorial', t: 1, f: 'trilha1/05-setorial.html', ic: '🏭', nome: 'Análise Setorial', desc: 'Clientes, concorrentes, fornecedores e mais.', cor: 'azul' },
@@ -75,7 +72,7 @@
     return (neg ? '-' : '') + 'R$ ' + p[0] + ',' + p[1];
   };
   PE.onChange = function (fn) { ouvintes.push(fn); };
-  function fire() { ouvintes.forEach(function (f) { try { f(); } catch (e) { if (window.console) console.error(e); } }); progresso(); }
+  function fire() { ouvintes.forEach(function (f) { try { f(); } catch (e) { if (window.console) console.error(e); } }); renderRes(); progresso(); }
   PE.fire = fire;
 
   PE.aviso = function (msg) {
@@ -451,6 +448,22 @@
     document.body.appendChild(f);
   };
 
+  /* ---------- painel de resultado de cada etapa ---------- */
+  var CORES_K = ['azul', 'verde', 'laranja', 'roxo', 'vermelho'];
+  function renderRes() {
+    var f = PE.cfg.resultado, box = document.getElementById('res-etapa'); if (!f || !box) return;
+    var r; try { r = f(); } catch (e) { if (window.console) console.error(e); return; }
+    if (!r) return;
+    var h = '';
+    if (r.kpis && r.kpis.length) h += '<div class="numeros">' + r.kpis.map(function (k, i) { return '<div class="num-box t-' + (k[2] || CORES_K[i % 5]) + '"><small>' + esc(k[0]) + '</small><b>' + esc(k[1]) + '</b></div>'; }).join('') + '</div>';
+    (r.msgs || []).forEach(function (m) { h += '<div class="ins ' + (m[1] || '') + '">' + esc(m[0] || m) + '</div>'; });
+    if (r.html) h += r.html;
+    box.querySelector('.corpo').innerHTML = h || '<p class="legenda">Preencha a etapa para ver o resultado aqui.</p>';
+    var lv = document.getElementById('live');
+    if (lv) { lv.querySelector('strong').textContent = r.live || ''; lv.style.display = r.live ? 'block' : 'none'; }
+  }
+  PE.renderRes = renderRes;
+
   /* ---------- estrutura comum das páginas ---------- */
   PE.pagina = function (cfg) { PE.cfg = cfg || {}; };
 
@@ -475,6 +488,13 @@
       if (tp) { var be = el('button', 'btn claro peq nao-imprimir'); be.type = 'button'; be.style.marginTop = '8px'; be.textContent = '👀 Ver exemplo preenchido'; be.addEventListener('click', function () { PE.abrirExemplo(PE.cfg.exemplo); }); tp.appendChild(be); }
     }
 
+    if (PE.cfg.resultado) {
+      var rs = el('section', 'cartao verde'); rs.id = 'res-etapa';
+      rs.innerHTML = '<h2>📊 Resultado desta etapa</h2><div class="corpo"></div>';
+      main.appendChild(rs);
+      var lv = el('div', 'live'); lv.id = 'live'; lv.innerHTML = '<div class="in"><div><small>Resultado desta etapa</small><strong></strong></div><a class="btn peq verde" href="#res-etapa">Ver detalhes</a></div>';
+      document.body.appendChild(lv);
+    }
     if (!PE.cfg.semAcoes) {
       var ac = el('div', 'acoes');
       ac.innerHTML = '<button type="button" class="btn azul b-print">🖨️ Imprimir / Salvar PDF</button><button type="button" class="btn verde b-zap">📲 Copiar resumo para WhatsApp</button>' + (PE.cfg.semLimpar ? '' : '<button type="button" class="btn claro b-limpa">🗑️ Limpar esta página</button>');

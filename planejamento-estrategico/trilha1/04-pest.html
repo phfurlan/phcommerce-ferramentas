@@ -50,6 +50,14 @@ G.forEach(function (g) {
 document.getElementById('pest').innerHTML = h;
 function conta() { G.forEach(function (g) { document.getElementById('n-' + g.id).textContent = document.querySelectorAll('#det-' + g.id + ' input:checked').length; }); }
 PE.onChange(conta);
+
+PE.cfg.resultado = function () {
+  var tot = 0, mv = -1, mx = '', k = [];
+  G.forEach(function (g) { var c = document.querySelectorAll('#det-' + g.id + ' input:checked').length + ((PE.valor('o' + g.id) || '').trim() ? 1 : 0); tot += c; if (c > mv) { mv = c; mx = g.nome.replace(/^\S+\s/, ''); } k.push([g.nome.replace(/^\S+\s/, ''), c + ' fatores', g.cor]); });
+  var resp = ['q1', 'q2', 'q3'].filter(function (q) { return (PE.valor(q) || '').trim(); }).length;
+  return { live: tot + ' fatores marcados', kpis: k,
+    msgs: [tot ? ['Fator que mais pesa no seu negócio: ' + mx + ' (' + mv + ' fatores marcados).', 'ok'] : ['Marque os fatores que afetam o seu negócio.', 'alerta'], [resp + ' de 3 perguntas finais respondidas.', resp === 3 ? 'ok' : 'alerta']] };
+};
 </script>
 </body>
 </html>
