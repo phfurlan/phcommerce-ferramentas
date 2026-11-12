@@ -92,6 +92,13 @@ dl.form div:last-child{border-bottom:0}
 dl.form dt{flex:0 0 118px;font-weight:800;color:var(--muted);font-size:14px}
 dl.form dd{margin:0;flex:1}
 .fh{margin-top:16px;font-size:13px;font-weight:800;color:var(--c);text-transform:uppercase;letter-spacing:.03em}
+.metaed{margin-top:12px;background:var(--card);border:2px dashed var(--c);border-radius:12px;padding:10px 12px}
+.metaed label{font-size:14px;font-weight:800;color:var(--c)}
+.metaed small{display:block;color:var(--muted);font-weight:500;font-size:13px;margin-top:2px}
+.metaed .row{display:flex;align-items:center;gap:8px;margin-top:6px}
+.metaed .row span{font-weight:700;color:var(--muted);white-space:nowrap}
+.metaed input{flex:1;min-width:0;font:inherit;font-size:18px;font-weight:700;min-height:46px;padding:8px 12px;color:var(--ink);background:var(--field);border:2px solid var(--line);border-radius:12px;outline:none;font-variant-numeric:tabular-nums}
+.metaed input:focus{border-color:var(--blue)}
 .como{margin-top:12px;background:var(--blue-l);border-left:6px solid var(--blue);border-radius:10px;padding:10px 14px;font-size:15.5px}
 .como b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--blue);margin-bottom:4px}
 .como ul{margin:0;padding-left:1.2em}.como li{margin-bottom:5px}
@@ -159,6 +166,7 @@ ol.fat{margin:0;padding-left:1.3em}ol.fat li{margin-bottom:5px}
   <div class="bar-actions">
     <button type="button" id="b-abrir">Abrir todos</button>
     <button type="button" id="b-fechar">Fechar todos</button>
+    <button type="button" id="b-metas">↺ Restaurar metas do exemplo</button>
     <button type="button" id="b-print">🖨️ Imprimir / Salvar PDF</button>
   </div>
 
@@ -275,18 +283,26 @@ ol.fat{margin:0;padding-left:1.3em}ol.fat li{margin-bottom:5px}
   var COR = { ok: 'var(--green)', al: 'var(--yellow)', ru: 'var(--red)' };
   var TXT = { ok: 'Na meta', al: 'Atenção', ru: 'Abaixo da meta' };
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function quociente(it, r) {
+    if (it.sentido === 'maior') return it.meta > 0 ? r / it.meta : (r >= it.meta ? 1 : 0);
+    return r > 0 ? it.meta / r : 1;
+  }
   function status(it, r) {
-    var q = it.sentido === 'maior' ? r / it.meta : (r > 0 ? it.meta / r : 1);
+    var q = quociente(it, r);
     return q >= 1 ? 'ok' : (q >= 0.9 ? 'al' : 'ru');
   }
   function progresso(it, r) {
-    var q = it.sentido === 'maior' ? r / it.meta : (r > 0 ? it.meta / r : 1);
+    var q = quociente(it, r);
     return Math.max(0, Math.min(100, q * 100));
   }
   function fmtVar(it, i, x) { return it.vf && it.vf[i] ? F[it.vf[i]](x) : milhar(x, x % 1 ? 2 : 0); }
   function metaTxt(it) { return (it.sentido === 'maior' ? 'mínimo ' : 'máximo ') + F[it.fmt](it.meta); }
 
   /* ---------- montagem ---------- */
+  var KM = 'pe:indicadores.metas', salvas = {};
+  try { salvas = JSON.parse(localStorage.getItem(KM) || '{}') || {}; } catch (e) { salvas = {}; }
+  function gravaMetas() { try { localStorage.setItem(KM, JSON.stringify(salvas)); } catch (e) {} }
+  var UNID = { pct: '%', brl: 'R$', dias: 'dias', pd: 'peças/dia', num: '', dec: '' };
   var cont = document.getElementById('grupos'), uid = 0, todos = [];
   G.forEach(function (g) {
     var s = document.createElement('section'); s.className = 'grupo g-' + g.cor; s.id = g.id;
@@ -294,15 +310,15 @@ ol.fat{margin:0;padding-left:1.3em}ol.fat li{margin-bottom:5px}
     g.blocos.forEach(function (b) {
       if (b.sub) h += '<div class="sub">' + esc(b.sub) + '</div>';
       b.itens.forEach(function (it) {
-        it.id = 'i' + (++uid); it.g = g; todos.push(it);
-        h += '<details class="ind" id="' + it.id + '"><summary><span class="dot"></span><span class="nome">' + esc(it.n) + '<small>Meta: ' + esc(metaTxt(it)) + '</small></span><span class="res"></span></summary>' +
+        it.id = 'i' + (++uid); it.g = g; it.meta0 = it.meta; if (typeof salvas[it.n] === 'number') it.meta = salvas[it.n]; todos.push(it);
+        h += '<details class="ind" id="' + it.id + '"><summary><span class="dot"></span><span class="nome">' + esc(it.n) + '<small>Meta: <span class="mt">' + esc(metaTxt(it)) + '</span></small></span><span class="res"></span></summary>' +
           '<div class="corpo"><p>' + esc(it.d) + '</p>' +
           '<div class="formula"><span>Fórmula</span>' + esc(it.fx) + '</div>' +
           '<div class="calc"><div class="t">Exemplo com a Boa Costura – mude os números</div><div class="vars">' +
           it.v.map(function (v, i) { return '<label>' + esc(v[0]) + '<input type="text" inputmode="decimal" data-i="' + i + '" value="' + raw(v[1]) + '"></label>'; }).join('') +
-          '</div><div class="resultado"><span class="v"></span><span class="chip"></span><span class="eq"></span></div>' +
-          '<div class="meter"><i></i></div><div class="metaln"><span class="m1"></span><span>Meta: ' + esc(metaTxt(it)) + '</span></div></div>' +
-          '<div class="fh">Ficha do indicador (formulário do curso)</div><dl class="form"><div><dt>Indicador</dt><dd>' + esc(it.n) + '</dd></div><div><dt>Meta</dt><dd>' + esc(metaTxt(it)) + '</dd></div><div><dt>Fonte</dt><dd>' + esc(it.fonte) + '</dd></div><div><dt>Responsável</dt><dd>' + esc(it.resp) + '</dd></div><div><dt>Comentários</dt><dd>Frequência: ' + esc(it.freq) + '</dd></div></dl>' +
+          '</div><div class="metaed"><label for="m' + it.id + '">🎯 Sua meta (' + (it.sentido === 'maior' ? 'mínimo' : 'máximo') + ') – ajuste para a realidade do seu negócio</label><div class="row"><input type="text" inputmode="decimal" class="meta-in" id="m' + it.id + '" value="' + raw(it.meta) + '">' + (UNID[it.fmt] ? '<span>' + UNID[it.fmt] + '</span>' : '') + '</div><small>Exemplo do curso: ' + esc(F[it.fmt](it.meta0)) + '. O semáforo usa a meta que você digitar.</small></div><div class="resultado"><span class="v"></span><span class="chip"></span><span class="eq"></span></div>' +
+          '<div class="meter"><i></i></div><div class="metaln"><span class="m1"></span><span>Meta: <span class="mt">' + esc(metaTxt(it)) + '</span></span></div></div>' +
+          '<div class="fh">Ficha do indicador (formulário do curso)</div><dl class="form"><div><dt>Indicador</dt><dd>' + esc(it.n) + '</dd></div><div><dt>Meta</dt><dd class="mt">' + esc(metaTxt(it)) + '</dd></div><div><dt>Fonte</dt><dd>' + esc(it.fonte) + '</dd></div><div><dt>Responsável</dt><dd>' + esc(it.resp) + '</dd></div><div><dt>Comentários</dt><dd>Frequência: ' + esc(it.freq) + '</dd></div></dl>' +
           (COMO[it.n] ? '<div class="como"><b>📍 Como conseguir este dado</b><ul>' + COMO[it.n].map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>' : '') + '<div class="leitura"><b>Como ler este resultado</b>' + esc(it.lei) + '</div></div></details>';
       });
     });
@@ -312,7 +328,9 @@ ol.fat{margin:0;padding-left:1.3em}ol.fat li{margin-bottom:5px}
 
   function calcula(it) {
     var d = document.getElementById(it.id), v = [];
-    Array.prototype.forEach.call(d.querySelectorAll('input'), function (i) { v[+i.getAttribute('data-i')] = num(i.value); });
+    Array.prototype.forEach.call(d.querySelectorAll('input[data-i]'), function (i) { v[+i.getAttribute('data-i')] = num(i.value); });
+    var mi = d.querySelector('.meta-in'); if (mi && document.activeElement === mi) { it.meta = num(mi.value); salvas[it.n] = it.meta; gravaMetas(); }
+    Array.prototype.forEach.call(d.querySelectorAll('.mt'), function (e) { e.textContent = metaTxt(it); });
     var r = it.f(v); if (!isFinite(r)) r = 0;
     var st = status(it, r), val = F[it.fmt](r);
     d.querySelector('.res').textContent = val;
@@ -340,6 +358,12 @@ ol.fat{margin:0;padding-left:1.3em}ol.fat li{margin-bottom:5px}
 
   document.getElementById('b-abrir').onclick = function () { Array.prototype.forEach.call(document.querySelectorAll('details.ind'), function (d) { d.open = true; }); };
   document.getElementById('b-fechar').onclick = function () { Array.prototype.forEach.call(document.querySelectorAll('details.ind'), function (d) { d.open = false; }); };
+  document.getElementById('b-metas').onclick = function () {
+    if (!confirm('Voltar todas as metas para os valores do exemplo?')) return;
+    salvas = {}; gravaMetas();
+    todos.forEach(function (it) { it.meta = it.meta0; document.querySelector('#' + it.id + ' .meta-in').value = raw(it.meta0); calcula(it); });
+    painel();
+  };
   document.getElementById('b-print').onclick = function () { window.print(); };
   window.addEventListener('beforeprint', function () { Array.prototype.forEach.call(document.querySelectorAll('details.ind'), function (d) { d.open = true; }); });
   window.__indicadores = todos;
