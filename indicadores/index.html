@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indicadores – exemplos prontos por perspectiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F6FA;--card:#fff;--ink:#1E2430;--muted:#5B6475;--line:#DDE2EC;--navy:#1F3864;--field:#F8F9FC;
+  --green:#2E7D32;--green-l:#E8F5E9;--orange:#E65100;--orange-l:#FFF3E0;--red:#C62828;--red-l:#FFEBEE;
+  --purple:#6A1B9A;--purple-l:#F3E5F5;--blue:#1565C0;--blue-l:#E3F2FD;--yellow:#F9A825;--yellow-l:#FFF8E1;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+  --bg:#11151D;--card:#1A202B;--ink:#E9EDF4;--muted:#A3ACBD;--line:#2C3443;--navy:#2A4A82;--field:#141922;
+  --green-l:#1B2E1D;--orange-l:#33230F;--red-l:#341A1C;--purple-l:#2A1B33;--blue-l:#15263A;--yellow-l:#2F2812;
+  --green:#66BB6A;--orange:#FF9800;--red:#EF5350;--purple:#BA68C8;--blue:#64B5F6;}}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 70px}
+header.top{background:var(--navy);color:#fff;border-radius:18px;padding:22px 22px 20px;margin-bottom:18px}
+header.top .tag{display:inline-block;background:rgba(255,255,255,.18);border-radius:99px;padding:2px 12px;font-size:.82rem;font-weight:700;margin-bottom:8px}
+header.top h1{margin:0;font-size:clamp(24px,5vw,32px);line-height:1.15;font-weight:800;letter-spacing:-.01em}
+header.top p{margin:8px 0 0;opacity:.9;font-size:16px}
+h2{margin:0 0 6px;font-size:22px;line-height:1.2;font-weight:800}
+h3{margin:0;font-size:17px;font-weight:800}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px}
+.lead{margin:0 0 14px;color:var(--muted)}
+.muted{color:var(--muted)}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border-radius:99px;border:2px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-weight:700;font-size:15px}
+.nav a:hover{border-color:var(--muted)}
+button,.btn{font:inherit;font-weight:700;font-size:16px;min-height:44px;padding:8px 18px;border-radius:12px;cursor:pointer;border:2px solid var(--line);background:transparent;color:var(--ink)}
+button:hover{border-color:var(--muted)}
+button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.btn-main{background:var(--green);border-color:var(--green);color:#fff}
+.bar-actions{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 16px}
+
+/* painel de controle */
+.painel{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.pn{border-radius:14px;overflow:hidden;background:var(--cl);border:1px solid var(--line)}
+.pn b{display:block;background:var(--c);color:#fff;font-size:13.5px;font-weight:700;padding:7px 10px}
+.pn .n{padding:10px 12px 12px}
+.pn .big{font-size:26px;font-weight:800;color:var(--c);line-height:1.1}
+.pn .seg{display:flex;height:10px;border-radius:10px;overflow:hidden;background:var(--line);margin-top:8px}
+.pn .seg i{display:block;height:100%}
+.pn small{display:block;color:var(--muted);font-size:13px;margin-top:6px}
+.s-ok{background:var(--green)}.s-al{background:var(--yellow)}.s-ru{background:var(--red)}
+.g-green{--c:var(--green);--cl:var(--green-l)}.g-blue{--c:var(--blue);--cl:var(--blue-l)}
+.g-orange{--c:var(--orange);--cl:var(--orange-l)}.g-purple{--c:var(--purple);--cl:var(--purple-l)}
+
+/* grupos (cards por perspectiva) */
+.grupo{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:18px;overflow:hidden;scroll-margin-top:12px}
+.grupo>.gh{background:var(--c);color:#fff;padding:16px 20px}
+.grupo>.gh h2{color:#fff;margin:0;display:flex;align-items:center;gap:10px}
+.grupo>.gh p{margin:4px 0 0;opacity:.92;font-size:15px}
+.grupo>.gb{padding:16px 16px 6px;background:var(--cl)}
+.sub{margin:4px 0 10px;font-weight:800;color:var(--c);font-size:15px;text-transform:uppercase;letter-spacing:.03em}
+
+/* cada indicador */
+details.ind{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:12px;margin-bottom:10px}
+details.ind>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:center;gap:10px;min-height:56px}
+details.ind>summary::-webkit-details-marker{display:none}
+details.ind>summary .nome{flex:1;font-weight:700;line-height:1.25}
+details.ind>summary .nome small{display:block;color:var(--muted);font-weight:500;font-size:13.5px}
+details.ind>summary .res{font-weight:800;font-size:18px;white-space:nowrap;font-variant-numeric:tabular-nums}
+details.ind>summary .dot{width:14px;height:14px;border-radius:50%;flex:none}
+details.ind>summary::after{content:"▾";color:var(--muted);font-size:18px;transition:transform .2s}
+details.ind[open]>summary::after{transform:rotate(180deg)}
+.corpo{padding:2px 14px 16px;border-top:1px dashed var(--line)}
+.corpo p{margin:10px 0 0}
+.formula{margin-top:10px;background:var(--field);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-weight:600}
+.formula span{display:block;color:var(--muted);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.calc{margin-top:12px;background:var(--cl);border-radius:12px;padding:12px 12px 8px}
+.calc .t{font-size:13px;font-weight:800;color:var(--c);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px}
+.vars{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.vars label{display:block;font-size:14px;font-weight:700}
+.vars input{width:100%;font:inherit;font-size:18px;font-weight:600;min-height:46px;padding:8px 12px;margin-top:3px;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:12px;outline:none;font-variant-numeric:tabular-nums}
+.vars input:focus{border-color:var(--blue)}
+.resultado{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:12px 0 6px}
+.resultado .v{font-size:30px;font-weight:800;color:var(--c);line-height:1;font-variant-numeric:tabular-nums}
+.resultado .eq{color:var(--muted);font-size:14.5px;flex:1;min-width:200px}
+.chip{display:inline-block;border-radius:99px;padding:3px 12px;font-size:13.5px;font-weight:800;color:#fff}
+.meter{height:12px;border-radius:12px;background:var(--line);overflow:hidden;margin:4px 0 4px}
+.meter i{display:block;height:100%;transition:width .3s}
+.metaln{display:flex;justify-content:space-between;gap:8px;font-size:13.5px;color:var(--muted)}
+dl.form{display:grid;grid-template-columns:1fr;gap:0;margin:14px 0 0}
+dl.form div{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+dl.form div:last-child{border-bottom:0}
+dl.form dt{flex:0 0 118px;font-weight:800;color:var(--muted);font-size:14px}
+dl.form dd{margin:0;flex:1}
+.fh{margin-top:16px;font-size:13px;font-weight:800;color:var(--c);text-transform:uppercase;letter-spacing:.03em}
+.como{margin-top:12px;background:var(--blue-l);border-left:6px solid var(--blue);border-radius:10px;padding:10px 14px;font-size:15.5px}
+.como b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--blue);margin-bottom:4px}
+.como ul{margin:0;padding-left:1.2em}.como li{margin-bottom:5px}
+.leitura{margin-top:12px;background:var(--yellow-l);border-left:6px solid var(--yellow);border-radius:10px;padding:10px 14px;font-size:15.5px}
+.leitura b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+
+/* demais blocos */
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+table.t th,table.t td{padding:8px 10px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;text-align:left}
+table.t th{background:var(--navy);color:#fff;font-weight:700}
+table.t tr:last-child td{border-bottom:0}table.t th:last-child,table.t td:last-child{border-right:0}
+table.t td:first-child{font-weight:800;background:var(--field)}
+.tw{overflow-x:auto}
+.chips{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.chip3{border-radius:14px;padding:12px 14px;background:var(--cl);border-left:6px solid var(--c)}
+.chip3 b{display:block;color:var(--c)}
+ol.fat{margin:0;padding-left:1.3em}ol.fat li{margin-bottom:5px}
+.foot{text-align:center;color:var(--muted);font-size:14px;margin-top:24px}
+.foot strong{color:var(--ink)}
+.so-print{display:none}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff;color:#000;font-size:11pt}
+  .nav,.bar-actions{display:none!important}
+  .grupo,details.ind,.card{break-inside:avoid}
+  header.top,.grupo>.gh,.pn b,.chip,.meter i,.seg i,table.t th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  details.ind>summary::after{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="tag">Curso Sebrae · Parte 5 – Indicadores</span>
+    <h1>Indicadores: um exemplo de cada um</h1>
+    <p>Todos os indicadores propostos no curso, calculados para uma empresa de exemplo. Abra o card, mude os números e veja o resultado e o semáforo na hora.</p>
+  </header>
+
+  <div class="card">
+    <h2>A empresa do exemplo</h2>
+    <p class="lead" style="margin:0"><b>Confecções Boa Costura</b> – uniformes, moda feminina e peças sob encomenda. 10 funcionários, 6 costureiras, faturamento de R$ 80.000 por mês. Todos os números abaixo são <b>fictícios</b> e servem só para mostrar como cada indicador funciona.</p>
+  </div>
+
+  <div class="card">
+    <h2>Você voaria em um avião sem painel de controle?</h2>
+    <p class="lead">Indicadores são os “relógios” do painel da empresa: transformam um fenômeno em número para simplificar, compreender e agir. O que escolhemos como indicador é o que sinalizamos como importante, o que comunicamos e o comportamento que obtemos. Por isso, eles <b>derivam dos objetivos</b>.</p>
+    <div class="tw"><table class="t">
+      <tr><th></th><th>Marketing</th><th>Operações</th><th>RH</th><th>Finanças</th></tr>
+      <tr><td>Objetivo</td><td>Contatar 100% dos prospectos das regiões A, B e C</td><td>Aumentar 20% a produção</td><td>Contratar e treinar três vendedores</td><td>Levantar R$ 2 milhões para investimentos</td></tr>
+      <tr><td>Estratégia</td><td>Evento de lançamento e visitas</td><td>Automatizar a linha; parcerias com distribuidores</td><td>Recrutamento nas regiões</td><td>Captar recursos no BNDES</td></tr>
+      <tr><td>Indicador</td><td>% de prospectos contatados</td><td>% de aumento da produção</td><td>% de vendedores contratados</td><td>% do valor captado na taxa mínima</td></tr>
+    </table></div>
+    <p class="legenda muted" style="font-size:14px;margin:8px 0 0">Exemplo do curso: objetivo geral “aumentar 20% as vendas em 2020”, com a estratégia “entrar nas regiões A, B e C”.</p>
+  </div>
+
+  <div class="card">
+    <h2>Painel de controle do exemplo</h2>
+    <p class="lead">Gestão à vista: quantos indicadores estão no verde, em atenção ou no vermelho em cada perspectiva. Ele se atualiza quando você muda os números.</p>
+    <div class="painel" id="painel"></div>
+  </div>
+
+  <nav class="nav" aria-label="Ir para a perspectiva">
+    <a href="#g-fin">💰 Financeiros</a><a href="#g-cli">🙂 Clientes</a><a href="#g-pro">⚙️ Processos internos</a><a href="#g-ef">✅ Critérios</a>
+  </nav>
+  <div class="bar-actions">
+    <button type="button" id="b-abrir">Abrir todos</button>
+    <button type="button" id="b-fechar">Fechar todos</button>
+    <button type="button" id="b-print">🖨️ Imprimir / Salvar PDF</button>
+  </div>
+
+  <div id="grupos"></div>
+
+  <section class="grupo g-blue" id="g-ef">
+    <div class="gh"><h2>✅ Critérios para a efetividade dos indicadores</h2><p>Antes de adotar um indicador, passe por estes três testes.</p></div>
+    <div class="gb">
+      <div class="chips" style="margin-bottom:12px">
+        <div class="chip3 g-green"><b>Eficazes</b>Medem “a coisa certa”.</div>
+        <div class="chip3 g-blue"><b>Eficientes</b>Poucos, porém abrangentes.</div>
+        <div class="chip3 g-orange"><b>Viáveis</b>Possíveis de serem medidos.</div>
+      </div>
+      <h3 style="margin:14px 0 8px">Fatores importantes para o sucesso na implantação</h3>
+      <ol class="fat" style="padding-bottom:12px">
+        <li>Alinhar os indicadores à estratégia;</li><li>Focar indicadores nos ambientes externo e interno;</li><li>Balancear os indicadores entre várias perspectivas;</li><li>Incluir indicadores intangíveis;</li><li>Atentar à influência da cultura organizacional sobre os indicadores;</li><li>Conceber indicadores eficazes, eficientes e viáveis;</li><li>Informatizar os indicadores (no momento certo);</li><li>Comunicar intensiva e amplamente os indicadores;</li><li>Atrelar indicadores à recompensa com cautela;</li><li>Prever espaço à adaptação e ao aprendizado.</li>
+      </ol>
+    </div>
+  </section>
+
+  <p class="foot">Ferramenta criada por <strong>PHCommerce Consultoria</strong><br>Baseada nos slides 107 a 124 do curso Sebrae “Alcance o melhor do planejamento estratégico”. Os números são exemplos fictícios.</p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  /* ---------- formatação ---------- */
+  function num(s) {
+    s = String(s == null ? '' : s).replace(/R\$|\s|%/g, '');
+    if (!s) return 0;
+    if (s.indexOf(',') >= 0) s = s.replace(/\./g, '').replace(',', '.');
+    else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, '');
+    var n = parseFloat(s); return isNaN(n) ? 0 : n;
+  }
+  function milhar(x, d) {
+    var neg = x < 0; x = Math.abs(x);
+    var p = x.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return (neg ? '-' : '') + p[0] + (p[1] ? ',' + p[1] : '');
+  }
+  var F = {
+    brl: function (x) { return 'R$ ' + milhar(x, 2).replace(/,00$/, ''); },
+    pct: function (x) { return milhar(x, 1).replace(/,0$/, '') + '%'; },
+    dec: function (x) { return milhar(x, 2); },
+    num: function (x) { return milhar(x, 0); },
+    dias: function (x) { return milhar(x, 0) + ' dias'; },
+    pd: function (x) { return milhar(x, 1) + ' peças/dia'; }
+  };
+  function raw(x) { return String(Math.round(x * 100) / 100).replace('.', ','); }
+
+  /* ---------- dados: um exemplo de cada indicador do curso ---------- */
+  // v: variáveis [rótulo, valor]; f: cálculo; fmt: formato do resultado; meta/sentido: 'maior' = quanto maior melhor
+  var G = [
+    { id: 'g-fin', cor: 'green', ic: '💰', nome: 'Indicadores financeiros', sub: 'Mostram se a empresa está ganhando dinheiro, se consegue pagar suas contas e quanto retorno dá.', blocos: [{ itens: [
+      { n: 'Faturamento', d: 'Total vendido no período, antes de descontar custos e despesas.', fx: 'Soma de todas as vendas do mês', v: [['Vendas do mês (R$)', 80000]], f: function (v) { return v[0]; }, fmt: 'brl', ex: 'Faturamento = {r}', meta: 85000, sentido: 'maior', fonte: 'Sistema de vendas e notas fiscais emitidas', resp: 'Gerente comercial', freq: 'Mensal (acompanhar também por semana)', lei: 'Está em 94% da meta: faltam R$ 5.000. Veja em qual linha de produto ou semana as vendas ficaram abaixo.' },
+      { n: 'Lucratividade', d: 'Quanto sobra de lucro em cada R$ 100 vendidos.', fx: '(Lucro líquido ÷ Faturamento) × 100', v: [['Lucro líquido (R$)', 9600], ['Faturamento (R$)', 80000]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 12, sentido: 'maior', fonte: 'DRE (demonstrativo de resultado) do mês', resp: 'Diretor financeiro', freq: 'Mensal', lei: 'De cada R$ 100 vendidos, R$ 12 viram lucro. Se cair, olhe primeiro custos variáveis e despesas.' },
+      { n: 'Retorno sobre investimento (ROI)', d: 'Quanto um investimento específico devolveu em relação ao valor investido.', fx: '((Ganho obtido − Valor investido) ÷ Valor investido) × 100', v: [['Ganho obtido em 12 meses (R$)', 42000], ['Valor investido (R$)', 30000]], f: function (v) { return (v[0] - v[1]) / v[1] * 100; }, fmt: 'pct', ex: '(({0} − {1}) ÷ {1}) × 100 = {r}', meta: 30, sentido: 'maior', fonte: 'Orçamento do projeto e DRE (exemplo: máquina de corte nova)', resp: 'Diretor de operações', freq: 'Trimestral', lei: 'A máquina nova de R$ 30.000 já devolveu R$ 42.000 em 12 meses: o investimento se pagou e ainda deu 40% de retorno.' },
+      { n: 'Despesas comerciais sobre faturamento', d: 'Peso das despesas de vender (comissões, anúncios, fretes de venda) em relação ao que a empresa vende.', fx: '(Despesas comerciais ÷ Faturamento) × 100', v: [['Despesas comerciais (R$)', 6400], ['Faturamento (R$)', 80000]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 7, sentido: 'menor', fonte: 'Plano de contas / DRE', resp: 'Gerente comercial', freq: 'Mensal', lei: 'Está em 8% e a meta é no máximo 7%. Reveja comissões e gastos com anúncios que não trazem pedidos.' },
+      { n: 'Despesas administrativas sobre faturamento', d: 'Peso do custo de “manter a empresa funcionando” (aluguel do escritório, contador, sistemas) sobre as vendas.', fx: '(Despesas administrativas ÷ Faturamento) × 100', v: [['Despesas administrativas (R$)', 9600], ['Faturamento (R$)', 80000]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 12, sentido: 'menor', fonte: 'Plano de contas / DRE', resp: 'Diretor financeiro', freq: 'Mensal', lei: 'Dentro da meta. Se o faturamento cair, esse percentual sobe sozinho, mesmo sem gastar mais.' },
+      { n: 'Despesas de juros sobre faturamento', d: 'Quanto das vendas é consumido por juros de empréstimos, financiamentos e cheque especial.', fx: '(Despesas de juros ÷ Faturamento) × 100', v: [['Despesas de juros (R$)', 2400], ['Faturamento (R$)', 80000]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 3.5, sentido: 'menor', fonte: 'Extratos bancários e DRE', resp: 'Diretor financeiro', freq: 'Mensal', lei: 'Se subir, avalie renegociar dívidas e trocar crédito caro por mais barato.' },
+      { n: 'Risco (concentração do faturamento)', d: 'Quanto a empresa depende de poucos clientes. Se o maior cliente sair, o impacto é grande.', fx: '(Vendas ao maior cliente ÷ Faturamento) × 100', v: [['Vendas ao maior cliente (R$)', 28000], ['Faturamento (R$)', 80000]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 25, sentido: 'menor', fonte: 'Relatório de vendas por cliente', resp: 'Gerente comercial', freq: 'Mensal', lei: 'Um só cliente responde por 35% das vendas. Priorize conquistar novos clientes para diluir esse risco.' },
+      { n: 'Necessidade de capital de giro', d: 'Dinheiro que a empresa precisa ter “rodando” para financiar vendas a prazo e estoques, depois de descontar o prazo dos fornecedores.', fx: '(Contas a receber + Estoques) − Fornecedores a pagar', v: [['Contas a receber (R$)', 38000], ['Estoques (R$)', 32000], ['Fornecedores a pagar (R$)', 24000]], f: function (v) { return v[0] + v[1] - v[2]; }, fmt: 'brl', ex: '({0} + {1}) − {2} = {r}', meta: 45000, sentido: 'menor', fonte: 'Balanço, contas a receber e estoque', resp: 'Diretor financeiro', freq: 'Mensal', lei: 'São R$ 46.000 “presos” na operação, cerca de 17 dias de faturamento. Reduzir prazo de venda e estoque parado libera caixa.' }
+    ] }] },
+    { id: 'g-cli', cor: 'blue', ic: '🙂', nome: 'Indicadores de clientes', sub: 'Mostram quem compra, se volta a comprar e se está satisfeito.', blocos: [{ itens: [
+      { n: 'Faturamento por produtos, negócio ou grupos de clientes', d: 'Mostra de onde vem o dinheiro: quanto cada linha de produto ou grupo de clientes representa nas vendas.', fx: '(Faturamento da linha ou grupo ÷ Faturamento total) × 100', v: [['Faturamento da linha Uniformes (R$)', 44000], ['Faturamento total (R$)', 80000]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 50, sentido: 'menor', fonte: 'Relatório de vendas por linha de produto', resp: 'Gerente comercial', freq: 'Mensal', lei: 'Uniformes são 55% das vendas. Acima da meta de 50%: a empresa depende demais de uma linha. Reforce moda feminina e sob encomenda.' },
+      { n: 'Participação de mercado', d: 'Fatia do mercado local que a empresa conquistou.', fx: '(Vendas da empresa ÷ Vendas totais do mercado) × 100', v: [['Vendas da empresa (R$)', 80000], ['Vendas estimadas do mercado local (R$)', 2000000]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 5, sentido: 'maior', fonte: 'Pesquisa da associação comercial / Sebrae / estimativa própria', resp: 'Diretor comercial', freq: 'Semestral', lei: 'A empresa tem 4% do mercado local contra a meta de 5%. É um indicador de longo prazo: acompanhe a tendência.' },
+      { n: 'Captação de clientes', d: 'Quantos clientes novos a empresa conquistou no período.', fx: 'Nº de clientes novos no período', v: [['Clientes novos no mês', 18]], f: function (v) { return v[0]; }, fmt: 'num', ex: 'Clientes novos = {r}', meta: 20, sentido: 'maior', fonte: 'Cadastro de clientes (primeira compra no mês)', resp: 'Gerente comercial', freq: 'Mensal', lei: '18 clientes novos para uma meta de 20. Veja qual ação trouxe mais: indicação, redes sociais, visita.' },
+      { n: 'Retenção de clientes', d: 'Quantos clientes continuam comprando.', fx: '(Clientes que voltaram a comprar ÷ Clientes ativos no período anterior) × 100', v: [['Clientes que voltaram a comprar', 96], ['Clientes ativos no período anterior', 120]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 85, sentido: 'maior', fonte: 'Cadastro e histórico de compras', resp: 'Gerente comercial', freq: 'Mensal', lei: 'De cada 10 clientes, 8 voltaram. Contatar quem sumiu costuma custar menos que conquistar um cliente novo.' },
+      { n: 'Satisfação dos clientes', d: 'O quanto os clientes estão contentes com produtos e atendimento.', fx: 'Soma das notas ÷ Nº de respostas (nota de 1 a 5)', v: [['Soma das notas recebidas', 220], ['Nº de respostas', 50]], f: function (v) { return v[0] / v[1]; }, fmt: 'dec', ex: '{0} ÷ {1} = {r} (de 5)', meta: 4.3, sentido: 'maior', fonte: 'Pesquisa rápida por WhatsApp após a entrega', resp: 'Atendimento', freq: 'Mensal', lei: 'Nota média 4,4 de 5, acima da meta. Leia também os comentários das notas baixas.' },
+    ] }] },
+    { id: 'g-pro', cor: 'orange', ic: '⚙️', nome: 'Indicadores de processos internos', sub: 'Mostram se a empresa inova e se faz bem, rápido e sem erro o que promete.', blocos: [
+      { sub: 'Processo de inovação', itens: [
+      { n: '% de vendas geradas por novos produtos', d: 'Quanto das vendas vem de produtos lançados recentemente.', fx: '(Vendas de produtos lançados nos últimos 12 meses ÷ Vendas totais) × 100', v: [['Vendas de produtos novos (R$)', 12000], ['Vendas totais (R$)', 80000]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 20, sentido: 'maior', fonte: 'Relatório de vendas por produto (data de lançamento)', resp: 'Diretor de operações', freq: 'Trimestral', lei: 'Só 15% das vendas vêm de novidades. Se a empresa não renova o catálogo, perde espaço para quem renova.' },
+      { n: 'Lançamento de novos produtos x lançamento da concorrência', d: 'Compara o ritmo de novidades da empresa com o dos concorrentes.', fx: 'Nº de lançamentos da empresa ÷ Média de lançamentos dos concorrentes', v: [['Nossos lançamentos no ano', 5], ['Média de lançamentos dos concorrentes', 6]], f: function (v) { return v[0] / v[1]; }, fmt: 'dec', ex: '{0} ÷ {1} = {r}', meta: 0.8, sentido: 'maior', fonte: 'Catálogos e redes sociais dos concorrentes', resp: 'Diretor comercial', freq: 'Semestral', lei: 'Resultado 1,0 ou mais = acompanhando ou liderando. Abaixo de 1,0 = lançando menos que o mercado.' },
+      { n: 'Tempo de desenvolvimento de novos produtos', d: 'Quantos dias leva da ideia até a primeira venda.', fx: 'Data da primeira venda − Data da ideia aprovada (média dos lançamentos)', v: [['Dias entre ideia e primeira venda', 45]], f: function (v) { return v[0]; }, fmt: 'dias', ex: 'Tempo médio = {r}', meta: 42, sentido: 'menor', fonte: 'Registro de projetos de produto', resp: 'Diretor de operações', freq: 'A cada lançamento', lei: 'Levar 45 dias deixa a empresa atrás de quem lança em 30. Procure etapas que podem andar em paralelo.' }
+      ] },
+      { sub: 'Processo de operações', itens: [
+      { n: 'Qualidade do produto/serviço', d: 'Quantos produtos saem corretos já na primeira vez.', fx: '(Peças aprovadas na 1ª inspeção ÷ Peças inspecionadas) × 100', v: [['Peças aprovadas na 1ª inspeção', 188], ['Peças inspecionadas', 200]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 95, sentido: 'maior', fonte: 'Ficha de inspeção da produção', resp: 'Supervisor de produção', freq: 'Semanal', lei: '94% de aprovação, quase na meta de 95%. Anote os defeitos mais comuns para atacar a causa.' },
+      { n: 'Produtividade', d: 'Quanto a equipe produz no tempo trabalhado.', fx: 'Peças produzidas ÷ Dias trabalhados (soma dos dias de cada costureira)', v: [['Peças produzidas no mês', 1200], ['Dias trabalhados (6 costureiras × 22 dias)', 132]], f: function (v) { return v[0] / v[1]; }, fmt: 'pd', ex: '{0} ÷ {1} = {r}', meta: 9, sentido: 'maior', fonte: 'Ordens de produção e controle de ponto', resp: 'Supervisor de produção', freq: 'Semanal', lei: 'Cada costureira faz cerca de 9 peças por dia, dentro da meta. Compare modelos para ver quais tomam mais tempo.' },
+      { n: 'Retrabalho', d: 'Quanto da produção precisa ser refeita.', fx: '(Peças refeitas ÷ Peças produzidas) × 100', v: [['Peças refeitas', 36], ['Peças produzidas', 1200]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 2, sentido: 'menor', fonte: 'Registro de peças devolvidas à produção', resp: 'Supervisor de produção', freq: 'Semanal', lei: '3% de retrabalho contra meta de 2%: é tecido, linha e tempo gastos duas vezes. Descubra em qual etapa o erro nasce.' },
+      { n: 'Entrega eficientemente de produtos', d: 'Quantos pedidos chegam ao cliente dentro do prazo prometido.', fx: '(Pedidos entregues no prazo ÷ Total de pedidos) × 100', v: [['Pedidos entregues no prazo', 104], ['Pedidos do mês', 120]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 95, sentido: 'maior', fonte: 'Controle de pedidos e confirmação de entrega', resp: 'Diretor de operações', freq: 'Semanal', lei: 'Quase 9 em 10 pedidos no prazo. Veja se os atrasos vêm da produção, do tecido ou do transporte.' },
+      { n: 'Serviço pós-venda', d: 'Rapidez e qualidade com que a empresa resolve trocas, ajustes e reclamações.', fx: '(Chamados resolvidos em até 48 horas ÷ Chamados recebidos) × 100', v: [['Chamados resolvidos em até 48 h', 21], ['Chamados recebidos', 24]], f: function (v) { return v[0] / v[1] * 100; }, fmt: 'pct', ex: '({0} ÷ {1}) × 100 = {r}', meta: 90, sentido: 'maior', fonte: 'Registro de atendimento (WhatsApp / planilha)', resp: 'Atendimento', freq: 'Mensal', lei: 'A maioria é resolvida rápido. Um cliente bem atendido depois do problema costuma comprar de novo.' }
+      ] }
+    ] }
+  ];
+
+
+  var COMO = {
+    'Faturamento': ['Some todas as vendas do mês. Onde pegar: relatório de vendas do sistema (ERP/PDV) ou as notas fiscais emitidas no mês.', 'Se vende em marketplace (Mercado Livre, Shopee…) ou pela maquininha, cada um tem um relatório mensal de vendas.', 'Use o valor vendido, não só o que entrou no banco: venda a prazo também conta no mês em que foi feita.'],
+    'Lucratividade': ['Lucro líquido = faturamento menos todos os custos e despesas do mês (inclusive impostos e juros). Onde pegar: no DRE (demonstrativo de resultado) que o contador entrega ou numa planilha sua.', 'Sem DRE: faturamento do mês menos a soma de todas as contas da empresa pagas no mês (extrato bancário + cartão da empresa).', 'Não misture gastos pessoais do dono com os da empresa; se o dono retira dinheiro, registre como pró-labore.'],
+    'Retorno sobre investimento (ROI)': ['Valor investido: o que foi pago pelo investimento (nota fiscal da máquina, da reforma, da campanha).', 'Ganho obtido: o que o investimento gerou no período, em vendas a mais ou em economia, já descontando os custos para obter esse ganho (insumos, energia, mão de obra extra).', 'Dica: antes de investir, anote quanto você espera ganhar e em quanto tempo. Depois compare com o que realmente aconteceu.'],
+    'Despesas comerciais sobre faturamento': ['Some tudo o que se gasta para vender: comissões, salário de vendedores, anúncios, frete pago nas vendas, brindes, taxas de marketplace e da maquininha.', 'Onde pegar: plano de contas / DRE. Se ainda não tem, categorize o extrato do mês por tipo de gasto (uma coluna “categoria” na planilha).', 'Divida a soma pelo faturamento do mesmo mês.'],
+    'Despesas administrativas sobre faturamento': ['Some o custo de manter a empresa funcionando: aluguel do escritório, contador, internet, energia e água da parte administrativa, sistemas e softwares, material de escritório, pró-labore.', 'Onde pegar: contas pagas do mês, separadas por categoria (plano de contas, DRE ou planilha).', 'Divida pelo faturamento do mesmo mês.'],
+    'Despesas de juros sobre faturamento': ['Some só a parte de juros e tarifas: juros de empréstimo e financiamento, cheque especial, taxas de antecipação de recebíveis, juros por pagamento em atraso.', 'Onde pegar: extrato bancário e, nos financiamentos, a tabela de parcelas (cada parcela mostra quanto é amortização e quanto é juros). O gerente do banco também fornece.', 'Divida pelo faturamento do mesmo mês.'],
+    'Risco (concentração do faturamento)': ['Gere o relatório de vendas por cliente do período e ordene do maior para o menor. O primeiro da lista é o maior cliente.', 'Sem sistema: peça ao contador a lista das notas fiscais do mês e some por cliente numa planilha (ou use tabela dinâmica).', 'Divida o que o maior cliente comprou pelo faturamento total. Para um olhar mais completo, some também os 3 maiores clientes.'],
+    'Necessidade de capital de giro': ['Contas a receber: tudo o que já foi vendido a prazo e ainda não entrou (relatório de contas a receber, boletos em aberto, cartão a receber na maquininha).', 'Estoques: contagem física valorizada pelo preço de custo (relatório de estoque do sistema ou planilha de inventário).', 'Fornecedores a pagar: contas a pagar em aberto (boletos e compras a prazo).', 'Tire os três números no mesmo dia, de preferência no último dia do mês, e faça: (a receber + estoques) − fornecedores.'],
+
+    'Faturamento por produtos, negócio ou grupos de clientes': ['Peça ao sistema o relatório de vendas agrupado por produto, categoria ou tipo de cliente.', 'Sem sistema: numa planilha, classifique cada venda ou nota do mês (coluna “linha de produto”) e use uma tabela dinâmica para somar.', 'Divida o faturamento de cada linha pelo faturamento total do mesmo período.'],
+    'Participação de mercado': ['Vendas da empresa: seu faturamento do período.', 'Vendas do mercado: use pesquisas da associação comercial, do sindicato do setor, do Sebrae ou do IBGE (Pesquisa Mensal de Comércio). Outra forma: número estimado de concorrentes da cidade × faturamento médio de cada um.', 'Use sempre a mesma fonte e o mesmo método para o número ser comparável de um período para o outro. É um dado de tendência, não precisa ser exato.'],
+    'Captação de clientes': ['Conte os clientes que fizeram a primeira compra no mês. No sistema: filtro “data da primeira compra” ou “cadastros novos”.', 'Se você não cadastra clientes, comece já: peça nome e WhatsApp em toda venda (até em caderno ou planilha).', 'Dica: anote “como conheceu a loja” para saber qual ação traz mais clientes.'],
+    'Retenção de clientes': ['Faça a lista dos clientes que compraram no período anterior (mês ou trimestre).', 'Marque quantos deles compraram de novo no período atual. No sistema, procure o relatório de “clientes recorrentes”; na planilha, duas colunas (período anterior × período atual).', 'Divida os que voltaram pelo total do período anterior.'],
+    'Satisfação dos clientes': ['Depois da entrega, mande uma pergunta curta: “De 1 a 5, como foi sua compra?”. Pode ser por WhatsApp, Google Forms (gratuito) ou um QR code no balcão.', 'Junte pelo menos 20 a 30 respostas para o número ser confiável.', 'Some todas as notas e divida pelo número de respostas. Guarde os comentários das notas baixas: são a lista de melhorias.'],
+
+    '% de vendas geradas por novos produtos': ['No cadastro de produtos, registre a data de lançamento de cada um.', 'Do relatório de vendas, some o que veio de produtos lançados nos últimos 12 meses.', 'Divida pelas vendas totais do mesmo período.'],
+    'Lançamento de novos produtos x lançamento da concorrência': ['Conte seus lançamentos no ano (catálogo, coleções, novos itens).', 'Escolha de 3 a 5 concorrentes e conte os lançamentos deles: redes sociais, sites, catálogos, feiras do setor. Faça isso duas vezes por ano.', 'Tire a média dos concorrentes e divida os seus lançamentos por ela.'],
+    'Tempo de desenvolvimento de novos produtos': ['Numa planilha de projetos, anote a data em que a ideia foi aprovada e a data da primeira venda.', 'Calcule os dias entre as duas datas para cada produto e tire a média dos lançamentos.', 'Se ainda não registra, comece pelo próximo lançamento.'],
+    'Qualidade do produto/serviço': ['Crie uma ficha de inspeção simples na saída da produção: quantas peças foram inspecionadas e quantas passaram de primeira.', 'Se o volume for grande, inspecione uma amostra (por exemplo 10% do lote), sempre do mesmo jeito.', 'Divida as aprovadas pelas inspecionadas. Anote o motivo de cada reprovação: ele aponta a causa do problema.'],
+    'Produtividade': ['Peças produzidas: ordens de produção ou contagem diária da produção.', 'Tempo trabalhado: controle de ponto ou escala (dias ou horas de cada pessoa que produziu).', 'Divida a produção pelo tempo trabalhado. Compare períodos e modelos parecidos entre si.'],
+    'Retrabalho': ['Reserve uma caixa ou etiqueta para peças que voltam à produção. Ao fim do dia, conte e anote o motivo e a etapa onde o erro nasceu.', 'Pode ser uma planilha simples: data, peça, motivo, etapa.', 'Divida as peças refeitas pelas peças produzidas no período.'],
+    'Entrega eficientemente de produtos': ['Anote em cada pedido a data prometida ao cliente e a data real de entrega ou postagem (código de rastreio, canhoto assinado).', 'Marque “no prazo” ou “atrasado”. Muitos sistemas e plataformas de venda já mostram isso.', 'Divida os pedidos no prazo pelo total de pedidos do período. Anote o motivo dos atrasos.'],
+    'Serviço pós-venda': ['Registre cada chamado (troca, ajuste, reclamação) com a data e a hora em que chegou e em que foi resolvido. Pode ser planilha ou as etiquetas do WhatsApp Business.', 'Conte os resolvidos dentro do prazo combinado (aqui, 48 horas).', 'Divida pelos chamados recebidos no período.'],
+
+  };
+
+  var COR = { ok: 'var(--green)', al: 'var(--yellow)', ru: 'var(--red)' };
+  var TXT = { ok: 'Na meta', al: 'Atenção', ru: 'Abaixo da meta' };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function status(it, r) {
+    var q = it.sentido === 'maior' ? r / it.meta : (r > 0 ? it.meta / r : 1);
+    return q >= 1 ? 'ok' : (q >= 0.9 ? 'al' : 'ru');
+  }
+  function progresso(it, r) {
+    var q = it.sentido === 'maior' ? r / it.meta : (r > 0 ? it.meta / r : 1);
+    return Math.max(0, Math.min(100, q * 100));
+  }
+  function fmtVar(it, i, x) { return it.vf && it.vf[i] ? F[it.vf[i]](x) : milhar(x, x % 1 ? 2 : 0); }
+  function metaTxt(it) { return (it.sentido === 'maior' ? 'mínimo ' : 'máximo ') + F[it.fmt](it.meta); }
+
+  /* ---------- montagem ---------- */
+  var cont = document.getElementById('grupos'), uid = 0, todos = [];
+  G.forEach(function (g) {
+    var s = document.createElement('section'); s.className = 'grupo g-' + g.cor; s.id = g.id;
+    var h = '<div class="gh"><h2><span>' + g.ic + '</span> ' + esc(g.nome) + '</h2><p>' + esc(g.sub) + '</p></div><div class="gb">';
+    g.blocos.forEach(function (b) {
+      if (b.sub) h += '<div class="sub">' + esc(b.sub) + '</div>';
+      b.itens.forEach(function (it) {
+        it.id = 'i' + (++uid); it.g = g; todos.push(it);
+        h += '<details class="ind" id="' + it.id + '"><summary><span class="dot"></span><span class="nome">' + esc(it.n) + '<small>Meta: ' + esc(metaTxt(it)) + '</small></span><span class="res"></span></summary>' +
+          '<div class="corpo"><p>' + esc(it.d) + '</p>' +
+          '<div class="formula"><span>Fórmula</span>' + esc(it.fx) + '</div>' +
+          '<div class="calc"><div class="t">Exemplo com a Boa Costura – mude os números</div><div class="vars">' +
+          it.v.map(function (v, i) { return '<label>' + esc(v[0]) + '<input type="text" inputmode="decimal" data-i="' + i + '" value="' + raw(v[1]) + '"></label>'; }).join('') +
+          '</div><div class="resultado"><span class="v"></span><span class="chip"></span><span class="eq"></span></div>' +
+          '<div class="meter"><i></i></div><div class="metaln"><span class="m1"></span><span>Meta: ' + esc(metaTxt(it)) + '</span></div></div>' +
+          '<div class="fh">Ficha do indicador (formulário do curso)</div><dl class="form"><div><dt>Indicador</dt><dd>' + esc(it.n) + '</dd></div><div><dt>Meta</dt><dd>' + esc(metaTxt(it)) + '</dd></div><div><dt>Fonte</dt><dd>' + esc(it.fonte) + '</dd></div><div><dt>Responsável</dt><dd>' + esc(it.resp) + '</dd></div><div><dt>Comentários</dt><dd>Frequência: ' + esc(it.freq) + '</dd></div></dl>' +
+          (COMO[it.n] ? '<div class="como"><b>📍 Como conseguir este dado</b><ul>' + COMO[it.n].map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>' : '') + '<div class="leitura"><b>Como ler este resultado</b>' + esc(it.lei) + '</div></div></details>';
+      });
+    });
+    s.innerHTML = h + '</div>';
+    cont.appendChild(s);
+  });
+
+  function calcula(it) {
+    var d = document.getElementById(it.id), v = [];
+    Array.prototype.forEach.call(d.querySelectorAll('input'), function (i) { v[+i.getAttribute('data-i')] = num(i.value); });
+    var r = it.f(v); if (!isFinite(r)) r = 0;
+    var st = status(it, r), val = F[it.fmt](r);
+    d.querySelector('.res').textContent = val;
+    d.querySelector('.dot').style.background = COR[st];
+    d.querySelector('.resultado .v').textContent = val;
+    var ch = d.querySelector('.chip'); ch.textContent = TXT[st]; ch.style.background = COR[st]; ch.style.color = st === 'al' ? '#3a2a00' : '#fff';
+    d.querySelector('.eq').textContent = it.ex.replace(/\{(\d)\}/g, function (m, i) { return fmtVar(it, +i, v[+i]); }).replace('{r}', val);
+    var m = d.querySelector('.meter i'); m.style.width = progresso(it, r) + '%'; m.style.background = COR[st];
+    d.querySelector('.m1').textContent = 'Resultado: ' + val;
+    it.st = st;
+  }
+  function painel() {
+    document.getElementById('painel').innerHTML = G.map(function (g) {
+      var its = todos.filter(function (i) { return i.g === g; }), c = { ok: 0, al: 0, ru: 0 };
+      its.forEach(function (i) { c[i.st]++; });
+      var t = its.length;
+      return '<div class="pn g-' + g.cor + '"><b>' + g.ic + ' ' + esc(g.nome.replace('Indicadores ', '').replace('de ', '').replace(/^./, function (x) { return x.toUpperCase(); })) + '</b><div class="n"><div class="big">' + c.ok + ' de ' + t + '</div><small>indicadores na meta</small><div class="seg"><i class="s-ok" style="width:' + 100 * c.ok / t + '%"></i><i class="s-al" style="width:' + 100 * c.al / t + '%"></i><i class="s-ru" style="width:' + 100 * c.ru / t + '%"></i></div><small>' + c.al + ' em atenção · ' + c.ru + ' abaixo da meta</small></div></div>';
+    }).join('');
+  }
+  todos.forEach(function (it) {
+    calcula(it);
+    document.getElementById(it.id).addEventListener('input', function () { calcula(it); painel(); });
+  });
+  painel();
+
+  document.getElementById('b-abrir').onclick = function () { Array.prototype.forEach.call(document.querySelectorAll('details.ind'), function (d) { d.open = true; }); };
+  document.getElementById('b-fechar').onclick = function () { Array.prototype.forEach.call(document.querySelectorAll('details.ind'), function (d) { d.open = false; }); };
+  document.getElementById('b-print').onclick = function () { window.print(); };
+  window.addEventListener('beforeprint', function () { Array.prototype.forEach.call(document.querySelectorAll('details.ind'), function (d) { d.open = true; }); });
+  window.__indicadores = todos;
+})();
+</script>
+</body>
+</html>
